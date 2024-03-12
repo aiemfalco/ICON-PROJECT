@@ -31,14 +31,18 @@ X_referee = list(range(1, 62))
 referees = set(dataset['referee'])
 
 dic_referees = list(zip(referees, X_referee)) #dizionario arbitro-valore intero
+print("\nDictionary of referees: ")
 print(dic_referees)
+
 label_encoder = LabelEncoder()
 referees_encoded = [] #vettore vuoto 
 
-for i in range(len(dic_referees)):
-    referees_encoded.append(label_encoder.fit_transform([row[i] for row in dic_referees])) #errore qui alla row[i]
+for tupla in dic_referees:
+  for numero in tupla:
+    if isinstance(numero, int) or isinstance(numero, float):
+      referees_encoded.append(numero)
 
-print("Lista codificata: ", referees_encoded)
+print("\n Lista codificata: ", referees_encoded)
 print(len(referees_encoded)) 
 '''
 referee_name = label_encoder.inverse_transform([referees_encoded[0]])
