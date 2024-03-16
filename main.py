@@ -29,43 +29,43 @@ dataset = dataset.drop(features_to_delete, axis = 1)
 #preprocessing delle features stringhe in intero 
 X_referee = list(range(1, 62))
 referees = set(dataset['referee'])
-dic_referees = list(zip(referees, X_referee)) #dizionario arbitro-valore intero
+dic_referees = dict(zip(referees, X_referee))
 
 X_date = list(range(1, 551))
 dates = set(dataset['date'])
-dic_dates = list(zip(dates, X_date))
+dic_dates = dict(zip(dates, X_date))
 
 X_round = list(range(1, 39))
 rounds = set(dataset['round'])
-dic_rounds = list(zip(rounds, X_round))
+dic_rounds = dict(zip(rounds, X_round))
 
 X_day = list(range(1,8))
 days = set(dataset['day'])
-dic_days = list(zip(days, X_day))
+dic_days = dict(zip(days, X_day))
 
 X_venue = list(range(1,3))
 venues = set(dataset['venue'])
-dic_venues = list(zip(venues, X_venue))
+dic_venues = dict(zip(venues, X_venue))
 
 X_result = list(range(1,4))
 results = set(dataset['result'])
-dic_results = list(zip(results, X_result))
+dic_results = dict(zip(results, X_result))
 
 X_opponent = list(range(1,29))
 opponents = set(dataset['opponent'])
-dic_opponents = list(zip(opponents, X_opponent))
+dic_opponents = dict(zip(opponents, X_opponent))
 
 X_captain = list(range(1, 225))
 captains = set(dataset['captain'])
-dic_captains = list(zip(captains, X_captain))
+dic_captains = dict(zip(captains, X_captain))
 
 X_formation = list(range(1,32))
 formations = set(dataset['formation'])
-dic_formations = list(zip(formations, X_formation))
+dic_formations = dict(zip(formations, X_formation))
 
 X_team = list(range(1,29))
 teams = set(dataset['team'])
-dic_teams = list(zip(teams, X_team))
+dic_teams = dict(zip(teams, X_team))
 
 
 '''
@@ -76,14 +76,14 @@ for tupla in dic_referees:
 
 referee_name = label_encoder.inverse_transform([referees_encoded[0]])
 print(referee_name)
-'''
 
+''' 
 for element in dataset['referee']:
     for tupla in dic_referees:
         for numero in tupla:
             if dataset.loc[dataset['referee'] == element] == dic_referees.keys(element):
                 dataset.loc[dataset['referee'] == element] = dic_referees.get(numero)
-                
+            
 
                 
 '''
