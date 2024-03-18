@@ -3,6 +3,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import LabelEncoder #per codificare stringhe
+import numpy as np
 
 filename = "archive/seriea-matches.csv"
 dataset = pd.read_csv(filename)
@@ -20,17 +21,11 @@ del features[3]
 del features[14]
 del features[31:48]
 
-
-print("Features che vogliamo mantenere: ", features)
-print("Features da rimuovere: ", features_to_delete)
-print("\n\n")
-
 # nel drop possiamo dargli sia il vettore di indici che il vettore di stringhe, si mangia tutto
 dataset = dataset.drop(features_to_delete, axis = 1)
 
 #andiamo ad eliminare tutti i valori null (ne rimanevano solamente 3 nella colonna "dist")
 dataset = dataset[dataset.isnull().sum(axis=1) == 0]
-  
 
 #11.03
 #preprocessing delle features stringhe in intero 
@@ -74,7 +69,6 @@ X_team = list(range(1,29))
 teams = set(dataset['team'])
 dic_teams = dict(zip(teams, X_team))
 
-
 '''
 for tupla in dic_referees:
   for numero in tupla:
@@ -83,7 +77,6 @@ for tupla in dic_referees:
 
 referee_name = label_encoder.inverse_transform([referees_encoded[0]])
 print(referee_name)
-
 '''
 
 # qua andiamo a sostituire gli elementi che sono rappresentati come stringhe dentro il dataset con le chiavi dei rispettivi dizionari tramite la funzione di libreria "map"
@@ -98,19 +91,24 @@ dataset["opponent"] = dataset["opponent"].map(dic_opponents)
 dataset["captain"] = dataset["captain"].map(dic_captains)
 dataset["formation"] = dataset["formation"].map(dic_formations)
 dataset["team"] = dataset["team"].map(dic_teams)
-
+dataset = dataset.rename(columns={"Unnamed: 0": 0, "date": 1, "time": 2, "round": 3, "day": 4, "venue": 5, "result": 6, "gf": 7, "ga": 8, "opponent": 9, "xg": 10, "xga": 11, "poss_x": 12,
+                                  "captain": 13, "formation": 14, "referee": 15, "sh": 16, "sot": 17, "dist": 18, "fk": 19, "pk": 20, "pkatt": 21,  "poss_y": 22, "touches": 23, 
+                                  "def pen": 24, "def 3rd": 25, "mid 3rd": 26, "att 3rd": 27, "att pen": 28, "team": 29})
+print(dataset.head(0))
 
 # droppiamo result perché nella x andiamo a mettere tutti i dati senza risultati, mentre nella y andiamo a mettere solo i risultati (x e y sono cloni del dataset)
-X = dataset.drop(columns=['result'])
-y = dataset['result']
-
+np.X = dataset.drop(columns=[6])
+np.y = dataset[6]
+'''
+X = dataset.drop(columns=[6])
+y = dataset[6]
+'''
 # problema di classificazione, creiamo un oggetto RandomForestClassifier
 model = RandomForestClassifier(n_estimators=100, random_state=42)
 
 # qui andiamo a splittare i dataset in 4 (2) parti ossia l'x training e test e l'y training e test
-X_train, X_test, y_train, y_test = train_test_split(X, y, 0,2)
+X_train, X_test, y_train, y_test = train_test_split(np.X, np.y, 0,2, random_state=42)
 print(X_test)
-
 '''
 model.fit(X_train, y_train)
 predictions = model.predict(X_test)
