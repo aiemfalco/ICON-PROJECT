@@ -4,6 +4,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import LabelEncoder #per codificare stringhe
 import numpy as np
+from prettytable import PrettyTable
 
 filename = "archive/seriea-matches.csv"
 dataset = pd.read_csv(filename)
@@ -27,7 +28,6 @@ dataset = dataset.drop(features_to_delete, axis = 1)
 #andiamo ad eliminare tutti i valori null (ne rimanevano solamente 3 nella colonna "dist")
 dataset = dataset[dataset.isnull().sum(axis=1) == 0]
 
-#11.03
 #preprocessing delle features stringhe in intero 
 X_referee = list(range(1, 62))
 referees = set(dataset['referee'])
@@ -35,7 +35,15 @@ dic_referees = dict(zip(referees, X_referee))
 
 X_date = list(range(1, 551))
 dates = set(dataset['date'])
-dic_dates = dict(zip(dates, X_date))
+date_list = list(dates)
+ordered_date_set = sorted(date_list) # ho ordinato il set di date in ordine crescente (dal 2017 al 2022)
+dic_dates = dict(zip(ordered_date_set, X_date)) # e poi codifico ogni data con un valore intero, ora so che 3 è una data più avanti cronologicamente di 2
+key = dic_dates['2021-05-22']
+#print(key)
+
+X_time = list(range(1, 25))
+time = set(dataset['time'])
+dic_time = dict(zip(time, X_time))
 
 X_round = list(range(1, 39))
 rounds = set(dataset['round'])
@@ -70,6 +78,7 @@ teams = set(dataset['team'])
 dic_teams = dict(zip(teams, X_team))
 
 '''
+#decodifica del valore numerico a stringa
 for tupla in dic_referees:
   for numero in tupla:
     if isinstance(numero, int) or isinstance(numero, float):
@@ -77,12 +86,25 @@ for tupla in dic_referees:
 
 referee_name = label_encoder.inverse_transform([referees_encoded[0]])
 print(referee_name)
+
+# filtro le partite comprese tra due date
+data_inizio = pd.to_datetime('2021-05-22')
+data_fine = pd.to_datetime('2021-05-23')
+dataset['date'] = pd.to_datetime(dataset['date']) # converto la colonna date in formato datetime per permettere di filtrare su quel tipo di dato
+time_ordered = dataset.loc[dataset['date'].between(data_inizio, data_fine)] # disordinati ma in quel range
+time_ordered = time_ordered.sort_values(by='date', ascending=False) # in ordine decr
+
+# prettytable fa visualizzare il dataframe allineato
+table = PrettyTable()
+table = time_ordered
+print("rows: ", len(table))
+print(table.to_string(max_rows=None))
 '''
 
 # qua andiamo a sostituire gli elementi che sono rappresentati come stringhe dentro il dataset con le chiavi dei rispettivi dizionari tramite la funzione di libreria "map"
-
 dataset["referee"] = dataset["referee"].map(dic_referees)
 dataset["date"] = dataset["date"].map(dic_dates)
+dataset["time"] = dataset["time"].map(dic_time)
 dataset["round"] = dataset["round"].map(dic_rounds)
 dataset["day"] = dataset["day"].map(dic_days)
 dataset["venue"] = dataset["venue"].map(dic_venues)
@@ -94,27 +116,31 @@ dataset["team"] = dataset["team"].map(dic_teams)
 dataset = dataset.rename(columns={"Unnamed: 0": 0, "date": 1, "time": 2, "round": 3, "day": 4, "venue": 5, "result": 6, "gf": 7, "ga": 8, "opponent": 9, "xg": 10, "xga": 11, "poss_x": 12,
                                   "captain": 13, "formation": 14, "referee": 15, "sh": 16, "sot": 17, "dist": 18, "fk": 19, "pk": 20, "pkatt": 21,  "poss_y": 22, "touches": 23, 
                                   "def pen": 24, "def 3rd": 25, "mid 3rd": 26, "att 3rd": 27, "att pen": 28, "team": 29})
-print(dataset.head(0))
 
-# droppiamo result perché nella x andiamo a mettere tutti i dati senza risultati, mentre nella y andiamo a mettere solo i risultati (x e y sono cloni del dataset)
+# droppiamo result perché nella x andiamo a mettere tutti i dati senza risultati, mentre nella y andiamo a mettere solo i risultati (X e y sono cloni del dataset)
 np.X = dataset.drop(columns=[6])
 np.y = dataset[6]
-'''
-X = dataset.drop(columns=[6])
-y = dataset[6]
-'''
+features.remove('attendance')
+
 # problema di classificazione, creiamo un oggetto RandomForestClassifier
-model = RandomForestClassifier(n_estimators=100, random_state=42)
+model = RandomForestClassifier(n_estimators = 50, min_samples_split = 10, random_state = 1)
+
+#devo mettere in X_train tutti i valori codificati relativi alle partite prima del '2021-05-23' (alleniamo 4 anni di partire e ci riserviamo un 1/5 di dataset per il test)
+dataset2 = dataset # clono il dataset senza la colonna result
+X = dataset2.loc[dataset2[1] <= 430]
+X_train = X.drop(6, axis = 1) # prendo tutti i games prima della data 430
+y_train = X_train.iloc[:, 5]
+
+# [!] spostare la colonna 5(result) come ultima colonna per comodità
+X = dataset2.loc[dataset2[1] > 430] # prendo tutti i games successivi alla data 430
+X_test = X.drop(6, axis = 1)
+y_test = X_test.iloc[:, 5]
+
+model.fit(X_train, y_train) # alleno il modello dandogli X e i result di X per ottenere un modello in grado di darci risposte
+
+predictions = model.predict(X_test)
+accuracy = accuracy_score(y_test, predictions)
+print(accuracy)
 
 # qui andiamo a splittare i dataset in 4 (2) parti ossia l'x training e test e l'y training e test
-X_train, X_test, y_train, y_test = train_test_split(np.X, np.y, 0,2, random_state=42)
-print(X_test)
-'''
-model.fit(X_train, y_train)
-predictions = model.predict(X_test)
-print(predictions)
-
-accuracy = accuracy_score(y_test, predictions)
-
-print(accuracy)
-'''
+# X_train, X_test, y_train, y_test = train_test_split(np.X, np.y, 0,2, random_state=42)
