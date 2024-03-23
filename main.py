@@ -101,7 +101,7 @@ print("rows: ", len(table))
 print(table.to_string(max_rows=None))
 '''
 
-# qua andiamo a sostituire gli elementi che sono rappresentati come stringhe dentro il dataset con le chiavi dei rispettivi dizionari tramite la funzione di libreria "map"
+# qua andiamo a sostituire gli elementi che sono rappresentati come stringhe dentro il dataset con i valori dei rispettivi dizionari tramite la funzione di libreria "map"
 dataset["referee"] = dataset["referee"].map(dic_referees)
 dataset["date"] = dataset["date"].map(dic_dates)
 dataset["time"] = dataset["time"].map(dic_time)
@@ -125,7 +125,7 @@ features.remove('attendance')
 # problema di classificazione, creiamo un oggetto RandomForestClassifier
 model = RandomForestClassifier(n_estimators = 50, min_samples_split = 10, random_state = 1)
 
-#devo mettere in X_train tutti i valori codificati relativi alle partite prima del '2021-05-23' (alleniamo 4 anni di partire e ci riserviamo un 1/5 di dataset per il test)
+#devo mettere in X_train tutti i valori codificati relativi alle partite prima del '2021-05-23' (alleniamo 4 anni di partenza e ci riserviamo 1/5 di dataset per il test)
 dataset2 = dataset # clono il dataset senza la colonna result
 X = dataset2.loc[dataset2[1] <= 430]
 X_train = X.drop(6, axis = 1) # prendo tutti i games prima della data 430
@@ -141,6 +141,3 @@ model.fit(X_train, y_train) # alleno il modello dandogli X e i result di X per o
 predictions = model.predict(X_test)
 accuracy = accuracy_score(y_test, predictions)
 print(accuracy)
-
-# qui andiamo a splittare i dataset in 4 (2) parti ossia l'x training e test e l'y training e test
-# X_train, X_test, y_train, y_test = train_test_split(np.X, np.y, 0,2, random_state=42)
