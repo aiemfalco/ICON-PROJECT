@@ -129,12 +129,12 @@ model = RandomForestClassifier(n_estimators = 50, min_samples_split = 10, random
 dataset2 = dataset # clono il dataset senza la colonna result
 X = dataset2.loc[dataset2[1] <= 430]
 X_train = X.drop(6, axis = 1) # prendo tutti i games prima della data 430
-y_train = X_train.iloc[:, 5]
+y_train = X.iloc[:, 6]
 
 # [!] spostare la colonna 5(result) come ultima colonna per comodità
 X = dataset2.loc[dataset2[1] > 430] # prendo tutti i games successivi alla data 430
 X_test = X.drop(6, axis = 1)
-y_test = X_test.iloc[:, 5]
+y_test = X.iloc[:, 6]
 
 model.fit(X_train, y_train) # alleno il modello dandogli X e i result di X per ottenere un modello in grado di darci risposte
 
