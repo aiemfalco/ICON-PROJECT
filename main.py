@@ -129,11 +129,15 @@ model = RandomForestClassifier(n_estimators = 50, min_samples_split = 10, random
 dataset2 = dataset # clono il dataset senza la colonna result
 X = dataset2.loc[dataset2[1] <= 430]
 X_train = X.drop(6, axis = 1) # prendo tutti i games prima della data 430
+X_train = X.loc[:, [29, 9, 1, 3, 15, 5, 2, 14]]
 y_train = X.iloc[:, 6]
 
 # [!] spostare la colonna 5(result) come ultima colonna per comodità
 X = dataset2.loc[dataset2[1] > 430] # prendo tutti i games successivi alla data 430
 X_test = X.drop(6, axis = 1)
+colonne_da_modificare = [0, 4, 7, 8, 10, 11, 12, 13, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
+X_test[colonne_da_modificare] = X_test[colonne_da_modificare].fillna(0)
+X_test = X.loc[:, [29, 9, 1, 3, 15, 5, 2, 14]]
 y_test = X.iloc[:, 6]
 
 model.fit(X_train, y_train) # alleno il modello dandogli X e i result di X per ottenere un modello in grado di darci risposte
