@@ -3,8 +3,10 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import LabelEncoder #per codificare stringhe
+from pyswip import Prolog
 import numpy as np
-from prettytable import PrettyTable
+
+# from prettytable import PrettyTable
 
 filename = "archive/seriea-matches.csv"
 dataset = pd.read_csv(filename)
@@ -145,3 +147,15 @@ model.fit(X_train, y_train) # alleno il modello dandogli X e i result di X per o
 predictions = model.predict(X_test)
 accuracy = accuracy_score(y_test, predictions)
 print(accuracy)
+
+# Inizializza l'interprete Prolog
+prolog = Prolog()
+
+# Carica il file Prolog
+prolog.consult("rules.pl")
+
+# Fai una query a Prolog per trovare tutte le partite future
+partite_future = list(prolog.query("partita_futura(P)."))
+
+for partita in partite_future:
+    print("Partita futura:", partita["P"])
