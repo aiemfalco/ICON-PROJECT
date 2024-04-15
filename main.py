@@ -157,14 +157,14 @@ prolog.consult("rules.pl")
 P = ["22/04/2024", "18:00", "34", "Stadio Olimpico", "Bologna", "4-4-2", "Davide Massa", "Roma"]
 
 # Fai una query a Prolog per trovare tutte le partite future
+query = prolog.query("get_current_date(Date)")
+print("Data corrente da Prolog:", query)
+
+'''
 query = "partita_futura(P)"
 result = prolog.query(query)
 if result:
     print("Funziona")
 else:
     print("Per niente")
-
-'''
-for partita in partite_future:
-    print("Partita futura:", partita["P"])
 '''

@@ -1,15 +1,12 @@
 :- use_module(library(date)).
 
+get_current_date/1(Date) :-
+    get_time(Stamp),
+    stamp_date_time/(Stamp, DateTime, local),
+    date_time_value(date, DateTime, Date).
+
+
 partita(Date, Time, Round, Venue, Opponent, Formation, Referee, Team).
 
-data_corrente(Anno, Mese, Giorno).
-data_corrente(2024, 04, 13)
-'''
-data_corrente(Data) :-
-    get_time(Timestamp),
-    stamp_date_time(Timestamp, DateTime, local),
-    date_time_value(date, DateTime, Data).
-'''
-
-partita_futura(P) :- 
-    partita(date, _, _, _, _, _, _, _,), date > data_corrente(2024, 04, 13).
+partita_futura(partita) :- 
+    partita(Date, _, _, _, _, _, _, _,), Date > get_current_date/1(Date)

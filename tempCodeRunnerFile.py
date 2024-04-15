@@ -1,1 +1,1 @@
-i = 0
+"get_current_date(Date)")
