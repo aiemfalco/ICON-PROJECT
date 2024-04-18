@@ -154,17 +154,19 @@ prolog = Prolog()
 # Carica il file Prolog
 prolog.consult("rules.pl")
 
+# Fai una query a Prolog per trovare tutte le partite future
+result = list(prolog.query("print_current_date"))
+if result:
+    print("Current date:", result[0])
+else:
+    print("Failed to get current date")
+
+data_corrente = result[0]
+
 P = ["22/04/2024", "18:00", "34", "Stadio Olimpico", "Bologna", "4-4-2", "Davide Massa", "Roma"]
 
-# Fai una query a Prolog per trovare tutte le partite future
-query = prolog.query("get_current_date(Date)")
-print("Data corrente da Prolog:", query)
-
-'''
-query = "partita_futura(P)"
-result = prolog.query(query)
+result = bool(prolog.query("partita_futura(P)"))
 if result:
-    print("Funziona")
+    print(result)
 else:
-    print("Per niente")
-'''
+    print("Non ho niente")
