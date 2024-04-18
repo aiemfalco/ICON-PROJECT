@@ -163,7 +163,15 @@ else:
 
 data_corrente = result[0]
 
-P = ["22/04/2024", "18:00", "34", "Stadio Olimpico", "Bologna", "4-4-2", "Davide Massa", "Roma"]
+# P = ["22/04/2024", "18:00", "34", "Stadio Olimpico", "Bologna", "4-4-2", "Davide Massa", "Roma"]
+
+P = []
+
+for i in range(8):
+    elemento = input("Inserisci un elemento: ")
+P.append(elemento)
+
+print("I dati della partita sono:", P)
 
 result = bool(prolog.query("partita_futura(P)"))
 if result:
