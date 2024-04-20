@@ -165,13 +165,15 @@ data_corrente = result[0]
 
 # P = ["22/04/2024", "18:00", "34", "Stadio Olimpico", "Bologna", "4-4-2", "Davide Massa", "Roma"]
 
-P = []
-
+# prendo in input le info della partita utili al modello per formulare un' ipotesi
+user_input = []
+v = ["data", "ora", "giornata", "stadio", "casa", "formazione", "arbitro", "ospite"]
 for i in range(8):
-    elemento = input("Inserisci un elemento: ")
-P.append(elemento)
+    print("Inserisci", v[i], ": ")
+    data = input("")
+    user_input.append(data)
 
-print("I dati della partita sono:", P)
+print("Info partita:", user_input)
 
 result = bool(prolog.query("partita_futura(P)"))
 if result:
