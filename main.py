@@ -6,8 +6,20 @@ from sklearn.preprocessing import LabelEncoder #per codificare stringhe
 from pyswip import Prolog
 import numpy as np
 
-# from prettytable import PrettyTable
+# metodo che prende in input la stringa di input che servirà come input al modello
+def get_input():
+    user_input = []
+    v = ["data", "ora", "giornata", "stadio", "casa", "formazione", "arbitro", "ospite"]
+    for i in range(8):
+        print("Inserisci", v[i], ": ")
+        data = input("")
+        user_input.append(data)
+    return user_input
 
+#fare controllo su ogni input tipo data deve avere due /, ora deve avere i :, formazione due - e la somma degli interi deve essere 10, il resto stringhe,
+#non possiamo avere input vuoto, giornata intero minore di 38.
+
+# carichiamo il dataset da csv
 filename = "archive/seriea-matches.csv"
 dataset = pd.read_csv(filename)
 
@@ -163,19 +175,11 @@ else:
 
 data_corrente = result[0]
 
-# P = ["22/04/2024", "18:00", "34", "Stadio Olimpico", "Bologna", "4-4-2", "Davide Massa", "Roma"]
+game = get_input()
+print(game)
 
-# prendo in input le info della partita utili al modello per formulare un' ipotesi
-user_input = []
-v = ["data", "ora", "giornata", "stadio", "casa", "formazione", "arbitro", "ospite"]
-for i in range(8):
-    print("Inserisci", v[i], ": ")
-    data = input("")
-    user_input.append(data)
-
-print("Info partita:", user_input)
-
-result = bool(prolog.query("partita_futura(P)"))
+# test per capire se funzione la regola prolog (la partita P è una partita futura?)
+result = bool(prolog.query("partita_futura(game)"))
 if result:
     print(result)
 else:
