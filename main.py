@@ -9,15 +9,83 @@ import numpy as np
 # metodo che prende in input la stringa di input che servirà come input al modello
 def get_input():
     user_input = []
-    v = ["data", "ora", "giornata", "stadio", "casa", "formazione", "arbitro", "ospite"]
+    i = 0
     for i in range(8):
-        print("Inserisci", v[i], ": ")
-        data = input("")
-        user_input.append(data)
-    return user_input
+        datoutente = ""
+        exit = True
+        if i==0:
+            while exit:
+                datoutente = input("Inserisci una data nel formato gg/mm/aaaa: ")
+                if len(datoutente) == 10 and datoutente[:2].isdigit() and datoutente[3:5].isdigit() and datoutente[6:].isdigit() and datoutente[2] == '/' and datoutente[5] == '/':
+                    print("Input corretto")
+                    exit = False
+                else:
+                 print("[!] La data deve essere in formato gg/mm/aaaa")
 
-#fare controllo su ogni input tipo data deve avere due /, ora deve avere i :, formazione due - e la somma degli interi deve essere 10, il resto stringhe,
-#non possiamo avere input vuoto, giornata intero minore di 38.
+        if i==1:
+            while exit:
+                datoutente = input("Inserisci l'orario in cui si gioca la partita (nel formato hh:mm): ")
+                if len(datoutente) == 5 and datoutente[:2].isdigit() and datoutente[3:].isdigit() and datoutente[2] == ':':
+                    print("Input corretto")
+                    exit = False
+                else:
+                    print("[!] L'ora deve essere in formato hh:mm")
+
+        if i==2:
+            while exit:
+                datoutente = input("Inserisci la giornata: ")
+                if len(datoutente) > 0 and len(datoutente) < 3:
+                    print("Input corretto")
+                    exit = False
+                else:
+                    print("La giornata deve essere un numero compreso in [1, 38]")
+
+        if i==3:
+            while exit:
+                datoutente = input("Inserisci il nome dello stadio in cui si giocherà la partita: ")
+                if len(datoutente) > 1:
+                    print("Input corretto")
+                    exit = False
+                else:
+                    print("[!] È necessario inserire un nome")
+
+        if i==4:
+            while exit:
+                datoutente=input("Inserisci la squadra che gioca in casa: ")
+                if len(datoutente) > 1:
+                    print("Input corretto")
+                    exit = False
+                else:
+                    print("[!] È necessario inserire un nome")
+
+        if i==5:
+            while exit:
+                datoutente=input("Inserisci la formazione (nel formato n-n-n): ")
+                if len(datoutente) == 5 and datoutente[0].isdigit() and datoutente[2].isdigit() and datoutente[4].isdigit() and datoutente[1]=='-' and datoutente[3]=='-':    
+                    print("Input corretto")
+                    exit = False
+                else:
+                    print("[!] La formazione deve essere in formato n-n-n")
+        
+        if i==6:
+            while exit:
+                datoutente=input("Inserisci l'arbitro: ")
+                if len(datoutente) > 1:
+                    print("Input corretto")
+                    exit = False
+                else:
+                    print("[!] È necessario inserire un nome")
+        
+        if i==7:
+            while exit:
+                datoutente=input("Inserisci la squadra che gioca in trasferta: ")
+                if len(datoutente) > 1:
+                    print("Input corretto")
+                    exit = False
+                else:
+                    print("[!] È necessario inserire un nome")
+        user_input.append(datoutente)
+    return user_input
 
 # carichiamo il dataset da csv
 filename = "archive/seriea-matches.csv"
