@@ -1,1 +1,1 @@
-"get_current_date(Date)")
+"get_current_date(Date)"

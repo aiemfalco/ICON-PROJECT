@@ -60,8 +60,8 @@ def get_input():
 
         if i==5:
             while exit:
-                datoutente=input("Inserisci la formazione (nel formato n-n-n): ")
-                if len(datoutente) == 5 and datoutente[0].isdigit() and datoutente[2].isdigit() and datoutente[4].isdigit() and datoutente[1]=='-' and datoutente[3]=='-':    
+                datoutente=input("Inserisci la formazione (nel formato n-n-n o n-n-n-n): ")
+                if (len(datoutente) == 5 and datoutente[0].isdigit() and datoutente[2].isdigit() and datoutente[4].isdigit() and datoutente[1]=='-' and datoutente[3]=='-') or (len(datoutente) == 7 and datoutente[0].isdigit() and datoutente[2].isdigit() and datoutente[4].isdigit() and datoutente[6].isdigit() and datoutente[1]=='-' and datoutente[3]=='-' and datoutente[5]=='-'):    
                     print("Input corretto")
                     exit = False
                 else:
