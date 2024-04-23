@@ -6,6 +6,16 @@ from sklearn.preprocessing import LabelEncoder #per codificare stringhe
 from pyswip import Prolog
 import numpy as np
 
+# Inizializza l'interprete Prolog
+prolog = Prolog()
+
+# Carica il file Prolog
+prolog.consult("rules.pl")
+
+# Definisci una funzione Python per verificare se un numero è valido (per la formazione)
+def is_a_valid_number(numero):
+    return bool(list(prolog.query(f"is_a_valid_number({numero})")))
+
 # metodo che prende in input la stringa di input che servirà come input al modello
 def get_input():
     user_input = []
@@ -61,6 +71,12 @@ def get_input():
         if i==5:
             while exit:
                 datoutente=input("Inserisci la formazione (nel formato n-n-n o n-n-n-n): ")
+                '''
+                if is_a_valid_number(datoutente[alla posizione x]):
+                allora vai avanti
+                else:
+                dai errore
+                '''
                 if (len(datoutente) == 5 and datoutente[0].isdigit() and datoutente[2].isdigit() and datoutente[4].isdigit() and datoutente[1]=='-' and datoutente[3]=='-') or (len(datoutente) == 7 and datoutente[0].isdigit() and datoutente[2].isdigit() and datoutente[4].isdigit() and datoutente[6].isdigit() and datoutente[1]=='-' and datoutente[3]=='-' and datoutente[5]=='-'):    
                     print("Input corretto")
                     exit = False
@@ -228,11 +244,6 @@ predictions = model.predict(X_test)
 accuracy = accuracy_score(y_test, predictions)
 print(accuracy)
 
-# Inizializza l'interprete Prolog
-prolog = Prolog()
-
-# Carica il file Prolog
-prolog.consult("rules.pl")
 
 # Fai una query a Prolog per trovare tutte le partite future
 result = list(prolog.query("print_current_date"))
