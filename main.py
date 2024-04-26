@@ -49,6 +49,7 @@ def get_input():
                     exit = False
                 else:
                     print("La giornata deve essere un numero compreso in [1, 38]")
+                    # scrvere in prolog questa regola perchè ora accetta input  da 1 a 99
 
         if i==3:
             while exit:
@@ -71,17 +72,11 @@ def get_input():
         if i==5:
             while exit:
                 datoutente=input("Inserisci la formazione (nel formato n-n-n o n-n-n-n): ")
-                '''
-                if is_a_valid_number(datoutente[alla posizione x]):
-                allora vai avanti
-                else:
-                dai errore
-                '''
-                if (len(datoutente) == 5 and datoutente[0].isdigit() and datoutente[2].isdigit() and datoutente[4].isdigit() and datoutente[1]=='-' and datoutente[3]=='-') or (len(datoutente) == 7 and datoutente[0].isdigit() and datoutente[2].isdigit() and datoutente[4].isdigit() and datoutente[6].isdigit() and datoutente[1]=='-' and datoutente[3]=='-' and datoutente[5]=='-'):    
+                if (len(datoutente) == 5 and datoutente[0].isdigit() and datoutente[2].isdigit() and datoutente[4].isdigit() and datoutente[1]=='-' and datoutente[3]=='-' and is_a_valid_number(datoutente[0]) and is_a_valid_number(datoutente[2]) and is_a_valid_number(datoutente[4])) or (len(datoutente) == 7 and datoutente[0].isdigit() and datoutente[2].isdigit() and datoutente[4].isdigit() and datoutente[6].isdigit() and datoutente[1]=='-' and datoutente[3]=='-' and datoutente[5]=='-' and is_a_valid_number(datoutente[0]) and is_a_valid_number(datoutente[2]) and is_a_valid_number(datoutente[4]) and is_a_valid_number(datoutente[6])):
                     print("Input corretto")
                     exit = False
                 else:
-                    print("[!] La formazione deve essere in formato n-n-n")
+                    print("[!] Valori non accettati")
         
         if i==6:
             while exit:
