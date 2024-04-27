@@ -21,7 +21,7 @@ def is_a_valid_round(numero):
     return bool(list(prolog.query(f"is_a_valid_round({numero})")))
 
 def valid_time(ora, minuti):
-    return bool(list(prolog.query(f"valid_time({ora, minuti})")))
+    return bool(list(prolog.query(f"valid_time({ora}, {minuti})")))
 
 # metodo che prende in input la stringa di input che servirà come input al modello
 def get_input():
@@ -32,7 +32,7 @@ def get_input():
         exit = True
         if i==0:
             while exit:
-                datoutente = input("Inserisci una data nel formato gg/mm/aaaa: ")
+                datoutente = input("Inserisci una data nel formato gg/aaamm/a: ")
                 if len(datoutente) == 10 and datoutente[:2].isdigit() and datoutente[3:5].isdigit() and datoutente[6:].isdigit() and datoutente[2] == '/' and datoutente[5] == '/':
                     print("Input corretto")
                     exit = False
@@ -47,13 +47,12 @@ def get_input():
                     min_indexes = [3, 4]
                     ora = ''.join(map(str, [datoutente[i] for i in hour_indexes]))
                     minuti = ''.join(map(str, [datoutente[i] for i in min_indexes]))
-                    h = int(ora) 
-                    m = int(minuti)
+                    print(ora, minuti)
                     if(valid_time(ora, minuti)):
                         print("Input corretto") 
+                        exit = False
                     else:
                         print("[!] Hai inserito un orario inesistente")
-                        exit = False
                 else:
                     print("[!] L'ora deve essere in formato hh:mm")
 
@@ -149,6 +148,7 @@ data_corrente = result[0]
 
 game = get_input()
 print(game)
+# spezziamo la data del game in anno-mese-giorno e diamo questi tre valori come input al predicato partita futura e faremo il controllo sulla data
 
 # test per capire se funzione la regola prolog (la partita P è una partita futura?)
 result = bool(prolog.query("partita_futura(game)"))
