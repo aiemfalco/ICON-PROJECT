@@ -17,6 +17,12 @@ prolog.consult("rules.pl")
 def is_a_valid_number(numero):
     return bool(list(prolog.query(f"is_a_valid_number({numero})")))
 
+def is_a_valid_round(numero):
+    return bool(list(prolog.query(f"is_a_valid_round({numero})")))
+
+def valid_time(ora, minuti):
+    return bool(list(prolog.query(f"valid_time({ora, minuti})")))
+
 # metodo che prende in input la stringa di input che servirà come input al modello
 def get_input():
     user_input = []
@@ -37,20 +43,28 @@ def get_input():
             while exit:
                 datoutente = input("Inserisci l'orario in cui si gioca la partita (nel formato hh:mm): ")
                 if len(datoutente) == 5 and datoutente[:2].isdigit() and datoutente[3:].isdigit() and datoutente[2] == ':':
-                    print("Input corretto")
-                    exit = False
+                    hour_indexes = [0, 1]
+                    min_indexes = [3, 4]
+                    ora = ''.join(map(str, [datoutente[i] for i in hour_indexes]))
+                    minuti = ''.join(map(str, [datoutente[i] for i in min_indexes]))
+                    h = int(ora) 
+                    m = int(minuti)
+                    if(valid_time(ora, minuti)):
+                        print("Input corretto") 
+                    else:
+                        print("[!] Hai inserito un orario inesistente")
+                        exit = False
                 else:
                     print("[!] L'ora deve essere in formato hh:mm")
 
         if i==2:
             while exit:
                 datoutente = input("Inserisci la giornata: ")
-                if len(datoutente) > 0 and len(datoutente) < 3:
+                if len(datoutente) > 0 and len(datoutente) < 3 and is_a_valid_round(datoutente):
                     print("Input corretto")
                     exit = False
                 else:
                     print("La giornata deve essere un numero compreso in [1, 38]")
-                    # scrvere in prolog questa regola perchè ora accetta input  da 1 a 99
 
         if i==3:
             while exit:
