@@ -111,6 +111,15 @@ def get_input():
         user_input.append(datoutente)
     return user_input
 
+def print_current_date():
+    current_date = list(prolog.query("print_current_date"))
+    print(len(current_date))
+    if current_date:
+        print("Data corrente: ", current_date)
+    else:
+        print("Operazione fallita")
+    return current_date
+
 # problema di classificazione, creiamo un oggetto RandomForestClassifier
 model = RandomForestClassifier(n_estimators = 50, min_samples_split = 10, random_state = 1)
 
@@ -135,28 +144,19 @@ predictions = model.predict(X_test)
 accuracy = accuracy_score(y_test, predictions)
 print(accuracy)
 
-
-# Fai una query a Prolog per trovare tutte le partite future
-result = list(prolog.query("print_current_date"))
-if result:
-    print("Current date:", result[0])
-else:
-    print("Failed to get current date")
-
-data_corrente = result[0]
+current_date = print_current_date()
 
 game = get_input()
 print(game)
 # spezziamo la data del game in anno-mese-giorno e diamo questi tre valori come input al predicato partita futura e faremo il controllo sulla data
-dataG=game[0]
-yearG=dataG[:4]
-monthG=dataG[5:8]
-dayG=dataG[9:]
+dataG = game[0]
+yearG = dataG[:4]
+monthG = dataG[5:7]
+dayG = dataG[9:]
 print(yearG, "   ", monthG, "   ", dayG)
-print (data_corrente)
-yearC=data_corrente[:4]
-monthC=data_corrente[5:8]
-dayC=data_corrente[9:]
+yearC = current_date[:4]
+monthC = current_date[5:8]
+dayC = current_date[9:]
 # test partita futura in python
 if yearG > yearC:
     print(True)
