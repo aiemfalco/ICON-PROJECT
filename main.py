@@ -32,12 +32,12 @@ def get_input():
         exit = True
         if i==0:
             while exit:
-                datoutente = input("Inserisci una data nel formato gg/aaamm/a: ")
-                if len(datoutente) == 10 and datoutente[:2].isdigit() and datoutente[3:5].isdigit() and datoutente[6:].isdigit() and datoutente[2] == '/' and datoutente[5] == '/':
+                datoutente = input("Inserisci una data nel formato aaaa-mm-gg: ")
+                if len(datoutente) == 10 and datoutente[:4].isdigit() and datoutente[5:7].isdigit() and datoutente[8:].isdigit() and datoutente[4] == '-' and datoutente[7] == '-':
                     print("Input corretto")
                     exit = False
                 else:
-                 print("[!] La data deve essere in formato gg/mm/aaaa")
+                    print("[!] La data deve essere in formato aaaa-mm-gg")
 
         if i==1:
             while exit:
@@ -47,7 +47,6 @@ def get_input():
                     min_indexes = [3, 4]
                     ora = ''.join(map(str, [datoutente[i] for i in hour_indexes]))
                     minuti = ''.join(map(str, [datoutente[i] for i in min_indexes]))
-                    print(ora, minuti)
                     if(valid_time(ora, minuti)):
                         print("Input corretto") 
                         exit = False
@@ -149,10 +148,31 @@ data_corrente = result[0]
 game = get_input()
 print(game)
 # spezziamo la data del game in anno-mese-giorno e diamo questi tre valori come input al predicato partita futura e faremo il controllo sulla data
-
+dataG=game[0]
+yearG=dataG[:4]
+monthG=dataG[5:8]
+dayG=dataG[9:]
+print(yearG, "   ", monthG, "   ", dayG)
+print (data_corrente)
+yearC=data_corrente[:4]
+monthC=data_corrente[5:8]
+dayC=data_corrente[9:]
+# test partita futura in python
+if yearG > yearC:
+    print(True)
+else:
+    if yearG == yearC and monthG > monthC:
+        print(True)
+    else:
+        if yearG == yearC and monthG == monthC and dayG > dayC:
+            print(True)
+        else:
+            print(False)
+'''
 # test per capire se funzione la regola prolog (la partita P è una partita futura?)
 result = bool(prolog.query("partita_futura(game)"))
 if result:
     print(result)
 else:
     print("Non ho niente")
+'''
