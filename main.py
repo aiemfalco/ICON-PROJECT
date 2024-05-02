@@ -6,6 +6,7 @@ from sklearn.preprocessing import LabelEncoder #per codificare stringhe
 from pyswip import Prolog
 import numpy as np
 import dataset as ds
+from datetime import datetime
 
 # Inizializza l'interprete Prolog
 prolog = Prolog()
@@ -34,8 +35,28 @@ def get_input():
             while exit:
                 datoutente = input("Inserisci una data nel formato aaaa-mm-gg: ")
                 if len(datoutente) == 10 and datoutente[:4].isdigit() and datoutente[5:7].isdigit() and datoutente[8:].isdigit() and datoutente[4] == '-' and datoutente[7] == '-':
-                    print("Input corretto")
-                    exit = False
+                    yearG = int(datoutente[:4])
+                    monthG = int(datoutente[6:7])
+                    dayG = int(datoutente[8:])
+                    print(yearG, monthG, dayG)
+                    yearC = current_date.year
+                    monthC = current_date.month
+                    dayC = current_date.day
+                    print(yearC, monthC, dayC)
+                    # test partita futura in python
+                    if yearG > yearC:
+                        print("Input corretto")
+                        exit = False
+                    else:
+                        if yearG == yearC and monthG > monthC:
+                            print("Input corretto")
+                            exit = False
+                        else:
+                            if yearG == yearC and monthG == monthC and dayG > dayC:
+                                print("Input corretto")
+                                exit = False
+                            else :
+                                print("[!] Non hai inserito una data futura")
                 else:
                     print("[!] La data deve essere in formato aaaa-mm-gg")
 
@@ -111,14 +132,13 @@ def get_input():
         user_input.append(datoutente)
     return user_input
 
-def print_current_date():
+'''def print_current_date():
     current_date = list(prolog.query("print_current_date"))
-    print(len(current_date))
     if current_date:
-        print("Data corrente: ", current_date)
+        print("Data corrente: ", current_date[0]['Date'])
     else:
         print("Operazione fallita")
-    return current_date
+    return current_date '''
 
 # problema di classificazione, creiamo un oggetto RandomForestClassifier
 model = RandomForestClassifier(n_estimators = 50, min_samples_split = 10, random_state = 1)
@@ -126,7 +146,7 @@ model = RandomForestClassifier(n_estimators = 50, min_samples_split = 10, random
 #devo mettere in X_train tutti i valori codificati relativi alle partite prima del '2021-05-23' (alleniamo 4 anni di partenza e ci riserviamo 1/5 di dataset per il test)
 dataset = ds.create_data_frame() # clono il dataset senza la colonna result
 X = dataset.loc[dataset[1] <= 430]
-X_train = X.drop(6, axis = 1) # prendo tutti i games prima della data 430
+X_train = X.drop(6, axis = 1) # prendo tutti i games prima della data 430 (escluso result chiaramente)
 X_train = X.loc[:, [29, 9, 1, 3, 15, 5, 2, 14]]
 y_train = X.iloc[:, 6]
 
@@ -144,35 +164,7 @@ predictions = model.predict(X_test)
 accuracy = accuracy_score(y_test, predictions)
 print(accuracy)
 
-current_date = print_current_date()
+current_date = datetime.now()
 
 game = get_input()
 print(game)
-# spezziamo la data del game in anno-mese-giorno e diamo questi tre valori come input al predicato partita futura e faremo il controllo sulla data
-dataG = game[0]
-yearG = dataG[:4]
-monthG = dataG[5:7]
-dayG = dataG[9:]
-print(yearG, "   ", monthG, "   ", dayG)
-yearC = current_date[:4]
-monthC = current_date[5:8]
-dayC = current_date[9:]
-# test partita futura in python
-if yearG > yearC:
-    print(True)
-else:
-    if yearG == yearC and monthG > monthC:
-        print(True)
-    else:
-        if yearG == yearC and monthG == monthC and dayG > dayC:
-            print(True)
-        else:
-            print(False)
-'''
-# test per capire se funzione la regola prolog (la partita P è una partita futura?)
-result = bool(prolog.query("partita_futura(game)"))
-if result:
-    print(result)
-else:
-    print("Non ho niente")
-'''

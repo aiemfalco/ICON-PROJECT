@@ -22,5 +22,5 @@ valid_time(Hour, Minute) :-
 
 partita(Date, Time, Round, Venue, Opponent, Formation, Referee, Team).
 
-partita_futura(partita) :-
-    partita(Date, Time, Round, Venue, Opponent, Formation, Referee, Team), Date > Date.
+#partita_futura(partita) :-
+    #partita(Date, Time, Round, Venue, Opponent, Formation, Referee, Team), Date > Date. 
