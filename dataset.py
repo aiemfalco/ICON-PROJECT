@@ -95,8 +95,6 @@ def create_data_frame():
                                     "def pen": 24, "def 3rd": 25, "mid 3rd": 26, "att 3rd": 27, "att pen": 28, "team": 29})
 
     # droppiamo result perché nella x andiamo a mettere tutti i dati senza risultati, mentre nella y andiamo a mettere solo i risultati (X e y sono cloni del dataset)
-    np.X = dataset.drop(columns=[6])
-    np.y = dataset[6]
     features.remove('attendance')
     
     return dataset

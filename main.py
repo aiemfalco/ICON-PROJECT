@@ -36,7 +36,7 @@ def get_input():
                 datoutente = input("Inserisci una data nel formato aaaa-mm-gg: ")
                 if len(datoutente) == 10 and datoutente[:4].isdigit() and datoutente[5:7].isdigit() and datoutente[8:].isdigit() and datoutente[4] == '-' and datoutente[7] == '-':
                     yearG = int(datoutente[:4])
-                    monthG = int(datoutente[6:7])
+                    monthG = int(datoutente[5:7])
                     dayG = int(datoutente[8:])
                     print(yearG, monthG, dayG)
                     yearC = current_date.year
@@ -143,7 +143,7 @@ def get_input():
 # problema di classificazione, creiamo un oggetto RandomForestClassifier
 model = RandomForestClassifier(n_estimators = 50, min_samples_split = 10, random_state = 1)
 
-#devo mettere in X_train tutti i valori codificati relativi alle partite prima del '2021-05-23' (alleniamo 4 anni di partenza e ci riserviamo 1/5 di dataset per il test)
+# devo mettere in X_train tutti i valori codificati relativi alle partite prima del '2021-05-23' (alleniamo 4 anni di partenza e ci riserviamo 1/5 di dataset per il test)
 dataset = ds.create_data_frame() # clono il dataset senza la colonna result
 X = dataset.loc[dataset[1] <= 430]
 X_train = X.drop(6, axis = 1) # prendo tutti i games prima della data 430 (escluso result chiaramente)
@@ -163,8 +163,35 @@ model.fit(X_train, y_train) # alleno il modello dandogli X e i result di X per o
 predictions = model.predict(X_test)
 accuracy = accuracy_score(y_test, predictions)
 print(accuracy)
+#print(len(predictions))
+#print(predictions)
 
 current_date = datetime.now()
 
 game = get_input()
-print(game)
+print("pre game " , game)
+# game(data, ora, giornata, stadio, casa, formazione, arbitro, trasferta)
+# gameT(casa, trasferta, data, giornata, arbitro, stadio, ora, formazione)
+temp = []
+temp.append(game[4])
+temp.append(game[7])
+temp.append(game[0])
+temp.append(game[2])
+temp.append(game[6])
+temp.append(game[3])
+temp.append(game[1])
+temp.append(game[5])
+game=temp
+
+gameind = [29, 9, 1, 3, 15, 5, 2, 14]
+
+gamedict = {colonna: valore for colonna, valore in zip(gameind, game)}
+
+game_2_pred = pd.DataFrame([gamedict])
+
+print("post game ", game)
+print("gamedict ", gamedict)
+print("dataframe ", game_2_pred)
+
+predicted = model.predict(game_2_pred)
+print("predizione: ", predicted)
