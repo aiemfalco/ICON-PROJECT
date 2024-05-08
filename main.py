@@ -113,7 +113,7 @@ def get_input():
 model = RandomForestClassifier(n_estimators = 50, min_samples_split = 10, random_state = 1)
 
 # devo mettere in X_train tutti i valori codificati relativi alle partite prima del '2021-05-23' (alleniamo 4 anni di partenza e ci riserviamo 1/5 di dataset per il test)
-dataset = ds.create_data_frame() # clono il dataset senza la colonna result
+dataset = ds.create_data_frame() # creo il dataset mappato
 X = dataset.loc[dataset[1] <= 430]
 X_train = X.drop(6, axis = 1) # prendo tutti i games prima della data 430 (escluso result chiaramente)
 X_train = X.loc[:, [29, 9, 3, 15, 5, 2, 14]]
@@ -140,7 +140,7 @@ current_date = datetime.now()
 game = get_input()
 print("pre game " , game)
 # game(ora, giornata, stadio, casa, formazione, arbitro, trasferta)
-# gameT(casa, trasferta, giornata, arbitro, stadio, ora, formazione)
+# temp(casa, trasferta, giornata, arbitro, stadio, ora, formazione)
 temp = []
 temp.append(game[3]) #dic_teams
 temp.append(game[6]) #dic_opponents
@@ -151,7 +151,9 @@ temp.append(game[0]) #dic_time
 temp.append(game[4]) #dic_formations
 game=temp
 
-dizionari = ds.generate_dictionary(dataset)
+dizionari = ds.generate_dictionary()
+
+print("dizionari:\n", dizionari)
 
 game[0] = cerca_stringa_in_dizionario(dizionari[10], game[0])
 game[1] = cerca_stringa_in_dizionario(dizionari[7], game[1])

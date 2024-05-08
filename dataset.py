@@ -5,7 +5,34 @@ from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import LabelEncoder #per codificare stringhe
 import numpy as np
 
-def generate_dictionary(dataset):
+def create_dataset():
+    # carichiamo il dataset da csv
+    filename = "archive/seriea-matches.csv"
+    dataset = pd.read_csv(filename)
+
+    features = dataset.columns.tolist()
+
+    features_to_delete = []
+    features_to_delete.append(features[3]) # stringa comp prima inserita
+    features_to_delete.append(features[14]) 
+    for i in range(31, len(features) - 1):
+        features_to_delete.append(features[i]) #stringhe che non ci interessano (features)
+
+
+    del features[3]
+    del features[14]
+    del features[31:48]
+
+    # nel drop possiamo dargli sia il vettore di indici che il vettore di stringhe, si mangia tutto
+    dataset = dataset.drop(features_to_delete, axis = 1)
+
+    #andiamo ad eliminare tutti i valori null (ne rimanevano solamente 3 nella colonna "dist")
+    dataset = dataset[dataset.isnull().sum(axis=1) == 0]
+
+    return dataset
+
+def generate_dictionary():
+    dataset = create_dataset()
     #preprocessing delle features stringhe in intero 
     X_referee = list(range(1, 62))
     referees = set(dataset['referee'])
@@ -58,6 +85,7 @@ def generate_dictionary(dataset):
     return dic_referees, dic_dates, dic_time, dic_rounds, dic_days, dic_venues, dic_results, dic_opponents, dic_captains, dic_formations, dic_teams
 
 def create_data_frame():
+    '''
     # carichiamo il dataset da csv
     filename = "archive/seriea-matches.csv"
     dataset = pd.read_csv(filename)
@@ -80,6 +108,7 @@ def create_data_frame():
 
     #andiamo ad eliminare tutti i valori null (ne rimanevano solamente 3 nella colonna "dist")
     dataset = dataset[dataset.isnull().sum(axis=1) == 0]
+    '''
     
     '''
     #preprocessing delle features stringhe in intero 
@@ -132,7 +161,9 @@ def create_data_frame():
     dic_teams = dict(zip(teams, X_team))
     '''
 
-    dizionari = generate_dictionary(dataset)
+    dataset = create_dataset()
+    
+    dizionari = generate_dictionary()
     
     # qua andiamo a sostituire gli elementi che sono rappresentati come stringhe dentro il dataset con i valori dei rispettivi dizionari tramite la funzione di libreria "map"
     dataset["referee"] = dataset["referee"].map(dizionari[0])
@@ -151,6 +182,6 @@ def create_data_frame():
                                     "def pen": 24, "def 3rd": 25, "mid 3rd": 26, "att 3rd": 27, "att pen": 28, "team": 29})
 
     # droppiamo result perché nella x andiamo a mettere tutti i dati senza risultati, mentre nella y andiamo a mettere solo i risultati (X e y sono cloni del dataset)
-    features.remove('attendance')
+    #features.remove('attendance')
     
     return dataset
