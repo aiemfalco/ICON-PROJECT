@@ -43,8 +43,8 @@ def get_input():
                 if len(datoutente) == 5 and datoutente[:2].isdigit() and datoutente[3:].isdigit() and datoutente[2] == ':':
                     hour_indexes = [0, 1]
                     min_indexes = [3, 4]
-                    ora = ''.join(map(str, [datoutente[i] for i in hour_indexes]))
-                    minuti = ''.join(map(str, [datoutente[i] for i in min_indexes]))
+                    ora = "".join(map(str, [datoutente[i] for i in hour_indexes]))
+                    minuti = "".join(map(str, [datoutente[i] for i in min_indexes]))
                     if(valid_time(ora, minuti)):
                         print("Input corretto") 
                         exit = False
@@ -55,7 +55,7 @@ def get_input():
 
         if i==1:
             while exit:
-                datoutente = input("Inserisci la giornata: ")
+                datoutente = input("Inserisci a che giornata si gioca la partita: ")
                 if len(datoutente) > 0 and len(datoutente) < 3 and is_a_valid_round(datoutente):
                     print("Input corretto")
                     exit = False
@@ -64,7 +64,7 @@ def get_input():
 
         if i==2:
             while exit:
-                datoutente = input("Inserisci il nome dello stadio in cui si giocherà la partita: ")
+                datoutente = input("Inserisci dove giocherà questa squadra (casa/trasferta): ")
                 if len(datoutente) > 1:
                     print("Input corretto")
                     exit = False
@@ -73,7 +73,7 @@ def get_input():
 
         if i==3:
             while exit:
-                datoutente=input("Inserisci la squadra che gioca in casa: ")
+                datoutente=input("Inserisci la prima squadra che gioca: ")
                 if len(datoutente) > 1:
                     print("Input corretto")
                     exit = False
@@ -100,7 +100,7 @@ def get_input():
         
         if i==6:
             while exit:
-                datoutente=input("Inserisci la squadra che gioca in trasferta: ")
+                datoutente=input("Inserisci la squadra avversaria: ")
                 if len(datoutente) > 1:
                     print("Input corretto")
                     exit = False
@@ -113,7 +113,8 @@ def get_input():
 model = RandomForestClassifier(n_estimators = 50, min_samples_split = 10, random_state = 1)
 
 # devo mettere in X_train tutti i valori codificati relativi alle partite prima del '2021-05-23' (alleniamo 4 anni di partenza e ci riserviamo 1/5 di dataset per il test)
-dataset = ds.create_data_frame() # creo il dataset mappato
+dizionari = ds.generate_dictionary()
+dataset = ds.create_data_frame(dizionari) # creo il dataset mappato
 X = dataset.loc[dataset[1] <= 430]
 X_train = X.drop(6, axis = 1) # prendo tutti i games prima della data 430 (escluso result chiaramente)
 X_train = X.loc[:, [29, 9, 3, 15, 5, 2, 14]]
@@ -150,8 +151,6 @@ temp.append(game[2]) #dic_venues
 temp.append(game[0]) #dic_time
 temp.append(game[4]) #dic_formations
 game=temp
-
-dizionari = ds.generate_dictionary()
 
 print("dizionari:\n", dizionari)
 
