@@ -31,8 +31,7 @@ def create_dataset():
 
     return dataset
 
-def generate_dictionary():
-    dataset = create_dataset()
+def generate_dictionary(dataset):
 
     #preprocessing delle features stringhe in intero 
     X_referee = list(range(1, 62))
@@ -86,8 +85,7 @@ def generate_dictionary():
 
     return dic_referees, dic_dates, dic_time, dic_rounds, dic_days, dic_venues, dic_results, dic_opponents, dic_captains, dic_formations, dic_teams
 
-def create_data_frame(dizionari):
-    dataset = create_dataset()
+def create_data_frame(dataset, dizionari):
     
     # qua andiamo a sostituire gli elementi che sono rappresentati come stringhe dentro il dataset con i valori dei rispettivi dizionari tramite la funzione di libreria "map"
     dataset["referee"] = dataset["referee"].map(dizionari[0])

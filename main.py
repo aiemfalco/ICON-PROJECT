@@ -30,7 +30,14 @@ def cerca_stringa_in_dizionario(dizionario, stringa):
             return valore
     return None  # Se la stringa non è stata trovata in nessun valore del dizionario
 
+def cerca_numero_in_dizionario(dizionario, numero):
+    for chiave, valore in dizionario.items():
+        if valore == numero:
+            return chiave
+    return None  # Restituisce None se il numero non è presente nel dizionario
+
 # metodo che prende in input la stringa di input che servirà come input al modello
+# temp(casa, trasferta, giornata, arbitro, stadio, ora, formazione)
 def get_input():
     user_input = []
     i = 0
@@ -38,6 +45,54 @@ def get_input():
         datoutente = ""
         exit = True
         if i==0:
+            while exit:
+                datoutente=input("Inserisci la prima squadra che gioca: ")
+                if len(datoutente) > 1:
+                    print("Input corretto")
+                    exit = False
+                else:
+                    print("[!] È necessario inserire un nome")
+
+        if i==1:
+            while exit:
+                datoutente=input("Inserisci la squadra avversaria: ")
+                if len(datoutente) > 1:
+                    print("Input corretto")
+                    exit = False
+                else:
+                    print("[!] È necessario inserire un nome")
+
+        if i==2:
+            while exit:
+                datoutente = input("Inserisci a che giornata si gioca la partita: ")
+                if len(datoutente) > 0 and len(datoutente) < 3 and is_a_valid_round(datoutente):
+                    print("Input corretto")
+                    exit = False
+                else:
+                    print("La giornata deve essere un numero compreso in [1, 38]")
+            
+
+        if i==3:
+            while exit:
+                datoutente=input("Inserisci l'arbitro: ")
+                if len(datoutente) > 1:
+                    print("Input corretto")
+                    exit = False
+                else:
+                    print("[!] È necessario inserire un nome")
+            
+
+        if i==4:
+            while exit:
+                datoutente = input("Inserisci dove giocherà la prima squadra (casa/trasferta): ")
+                if len(datoutente) > 1:
+                    print("Input corretto")
+                    exit = False
+                else:
+                    print("[!] È necessario inserire un nome")
+            
+        
+        if i==5:
             while exit:
                 datoutente = input("Inserisci l'orario in cui si gioca la partita (nel formato hh:mm): ")
                 if len(datoutente) == 5 and datoutente[:2].isdigit() and datoutente[3:].isdigit() and datoutente[2] == ':':
@@ -52,60 +107,17 @@ def get_input():
                         print("[!] Hai inserito un orario inesistente")
                 else:
                     print("[!] L'ora deve essere in formato hh:mm")
-
-        if i==1:
+            
+        
+        if i==6:
             while exit:
-                datoutente = input("Inserisci a che giornata si gioca la partita: ")
-                if len(datoutente) > 0 and len(datoutente) < 3 and is_a_valid_round(datoutente):
-                    print("Input corretto")
-                    exit = False
-                else:
-                    print("La giornata deve essere un numero compreso in [1, 38]")
-
-        if i==2:
-            while exit:
-                datoutente = input("Inserisci dove giocherà questa squadra (casa/trasferta): ")
-                if len(datoutente) > 1:
-                    print("Input corretto")
-                    exit = False
-                else:
-                    print("[!] È necessario inserire un nome")
-
-        if i==3:
-            while exit:
-                datoutente=input("Inserisci la prima squadra che gioca: ")
-                if len(datoutente) > 1:
-                    print("Input corretto")
-                    exit = False
-                else:
-                    print("[!] È necessario inserire un nome")
-
-        if i==4:
-            while exit:
-                datoutente=input("Inserisci la formazione (nel formato n-n-n o n-n-n-n): ")
+                datoutente=input("Inserisci la formazione della prima squadra (nel formato n-n-n o n-n-n-n): ")
                 if (len(datoutente) == 5 and datoutente[0].isdigit() and datoutente[2].isdigit() and datoutente[4].isdigit() and datoutente[1]=='-' and datoutente[3]=='-' and is_a_valid_number(datoutente[0]) and is_a_valid_number(datoutente[2]) and is_a_valid_number(datoutente[4])) or (len(datoutente) == 7 and datoutente[0].isdigit() and datoutente[2].isdigit() and datoutente[4].isdigit() and datoutente[6].isdigit() and datoutente[1]=='-' and datoutente[3]=='-' and datoutente[5]=='-' and is_a_valid_number(datoutente[0]) and is_a_valid_number(datoutente[2]) and is_a_valid_number(datoutente[4]) and is_a_valid_number(datoutente[6])):
                     print("Input corretto")
                     exit = False
                 else:
                     print("[!] Valori non accettati")
-        
-        if i==5:
-            while exit:
-                datoutente=input("Inserisci l'arbitro: ")
-                if len(datoutente) > 1:
-                    print("Input corretto")
-                    exit = False
-                else:
-                    print("[!] È necessario inserire un nome")
-        
-        if i==6:
-            while exit:
-                datoutente=input("Inserisci la squadra avversaria: ")
-                if len(datoutente) > 1:
-                    print("Input corretto")
-                    exit = False
-                else:
-                    print("[!] È necessario inserire un nome")
+            
         user_input.append(datoutente)
     return user_input
 
@@ -113,8 +125,9 @@ def get_input():
 model = RandomForestClassifier(n_estimators = 50, min_samples_split = 10, random_state = 1)
 
 # devo mettere in X_train tutti i valori codificati relativi alle partite prima del '2021-05-23' (alleniamo 4 anni di partenza e ci riserviamo 1/5 di dataset per il test)
-dizionari = ds.generate_dictionary()
-dataset = ds.create_data_frame(dizionari) # creo il dataset mappato
+dataset = ds.create_dataset()
+dizionari = ds.generate_dictionary(dataset)
+dataset = ds.create_data_frame(dataset, dizionari) # creo il dataset mappato
 X = dataset.loc[dataset[1] <= 430]
 X_train = X.drop(6, axis = 1) # prendo tutti i games prima della data 430 (escluso result chiaramente)
 X_train = X.loc[:, [29, 9, 3, 15, 5, 2, 14]]
@@ -140,17 +153,8 @@ current_date = datetime.now()
 
 game = get_input()
 print("pre game " , game)
-# game(ora, giornata, stadio, casa, formazione, arbitro, trasferta)
-# temp(casa, trasferta, giornata, arbitro, stadio, ora, formazione)
-temp = []
-temp.append(game[3]) #dic_teams
-temp.append(game[6]) #dic_opponents
-temp.append(game[1]) #dic_rounds
-temp.append(game[5]) #dic_referees
-temp.append(game[2]) #dic_venues
-temp.append(game[0]) #dic_time
-temp.append(game[4]) #dic_formations
-game=temp
+
+# game(casa, trasferta, giornata, arbitro, stadio, ora, formazione)
 
 print("dizionari:\n", dizionari)
 
@@ -175,4 +179,5 @@ print("gamedict ", gamedict)
 print("dataframe ", game_2_pred)
 
 predicted = model.predict(game_2_pred)
-print("predizione: ", predicted)
+#print("predizione: ", predicted)
+print("predizione: ", cerca_numero_in_dizionario(dizionari[6], predicted))
