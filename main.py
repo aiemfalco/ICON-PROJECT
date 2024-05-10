@@ -125,8 +125,8 @@ def get_input():
 model = RandomForestClassifier(n_estimators = 50, min_samples_split = 10, random_state = 1)
 
 # devo mettere in X_train tutti i valori codificati relativi alle partite prima del '2021-05-23' (alleniamo 4 anni di partenza e ci riserviamo 1/5 di dataset per il test)
-dataset = ds.create_dataset()
-dizionari = ds.generate_dictionary(dataset)
+dataset = ds.create_dataset() # creo il dataset "pulito"
+dizionari = ds.generate_dictionary(dataset) # creo i dizionari
 dataset = ds.create_data_frame(dataset, dizionari) # creo il dataset mappato
 X = dataset.loc[dataset[1] <= 430]
 X_train = X.drop(6, axis = 1) # prendo tutti i games prima della data 430 (escluso result chiaramente)
@@ -146,8 +146,6 @@ model.fit(X_train, y_train) # alleno il modello dandogli X e i result di X per o
 predictions = model.predict(X_test)
 accuracy = accuracy_score(y_test, predictions)
 print(accuracy)
-#print(len(predictions))
-#print(predictions)
 
 current_date = datetime.now()
 
@@ -160,16 +158,6 @@ print("dizionari:\n", dizionari)
 
 for i in range(len(game)):
     game[i] = cerca_stringa_in_dizionario(dizionari[i], game[i])
-
-'''
-game[0] = cerca_stringa_in_dizionario(dizionari[10], game[0])
-game[1] = cerca_stringa_in_dizionario(dizionari[7], game[1])
-game[2] = cerca_stringa_in_dizionario(dizionari[3], game[2])
-game[3] = cerca_stringa_in_dizionario(dizionari[0], game[3])
-game[4] = cerca_stringa_in_dizionario(dizionari[5], game[4])
-game[5] = cerca_stringa_in_dizionario(dizionari[2], game[5])
-game[6] = cerca_stringa_in_dizionario(dizionari[9], game[6])
-'''
 
 print(game)
 
