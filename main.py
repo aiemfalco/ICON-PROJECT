@@ -158,6 +158,10 @@ print("pre game " , game)
 
 print("dizionari:\n", dizionari)
 
+for i in range(len(game)):
+    game[i] = cerca_stringa_in_dizionario(dizionari[i], game[i])
+
+'''
 game[0] = cerca_stringa_in_dizionario(dizionari[10], game[0])
 game[1] = cerca_stringa_in_dizionario(dizionari[7], game[1])
 game[2] = cerca_stringa_in_dizionario(dizionari[3], game[2])
@@ -165,6 +169,7 @@ game[3] = cerca_stringa_in_dizionario(dizionari[0], game[3])
 game[4] = cerca_stringa_in_dizionario(dizionari[5], game[4])
 game[5] = cerca_stringa_in_dizionario(dizionari[2], game[5])
 game[6] = cerca_stringa_in_dizionario(dizionari[9], game[6])
+'''
 
 print(game)
 
@@ -180,4 +185,4 @@ print("dataframe ", game_2_pred)
 
 predicted = model.predict(game_2_pred)
 #print("predizione: ", predicted)
-print("predizione: ", cerca_numero_in_dizionario(dizionari[6], predicted))
+print("predizione: ", predicted, "=", cerca_numero_in_dizionario(dizionari[7], predicted))

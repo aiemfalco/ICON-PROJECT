@@ -82,12 +82,29 @@ def generate_dictionary(dataset):
     teams = set(dataset['team'])
     dic_teams = dict(zip(teams, X_team))
 
+    # game(casa, trasferta, giornata, arbitro, stadio, ora, formazione)
 
-    return dic_referees, dic_dates, dic_time, dic_rounds, dic_days, dic_venues, dic_results, dic_opponents, dic_captains, dic_formations, dic_teams
+    #return dic_referees, dic_dates, dic_time, dic_rounds, dic_days, dic_venues, dic_results, dic_opponents, dic_captains, dic_formations, dic_teams
+
+    return dic_teams, dic_opponents, dic_rounds, dic_referees, dic_venues, dic_time, dic_formations, dic_results, dic_dates, dic_days, dic_captains
 
 def create_data_frame(dataset, dizionari):
     
     # qua andiamo a sostituire gli elementi che sono rappresentati come stringhe dentro il dataset con i valori dei rispettivi dizionari tramite la funzione di libreria "map"
+
+    dataset["team"] = dataset["team"].map(dizionari[0])
+    dataset["opponent"] = dataset["opponent"].map(dizionari[1])
+    dataset["round"] = dataset["round"].map(dizionari[2])
+    dataset["referee"] = dataset["referee"].map(dizionari[3])
+    dataset["venue"] = dataset["venue"].map(dizionari[4])
+    dataset["time"] = dataset["time"].map(dizionari[5])
+    dataset["formation"] = dataset["formation"].map(dizionari[6])
+    dataset["result"] = dataset["result"].map(dizionari[7])
+    dataset["date"] = dataset["date"].map(dizionari[8])
+    dataset["day"] = dataset["day"].map(dizionari[9])
+    dataset["captain"] = dataset["captain"].map(dizionari[10])
+
+    '''
     dataset["referee"] = dataset["referee"].map(dizionari[0])
     dataset["date"] = dataset["date"].map(dizionari[1])
     dataset["time"] = dataset["time"].map(dizionari[2])
@@ -99,6 +116,8 @@ def create_data_frame(dataset, dizionari):
     dataset["captain"] = dataset["captain"].map(dizionari[8])
     dataset["formation"] = dataset["formation"].map(dizionari[9])
     dataset["team"] = dataset["team"].map(dizionari[10])
+    '''
+
     dataset = dataset.rename(columns={"Unnamed: 0": 0, "date": 1, "time": 2, "round": 3, "day": 4, "venue": 5, "result": 6, "gf": 7, "ga": 8, "opponent": 9, "xg": 10, "xga": 11, "poss_x": 12,
                                     "captain": 13, "formation": 14, "referee": 15, "sh": 16, "sot": 17, "dist": 18, "fk": 19, "pk": 20, "pkatt": 21,  "poss_y": 22, "touches": 23, 
                                     "def pen": 24, "def 3rd": 25, "mid 3rd": 26, "att 3rd": 27, "att pen": 28, "team": 29})
