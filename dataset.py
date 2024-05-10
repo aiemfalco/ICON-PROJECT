@@ -1,9 +1,4 @@
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
-from sklearn.preprocessing import LabelEncoder #per codificare stringhe
-import numpy as np
 
 def create_dataset():
     # carichiamo il dataset da csv

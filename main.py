@@ -1,28 +1,15 @@
 import pandas as pd
-from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
-from sklearn.preprocessing import LabelEncoder #per codificare stringhe
-from pyswip import Prolog
-import numpy as np
+#from pyswip import Prolog
 import dataset as ds
 from datetime import datetime
 
 # Inizializza l'interprete Prolog
-prolog = Prolog()
+#prolog = Prolog()
 
 # Carica il file Prolog
-prolog.consult("rules.pl")
-
-# Definisci una funzione Python per verificare se un numero è valido (per la formazione)
-def is_a_valid_number(numero):
-    return bool(list(prolog.query(f"is_a_valid_number({numero})")))
-
-def is_a_valid_round(numero):
-    return bool(list(prolog.query(f"is_a_valid_round({numero})")))
-
-def valid_time(ora, minuti):
-    return bool(list(prolog.query(f"valid_time({ora}, {minuti})")))
+#prolog.consult("rules.pl")
 
 def cerca_stringa_in_dizionario(dizionario, stringa):
     for chiave, valore in dizionario.items():
@@ -37,7 +24,7 @@ def cerca_numero_in_dizionario(dizionario, numero):
     return None  # Restituisce None se il numero non è presente nel dizionario
 
 # metodo che prende in input la stringa di input che servirà come input al modello
-# temp(casa, trasferta, giornata, arbitro, stadio, ora, formazione)
+# game(casa, trasferta, giornata, arbitro, stadio, ora, formazione)
 def get_input():
     user_input = []
     i = 0
@@ -46,77 +33,71 @@ def get_input():
         exit = True
         if i==0:
             while exit:
-                datoutente=input("Inserisci la prima squadra che gioca: ")
-                if len(datoutente) > 1:
+                datoutente=input("Inserisci una squadra di Serie A: ")
+                if cerca_stringa_in_dizionario(dizionari[i], datoutente) != None:
                     print("Input corretto")
                     exit = False
                 else:
-                    print("[!] È necessario inserire un nome")
+                    print("[!] È necessario inserire un nome valido")
 
         if i==1:
             while exit:
                 datoutente=input("Inserisci la squadra avversaria: ")
-                if len(datoutente) > 1:
+                if cerca_stringa_in_dizionario(dizionari[i], datoutente) != None:
                     print("Input corretto")
                     exit = False
                 else:
-                    print("[!] È necessario inserire un nome")
+                    print("[!] È necessario inserire un nome valido")
 
         if i==2:
             while exit:
                 datoutente = input("Inserisci a che giornata si gioca la partita: ")
-                if len(datoutente) > 0 and len(datoutente) < 3 and is_a_valid_round(datoutente):
+                if cerca_stringa_in_dizionario(dizionari[i], datoutente) != None and datoutente != "0":
                     print("Input corretto")
                     exit = False
                 else:
                     print("La giornata deve essere un numero compreso in [1, 38]")
             
-
         if i==3:
             while exit:
                 datoutente=input("Inserisci l'arbitro: ")
-                if len(datoutente) > 1:
+                if cerca_stringa_in_dizionario(dizionari[i], datoutente) != None:
                     print("Input corretto")
                     exit = False
                 else:
-                    print("[!] È necessario inserire un nome")
-            
+                    print("[!] È necessario inserire un nome valido")
 
         if i==4:
             while exit:
-                datoutente = input("Inserisci dove giocherà la prima squadra (casa/trasferta): ")
-                if len(datoutente) > 1:
+                datoutente = input("Inserisci dove giocherà la prima squadra (Casa/Trasferta): ")
+                if datoutente == "Casa" or datoutente == "casa":
                     print("Input corretto")
+                    datoutente = "Home"
+                    exit = False
+                elif datoutente == "Trasferta" or datoutente == "trasferta":
+                    print("Input corretto")
+                    datoutente = "Away"
                     exit = False
                 else:
-                    print("[!] È necessario inserire un nome")
-            
+                    print("[!] È necessario scegliere solo tra \"Casa\" o \"Trasferta\"")
         
         if i==5:
             while exit:
                 datoutente = input("Inserisci l'orario in cui si gioca la partita (nel formato hh:mm): ")
-                if len(datoutente) == 5 and datoutente[:2].isdigit() and datoutente[3:].isdigit() and datoutente[2] == ':':
-                    hour_indexes = [0, 1]
-                    min_indexes = [3, 4]
-                    ora = "".join(map(str, [datoutente[i] for i in hour_indexes]))
-                    minuti = "".join(map(str, [datoutente[i] for i in min_indexes]))
-                    if(valid_time(ora, minuti)):
-                        print("Input corretto") 
-                        exit = False
-                    else:
-                        print("[!] Hai inserito un orario inesistente")
+                if cerca_stringa_in_dizionario(dizionari[i], datoutente) != None:
+                    print("Input corretto") 
+                    exit = False
                 else:
-                    print("[!] L'ora deve essere in formato hh:mm")
-            
+                    print("[!] Hai inserito un orario inesistente o in un formato errato (deve essere hh:mm)")
         
         if i==6:
             while exit:
                 datoutente=input("Inserisci la formazione della prima squadra (nel formato n-n-n o n-n-n-n): ")
-                if (len(datoutente) == 5 and datoutente[0].isdigit() and datoutente[2].isdigit() and datoutente[4].isdigit() and datoutente[1]=='-' and datoutente[3]=='-' and is_a_valid_number(datoutente[0]) and is_a_valid_number(datoutente[2]) and is_a_valid_number(datoutente[4])) or (len(datoutente) == 7 and datoutente[0].isdigit() and datoutente[2].isdigit() and datoutente[4].isdigit() and datoutente[6].isdigit() and datoutente[1]=='-' and datoutente[3]=='-' and datoutente[5]=='-' and is_a_valid_number(datoutente[0]) and is_a_valid_number(datoutente[2]) and is_a_valid_number(datoutente[4]) and is_a_valid_number(datoutente[6])):
+                if cerca_stringa_in_dizionario(dizionari[i], datoutente) != None:
                     print("Input corretto")
                     exit = False
                 else:
-                    print("[!] Valori non accettati")
+                    print("[!] Formazione non valida")
             
         user_input.append(datoutente)
     return user_input
