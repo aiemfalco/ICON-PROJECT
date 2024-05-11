@@ -84,7 +84,7 @@ def get_input():
         if i==5:
             while exit:
                 datoutente = input("Inserisci l'orario in cui si gioca la partita (nel formato hh:mm): ")
-                if cerca_stringa_in_dizionario(dizionari[i], datoutente) != None:
+                if cerca_stringa_in_dizionario(dizionari[i], datoutente) != None and len(datoutente) > 4:
                     print("Input corretto") 
                     exit = False
                 else:
@@ -93,7 +93,7 @@ def get_input():
         if i==6:
             while exit:
                 datoutente=input("Inserisci la formazione della prima squadra (nel formato n-n-n o n-n-n-n): ")
-                if cerca_stringa_in_dizionario(dizionari[i], datoutente) != None:
+                if cerca_stringa_in_dizionario(dizionari[i], datoutente) != None and len(datoutente) > 4:
                     print("Input corretto")
                     exit = False
                 else:
@@ -148,6 +148,16 @@ print(game)
 wins_team1 = 0
 draw_team1 = 0
 loss_team1 = 0
+for index, row in dataset.iterrows():
+    if row[29] == game[0]:
+        if row[6] == cerca_stringa_in_dizionario(dizionari[7], "W"):
+            wins_team1 += 1
+        elif row[6] == cerca_stringa_in_dizionario(dizionari[7], "L"):
+            loss_team1 += 1
+        else:
+            draw_team1 += 1
+
+'''
 team1 = game[0]
 teams_list = list(dataset[29])
 results_list = list(dataset[6])
@@ -159,14 +169,11 @@ for i in range(len(teams_list)):
             loss_team1 = loss_team1 + 1
         else:
             draw_team1 = draw_team1 + 1
+'''
 
 print("Wins: ", wins_team1, " Losses: ", loss_team1, " Draws: ", draw_team1)
+print("% Wins: ", wins_team1 / (wins_team1+loss_team1+draw_team1), " % Losses: ", loss_team1 / (wins_team1+loss_team1+draw_team1), " % Draws: ", draw_team1 / (wins_team1+loss_team1+draw_team1))
 
-percentage_wins = wins_team1 / (wins_team1+loss_team1+draw_team1)
-percentage_loss = loss_team1 / (wins_team1+loss_team1+draw_team1)
-percentage_draws = draw_team1 / (wins_team1+loss_team1+draw_team1)
-
-print("% Wins: ", percentage_wins, " % Losses: ", percentage_loss, " % Draws: ", percentage_draws)
 gameind = [29, 9, 3, 15, 5, 2, 14]
 
 gamedict = {colonna: valore for colonna, valore in zip(gameind, game)}
@@ -178,5 +185,4 @@ print("gamedict ", gamedict)
 print("dataframe ", game_2_pred)
 
 predicted = model.predict(game_2_pred)
-#print("predizione: ", predicted)
 print("predizione: ", predicted, "=", cerca_numero_in_dizionario(dizionari[7], predicted))
