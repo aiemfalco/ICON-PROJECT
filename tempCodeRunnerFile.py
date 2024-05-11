@@ -1,1 +1,1 @@
-"get_current_date(Date)"
+alore, 6] == 1:

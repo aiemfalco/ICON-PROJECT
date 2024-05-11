@@ -131,6 +131,7 @@ print(accuracy)
 current_date = datetime.now()
 
 game = get_input()
+
 print("pre game " , game)
 
 # game(casa, trasferta, giornata, arbitro, stadio, ora, formazione)
@@ -142,6 +143,30 @@ for i in range(len(game)):
 
 print(game)
 
+# cerchaimo quante W,D,L hanno le due squadre inserite
+# 190<= w + d + l >0
+wins_team1 = 0
+draw_team1 = 0
+loss_team1 = 0
+team1 = game[0]
+teams_list = list(dataset[29])
+results_list = list(dataset[6])
+for i in range(len(teams_list)):
+    if teams_list[i] == team1:
+        if results_list[i] == 1:
+            wins_team1 = wins_team1 + 1
+        elif results_list[i] == 2:
+            loss_team1 = loss_team1 + 1
+        else:
+            draw_team1 = draw_team1 + 1
+
+print("Wins: ", wins_team1, " Losses: ", loss_team1, " Draws: ", draw_team1)
+
+percentage_wins = wins_team1 / (wins_team1+loss_team1+draw_team1)
+percentage_loss = loss_team1 / (wins_team1+loss_team1+draw_team1)
+percentage_draws = draw_team1 / (wins_team1+loss_team1+draw_team1)
+
+print("% Wins: ", percentage_wins, " % Losses: ", percentage_loss, " % Draws: ", percentage_draws)
 gameind = [29, 9, 3, 15, 5, 2, 14]
 
 gamedict = {colonna: valore for colonna, valore in zip(gameind, game)}
