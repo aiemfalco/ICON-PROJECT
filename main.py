@@ -3,7 +3,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 #from pyswip import Prolog
 import dataset as ds
-from datetime import datetime
+#from datetime import datetime (commentato perché non prendiamo più la data corrente)
 
 # Inizializza l'interprete Prolog
 #prolog = Prolog()
@@ -84,7 +84,7 @@ def get_input():
         if i==5:
             while exit:
                 datoutente = input("Inserisci l'orario in cui si gioca la partita (nel formato hh:mm): ")
-                if cerca_stringa_in_dizionario(dizionari[i], datoutente) != None and len(datoutente) > 4:
+                if cerca_stringa_in_dizionario(dizionari[i], datoutente) != None and len(datoutente) > 4: # controllo aggiuntivo direttamente sulla stringa per aggirare il problema che abbiamo sulla giornata, stessa cosa fatta per la formazione
                     print("Input corretto") 
                     exit = False
                 else:
@@ -128,49 +128,37 @@ predictions = model.predict(X_test)
 accuracy = accuracy_score(y_test, predictions)
 print(accuracy)
 
-current_date = datetime.now()
+#prendo la data odierna, commentata perché la data è diventata irrilevante
+# current_date = datetime.now()
 
 game = get_input()
-
-print("pre game " , game)
 
 # game(casa, trasferta, giornata, arbitro, stadio, ora, formazione)
 
 print("dizionari:\n", dizionari)
+
+print("pre game\n" , game)
 
 for i in range(len(game)):
     game[i] = cerca_stringa_in_dizionario(dizionari[i], game[i])
 
 print(game)
 
-# cerchaimo quante W,D,L hanno le due squadre inserite
+# cerchiamo quante W,D,L hanno le due squadre inserite e ne calcoliamo le percentuali
 # 190<= w + d + l >0
 wins_team1 = 0
 draw_team1 = 0
 loss_team1 = 0
-for index, row in dataset.iterrows():
-    if row[29] == game[0]:
-        if row[6] == cerca_stringa_in_dizionario(dizionari[7], "W"):
+for index, row in dataset.iterrows(): # itera sulle righe (index) e le colonne (rows) alle quali ci si può riferire con il nome
+    if row[29] == game[0]: # 29 è il nome della colonna dei team, cioè la prima squadra che diamo in input
+        if row[6] == cerca_stringa_in_dizionario(dizionari[7], "W"): # 6 è il nome della colonna dei result
             wins_team1 += 1
         elif row[6] == cerca_stringa_in_dizionario(dizionari[7], "L"):
             loss_team1 += 1
         else:
             draw_team1 += 1
 
-'''
-team1 = game[0]
-teams_list = list(dataset[29])
-results_list = list(dataset[6])
-for i in range(len(teams_list)):
-    if teams_list[i] == team1:
-        if results_list[i] == 1:
-            wins_team1 = wins_team1 + 1
-        elif results_list[i] == 2:
-            loss_team1 = loss_team1 + 1
-        else:
-            draw_team1 = draw_team1 + 1
-'''
-
+#stampiamo in risultati raccolti, le percentuali sono calcolate al momento evitando di creare variabili in più
 print("Wins: ", wins_team1, " Losses: ", loss_team1, " Draws: ", draw_team1)
 print("% Wins: ", wins_team1 / (wins_team1+loss_team1+draw_team1), " % Losses: ", loss_team1 / (wins_team1+loss_team1+draw_team1), " % Draws: ", draw_team1 / (wins_team1+loss_team1+draw_team1))
 
@@ -180,9 +168,9 @@ gamedict = {colonna: valore for colonna, valore in zip(gameind, game)}
 
 game_2_pred = pd.DataFrame([gamedict])
 
-print("post game ", game)
-print("gamedict ", gamedict)
-print("dataframe ", game_2_pred)
+print("post game:\n", game)
+print("gamedict:\n", gamedict)
+print("dataframe:\n", game_2_pred)
 
 predicted = model.predict(game_2_pred)
 print("predizione: ", predicted, "=", cerca_numero_in_dizionario(dizionari[7], predicted))
