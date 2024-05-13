@@ -37,8 +37,6 @@ def generate_dictionary(dataset):
     date_list = list(dates)
     ordered_date_set = sorted(date_list) # ho ordinato il set di date in ordine crescente (dal 2017 al 2022)
     dic_dates = dict(zip(ordered_date_set, X_date)) # e poi codifico ogni data con un valore intero, ora so che 3 è una data più avanti cronologicamente di 2
-    key = dic_dates['2021-05-22']
-    #print(key) -> 430
 
     X_time = list(range(1, 25))
     time = set(dataset['time'])

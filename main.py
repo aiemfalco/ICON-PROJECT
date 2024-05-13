@@ -3,7 +3,6 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 #from pyswip import Prolog
 import dataset as ds
-#from datetime import datetime (commentato perché non prendiamo più la data corrente)
 
 # Inizializza l'interprete Prolog
 #prolog = Prolog()
@@ -22,6 +21,13 @@ def cerca_numero_in_dizionario(dizionario, numero):
         if valore == numero:
             return chiave
     return None  # Restituisce None se il numero non è presente nel dizionario
+
+def cerca_giornata_in_dizionario(dizionario, stringa):
+    stringa = "Matchweek " + str(stringa)
+    for chiave, valore in dizionario.items():
+        if stringa == chiave:
+            return valore
+    return None  # Se la stringa non è stata trovata in nessun valore del dizionario
 
 # metodo che prende in input la stringa di input che servirà come input al modello
 # game(casa, trasferta, giornata, arbitro, stadio, ora, formazione)
@@ -52,7 +58,7 @@ def get_input():
         if i==2:
             while exit:
                 datoutente = input("Inserisci a che giornata si gioca la partita: ")
-                if cerca_stringa_in_dizionario(dizionari[i], datoutente) != None and datoutente != "0":
+                if cerca_giornata_in_dizionario(dizionari[i], datoutente) != None and datoutente != "0":
                     print("Input corretto")
                     exit = False
                 else:
@@ -128,9 +134,6 @@ predictions = model.predict(X_test)
 accuracy = accuracy_score(y_test, predictions)
 print(accuracy)
 
-#prendo la data odierna, commentata perché la data è diventata irrilevante
-# current_date = datetime.now()
-
 game = get_input()
 
 # game(casa, trasferta, giornata, arbitro, stadio, ora, formazione)
@@ -140,7 +143,10 @@ print("dizionari:\n", dizionari)
 print("pre game\n" , game)
 
 for i in range(len(game)):
-    game[i] = cerca_stringa_in_dizionario(dizionari[i], game[i])
+    if i == 2:
+        game[i] = cerca_giornata_in_dizionario(dizionari[i], game[i])
+    else:
+        game[i] = cerca_stringa_in_dizionario(dizionari[i], game[i])
 
 print(game)
 
