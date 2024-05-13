@@ -1,8 +1,8 @@
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
-#from pyswip import Prolog
 import dataset as ds
+#from pyswip import Prolog
 
 # Inizializza l'interprete Prolog
 #prolog = Prolog()
@@ -14,7 +14,7 @@ def cerca_stringa_in_dizionario(dizionario, stringa):
     for chiave, valore in dizionario.items():
         if stringa == chiave:
             return valore
-    return None  # Se la stringa non è stata trovata in nessun valore del dizionario
+    return None  # Restituisce None se la stringa non è presente nel dizionario
 
 def cerca_numero_in_dizionario(dizionario, numero):
     for chiave, valore in dizionario.items():
@@ -23,13 +23,14 @@ def cerca_numero_in_dizionario(dizionario, numero):
     return None  # Restituisce None se il numero non è presente nel dizionario
 
 # metodo che prende in input la stringa di input che servirà come input al modello
-# game(casa, trasferta, giornata, arbitro, stadio, ora, formazione)
 def get_input():
     user_input = []
     i = 0
     for i in range(7):
         datoutente = ""
         exit = True
+
+        # squadra principale
         if i==0:
             while exit:
                 datoutente=input("Inserisci una squadra di Serie A: ")
@@ -39,6 +40,7 @@ def get_input():
                 else:
                     print("[!] È necessario inserire un nome valido")
 
+        # squadra avversaria
         if i==1:
             while exit:
                 datoutente=input("Inserisci la squadra avversaria: ")
@@ -48,6 +50,7 @@ def get_input():
                 else:
                     print("[!] È necessario inserire un nome valido")
 
+        # giornata del campionato
         if i==2:
             while exit:
                 datoutente = input("Inserisci a che giornata si gioca la partita: ")
@@ -57,7 +60,8 @@ def get_input():
                     exit = False
                 else:
                     print("La giornata deve essere un numero compreso in [1, 38]")
-            
+
+        # arbitro della partita    
         if i==3:
             while exit:
                 datoutente=input("Inserisci l'arbitro: ")
@@ -65,8 +69,9 @@ def get_input():
                     print("Input corretto")
                     exit = False
                 else:
-                    print("[!] È necessario inserire un nome valido")
+                    print("[!] È necessario inserire un cognome valido")
 
+        # dove gioca la squadra principale, casa o trasferta
         if i==4:
             while exit:
                 datoutente = input("Inserisci dove giocherà la prima squadra (Casa/Trasferta): ")
@@ -81,6 +86,7 @@ def get_input():
                 else:
                     print("[!] È necessario scegliere solo tra \"Casa\" o \"Trasferta\"")
         
+        # ora della partita
         if i==5:
             while exit:
                 datoutente = input("Inserisci l'orario in cui si gioca la partita (nel formato hh:mm): ")
@@ -90,6 +96,7 @@ def get_input():
                 else:
                     print("[!] Hai inserito un orario inesistente o in un formato errato (deve essere hh:mm)")
         
+        # formazione della squadra principale
         if i==6:
             while exit:
                 datoutente=input("Inserisci la formazione della prima squadra (nel formato n-n-n o n-n-n-n): ")
@@ -98,8 +105,11 @@ def get_input():
                     exit = False
                 else:
                     print("[!] Formazione non valida")
+        
+        # converte il dato che stiamo maneggiando e lo aggiunge alla lista
         datoutente = cerca_stringa_in_dizionario(dizionari[i], datoutente)
         user_input.append(datoutente)
+
     return user_input
 
 # problema di classificazione, creiamo un oggetto RandomForestClassifier
@@ -130,12 +140,7 @@ print(accuracy)
 
 game = get_input()
 
-# game(casa, trasferta, giornata, arbitro, stadio, ora, formazione)
-
 print("dizionari:\n", dizionari)
-
-print("pre game\n" , game)
-
 
 # cerchiamo quante W,D,L hanno le due squadre inserite e ne calcoliamo le percentuali
 # 190<= w + d + l >0
@@ -161,7 +166,7 @@ gamedict = {colonna: valore for colonna, valore in zip(gameind, game)}
 
 game_2_pred = pd.DataFrame([gamedict])
 
-print("post game:\n", game)
+print("game:\n", game)
 print("gamedict:\n", gamedict)
 print("dataframe:\n", game_2_pred)
 
