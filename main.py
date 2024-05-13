@@ -12,7 +12,7 @@ import dataset as ds
 
 def cerca_stringa_in_dizionario(dizionario, stringa):
     for chiave, valore in dizionario.items():
-        if stringa in chiave:
+        if stringa == chiave:
             return valore
     return None  # Se la stringa non è stata trovata in nessun valore del dizionario
 
@@ -21,13 +21,6 @@ def cerca_numero_in_dizionario(dizionario, numero):
         if valore == numero:
             return chiave
     return None  # Restituisce None se il numero non è presente nel dizionario
-
-def cerca_giornata_in_dizionario(dizionario, stringa):
-    stringa = "Matchweek " + str(stringa)
-    for chiave, valore in dizionario.items():
-        if stringa == chiave:
-            return valore
-    return None  # Se la stringa non è stata trovata in nessun valore del dizionario
 
 # metodo che prende in input la stringa di input che servirà come input al modello
 # game(casa, trasferta, giornata, arbitro, stadio, ora, formazione)
@@ -58,7 +51,8 @@ def get_input():
         if i==2:
             while exit:
                 datoutente = input("Inserisci a che giornata si gioca la partita: ")
-                if cerca_giornata_in_dizionario(dizionari[i], datoutente) != None and datoutente != "0":
+                if cerca_stringa_in_dizionario(dizionari[i], "Matchweek " + str(datoutente)) != None:
+                    datoutente = "Matchweek " + str(datoutente)
                     print("Input corretto")
                     exit = False
                 else:
@@ -90,8 +84,8 @@ def get_input():
         if i==5:
             while exit:
                 datoutente = input("Inserisci l'orario in cui si gioca la partita (nel formato hh:mm): ")
-                if cerca_stringa_in_dizionario(dizionari[i], datoutente) != None and len(datoutente) > 4: # controllo aggiuntivo direttamente sulla stringa per aggirare il problema che abbiamo sulla giornata, stessa cosa fatta per la formazione
-                    print("Input corretto") 
+                if cerca_stringa_in_dizionario(dizionari[i], datoutente) != None:
+                    print("Input corretto")
                     exit = False
                 else:
                     print("[!] Hai inserito un orario inesistente o in un formato errato (deve essere hh:mm)")
@@ -99,12 +93,12 @@ def get_input():
         if i==6:
             while exit:
                 datoutente=input("Inserisci la formazione della prima squadra (nel formato n-n-n o n-n-n-n): ")
-                if cerca_stringa_in_dizionario(dizionari[i], datoutente) != None and len(datoutente) > 4:
+                if cerca_stringa_in_dizionario(dizionari[i], datoutente) != None:
                     print("Input corretto")
                     exit = False
                 else:
                     print("[!] Formazione non valida")
-            
+        datoutente = cerca_stringa_in_dizionario(dizionari[i], datoutente)
         user_input.append(datoutente)
     return user_input
 
@@ -142,13 +136,6 @@ print("dizionari:\n", dizionari)
 
 print("pre game\n" , game)
 
-for i in range(len(game)):
-    if i == 2:
-        game[i] = cerca_giornata_in_dizionario(dizionari[i], game[i])
-    else:
-        game[i] = cerca_stringa_in_dizionario(dizionari[i], game[i])
-
-print(game)
 
 # cerchiamo quante W,D,L hanno le due squadre inserite e ne calcoliamo le percentuali
 # 190<= w + d + l >0

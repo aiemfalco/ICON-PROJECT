@@ -23,6 +23,15 @@ def create_dataset():
     #andiamo ad eliminare tutti i valori null (ne rimanevano solamente 3 nella colonna "dist")
     dataset = dataset[dataset.isnull().sum(axis=1) == 0]
 
+    # cambia la stringa "Internazionale" in "Inter" nella colonna "team", l'ultima
+    for index, row in dataset.iterrows(): # itera sulle righe (index) e le colonne (rows) alle quali ci si può riferire con il nome
+        if row["team"] == "Internazionale":
+            dataset.at[index, "team"] = "Inter"
+    
+    # rimuove tutti i nomi degli arbitri, lasciando solo i cognomi
+    for index, row in dataset.iterrows(): # itera sulle righe (index) e le colonne (rows) alle quali ci si può riferire con il nome
+        dataset.at[index, "referee"] = dataset.at[index, "referee"][dataset.at[index, "referee"].find(" ") + 1:]
+    
     return dataset
 
 def generate_dictionary(dataset):
