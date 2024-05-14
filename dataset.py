@@ -89,8 +89,7 @@ def generate_dictionary(dataset):
 
 def create_data_frame(dataset, dizionari):
     
-    # qua andiamo a sostituire gli elementi che sono rappresentati come stringhe dentro il dataset con i valori dei rispettivi dizionari tramite la funzione di libreria "map"
-
+    # qui andiamo a sostituire gli elementi che sono rappresentati come stringhe dentro il dataset con i valori dei rispettivi dizionari tramite la funzione di libreria "map"
     dataset["team"] = dataset["team"].map(dizionari[0])
     dataset["opponent"] = dataset["opponent"].map(dizionari[1])
     dataset["round"] = dataset["round"].map(dizionari[2])
