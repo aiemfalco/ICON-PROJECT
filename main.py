@@ -1,5 +1,8 @@
 import pandas as pd
+from skopt import BayesSearchCV
+from skopt.space import Real, Categorical, Integer
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import accuracy_score
 import dataset as ds
 import matplotlib.pyplot as plt
@@ -166,7 +169,7 @@ def create_gui(team1_win_percentage, team1_draw_percentage, team1_lose_percentag
 
 def main():
     # problema di classificazione, creiamo un oggetto RandomForestClassifier
-    model = RandomForestClassifier(n_estimators = 50, min_samples_split = 10, random_state = 1)
+    model = RandomForestClassifier(n_estimators = 150, max_depth=10, min_samples_split = 5, random_state = 1)
 
     # devo mettere in X_train tutti i valori codificati relativi alle partite prima del '2021-05-23' (alleniamo 4 anni di partenza e ci riserviamo 1/5 di dataset per il test)
     dataset = ds.create_dataset() # creo il dataset "pulito"
@@ -185,8 +188,46 @@ def main():
     X_test = X.loc[:, [29, 9, 3, 15, 5, 2, 14]]
     y_test = X.iloc[:, 6]
 
-    model.fit(X_train, y_train) # alleno il modello dandogli X e i result di X per ottenere un modello in grado di darci risposte
+    model.fit(X_train, y_train)
 
+    param_space = {
+    'n_estimators': Integer(50, 150),
+    'max_depth': Integer(1, 20),
+    'min_samples_split': Integer(2, 10)
+    }
+
+    # Esecuzione della Bayesian Optimization
+    bayes_search = BayesSearchCV(
+        model, 
+        param_space, 
+        n_iter = 50,  # Numero di iterazioni della ricerca
+        cv = 5,  # Numero di fold della cross-validation
+        scoring='accuracy',  # Metrica di valutazione da ottimizzare
+        n_jobs = -1
+    )
+
+    bayes_search.fit(X_train, y_train)
+
+    # Estrazione dei migliori iperparametri
+    best_params = bayes_search.best_params_
+    print("Migliori iperparametri:", best_params)
+    best_score = bayes_search.best_score_
+    print("Miglior risultato di accuracy:", best_score)
+
+    '''# Esecuzione della grid search
+    param_grid = {
+        'n_estimators': [50, 100, 150],
+        'max_depth': [None, 10, 20],
+        'min_samples_split': [2, 5, 10]
+    }
+    
+    grid_search = GridSearchCV(estimator = model, param_grid = param_grid, cv = 5, scoring = 'accuracy') #cv sta per cross validation, 5 sono i fold in cui viene diviso il dataset
+    grid_search.fit(X_train, y_train) # la grid search si applica sui dati di train per trovare i migliori iperparametri per il modello
+
+    # Valutazione dei risultati (iperparametri cambieranno ad ogni run)
+    print("Migliori iperparametri:", grid_search.best_params_)
+    print("Migliore accuratezza:", grid_search.best_score_)
+    ''' 
     predictions = model.predict(X_test)
     cm = confusion_matrix(y_test, predictions)
     plt.figure(figsize=(8, 6))
@@ -245,7 +286,6 @@ def main():
     team1 = search_Value(dictionaries[0], team1)
     team2 = game[1]
     team2 = search_Value(dictionaries[1], team2)
-    print(team1, team2)
     create_gui(team1_win_percentage, team1_draw_percentage, team1_lose_percentage, team2_win_percentage, team2_draw_percentage, team2_lose_percentage, team1, team2)
 
 main()
