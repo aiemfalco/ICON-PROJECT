@@ -3,6 +3,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 import dataset as ds
 import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score
+import seaborn as sns
 
 #from pyswip import Prolog
 
@@ -186,8 +188,25 @@ def main():
     model.fit(X_train, y_train) # alleno il modello dandogli X e i result di X per ottenere un modello in grado di darci risposte
 
     predictions = model.predict(X_test)
+    cm = confusion_matrix(y_test, predictions)
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(cm, annot=True, cmap='Blues', fmt='g', cbar=False)
+    plt.xlabel('Predicted labels')
+    plt.ylabel('True labels')
+    plt.title('Confusion Matrix')
+    plt.show()
+
     accuracy = accuracy_score(y_test, predictions)
-    print("Precisione del modello: ", accuracy)
+    print("Accuratezza del modello: ", accuracy)
+
+    precision = precision_score(y_test, predictions, average='macro')  # Puoi scegliere 'micro', 'macro' o 'weighted'
+    print("Precision:", precision)
+
+    recall = recall_score(y_test, predictions, average='macro')  # Puoi scegliere 'micro', 'macro' o 'weighted'
+    print("Recall:", recall)
+
+    f1 = f1_score(y_test, predictions, average='macro')  # Puoi scegliere 'micro', 'macro' o 'weighted'
+    print("F1-score:", f1)
 
     game = get_input(dictionaries)
 
@@ -195,13 +214,21 @@ def main():
 
     stats = pre_match_stats(dataset, game, dictionaries)
 
+    team1_win_percentage = stats[0] / (stats[0]+stats[2]+stats[1])
+    team1_draw_percentage = stats[1] / (stats[0]+stats[2]+stats[1])
+    team1_lose_percentage = stats[2] / (stats[0]+stats[2]+stats[1])
+
+    team2_win_percentage = stats[3] / (stats[3]+stats[4]+stats[5])
+    team2_draw_percentage = stats[5] / (stats[3]+stats[4]+stats[5])
+    team2_lose_percentage = stats[4] / (stats[3]+stats[4]+stats[5])
+
     #stampiamo in risultati raccolti, le percentuali sono calcolate al momento evitando di creare variabili in più
     print("Vittorie: ", stats[0], "\nSconfitte: ", stats[2], "\nPareggi: ", stats[1])
-    print("% Vittorie: ", stats[0] / (stats[0]+stats[2]+stats[1]), "\n% Sconfitte: ", stats[2] / (stats[0]+stats[2]+stats[1]), "\n% Pareggi: ", stats[1] / (stats[0]+stats[2]+stats[1]))
+    print("% Vittorie: ", team1_win_percentage, "\n% Sconfitte: ", team1_lose_percentage, "\n% Pareggi: ", team1_draw_percentage)
 
     #dati della seconda squadra messa
     print("Vittorie: ", stats[3], "\nSconfitte: ", stats[4], "\nPareggi: ", stats[5])
-    print("% Vittorie: ", stats[3] / (stats[3]+stats[4]+stats[5]), "\n% Sconfitte: ", stats[5] / (stats[3]+stats[4]+stats[5]), "\n% Pareggi: ", stats[4] / (stats[3]+stats[4]+stats[5]))
+    print("% Vittorie: ", team2_win_percentage, "\n% Sconfitte: ", team2_lose_percentage, "\n% Pareggi: ", team2_draw_percentage)
     gameind = [29, 9, 3, 15, 5, 2, 14]
 
     gamedict = {column: value for column, value in zip(gameind, game)}
@@ -219,6 +246,6 @@ def main():
     team2 = game[1]
     team2 = search_Value(dictionaries[1], team2)
     print(team1, team2)
-    create_gui((stats[0] / (stats[0]+stats[2]+stats[1])), (stats[1] / (stats[0]+stats[2]+stats[1])), (stats[2] / (stats[0]+stats[2]+stats[1])), (stats[3] / (stats[3]+stats[4]+stats[5])), stats[4] / (stats[3]+stats[4]+stats[5]), stats[5] / (stats[3]+stats[4]+stats[5]), team1, team2)
+    create_gui(team1_win_percentage, team1_draw_percentage, team1_lose_percentage, team2_win_percentage, team2_draw_percentage, team2_lose_percentage, team1, team2)
 
 main()
