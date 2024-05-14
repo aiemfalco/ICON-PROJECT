@@ -2,6 +2,8 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 import dataset as ds
+import matplotlib.pyplot as plt
+
 #from pyswip import Prolog
 
 # Inizializza l'interprete Prolog
@@ -23,7 +25,7 @@ def search_Value(dictionary, number):
     return None  # Restituisce None se il numero non è presente nel dizionario
 
 # metodo che prende in input la stringa di input che servirà come input al modello
-def get_input():
+def get_input(dictionaries):
     user_input = []
     i = 0
     for i in range(7):
@@ -112,63 +114,111 @@ def get_input():
 
     return user_input
 
-# problema di classificazione, creiamo un oggetto RandomForestClassifier
-model = RandomForestClassifier(n_estimators = 50, min_samples_split = 10, random_state = 1)
+def pre_match_stats(dataset, game, dictionaries):
+    # cerchiamo quante W,D,L hanno le due squadre inserite e ne calcoliamo le percentuali
+    # 190<= w + d + l >0
+    wins_team1 = 0
+    draw_team1 = 0
+    loss_team1 = 0
+    wins_team2 = 0
+    draw_team2 = 0
+    loss_team2 = 0
+    for index, row in dataset.iterrows(): # itera sulle righe (index) e le colonne (rows) alle quali ci si può riferire con il nome
+        if row[29] == game[0]: # 29 è il nome della colonna dei team, cioè la prima squadra che diamo in input
+            if row[6] == search_String(dictionaries[7], "W"): # 6 è il nome della colonna dei result
+                wins_team1 += 1
+            elif row[6] == search_String(dictionaries[7], "L"):
+                loss_team1 += 1
+            else:
+                draw_team1 += 1
+        if row[9] == game[1]: # 29 è il nome della colonna dei team, cioè la prima squadra che diamo in input
+            if row[6] == search_String(dictionaries[7], "W"): # 6 è il nome della colonna dei result
+                wins_team2 += 1
+            elif row[6] == search_String(dictionaries[7], "L"):
+                loss_team2 += 1
+            else:
+                draw_team2 += 1
+    return wins_team1, draw_team1 , loss_team1, wins_team2, draw_team2, loss_team2
 
-# devo mettere in X_train tutti i valori codificati relativi alle partite prima del '2021-05-23' (alleniamo 4 anni di partenza e ci riserviamo 1/5 di dataset per il test)
-dataset = ds.create_dataset() # creo il dataset "pulito"
-dictionaries = ds.generate_dictionary(dataset) # creo i dizionari
-dataset = ds.create_data_frame(dataset, dictionaries) # creo il dataset mappato
-X = dataset.loc[dataset[1] <= 430]
-X_train = X.drop(6, axis = 1) # prendo tutti i games prima della data 430 (escluso result chiaramente)
-X_train = X.loc[:, [29, 9, 3, 15, 5, 2, 14]]
-y_train = X.iloc[:, 6]
+def create_gui(team1_win_percentage, team1_draw_percentage, team1_lose_percentage, team2_win_percentage, team2_draw_percentage, team2_lose_percentage, team1, team2):
+    labels = ['Vittorie', 'Pareggi', 'Sconfitte']
+    colors = ['green', 'blue', 'red']
+    # Dati per il grafico a torta del team1
+    sizes_team1 = [team1_win_percentage, team1_draw_percentage, team1_lose_percentage]
 
-# [!] spostare la colonna 5(result) come ultima colonna per comodità
-X = dataset.loc[dataset[1] > 430] # prendo tutti i games successivi alla data 430
-X_test = X.drop(6, axis = 1)
-columns_to_modify = [0, 4, 7, 8, 10, 11, 12, 13, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
-X_test[columns_to_modify] = X_test[columns_to_modify].fillna(0)
-X_test = X.loc[:, [29, 9, 3, 15, 5, 2, 14]]
-y_test = X.iloc[:, 6]
+    # Dati per il grafico a torta del team2
+    sizes_team2 = [team2_win_percentage, team2_draw_percentage, team2_lose_percentage]
 
-model.fit(X_train, y_train) # alleno il modello dandogli X e i result di X per ottenere un modello in grado di darci risposte
+    # Crea una figura e assicurati che abbia due sottografici uno accanto all'altro
+    fig, axs = plt.subplots(1, 2)
 
-predictions = model.predict(X_test)
-accuracy = accuracy_score(y_test, predictions)
-print("Precisione del modello: ", accuracy)
+    # Primo grafico a torta
+    axs[0].pie(sizes_team1, labels=labels, colors=colors, autopct='%1.1f%%', startangle=140)
+    axs[0].set_title('Dati ' + team1)
 
-game = get_input()
+    # Secondo grafico a torta
+    axs[1].pie(sizes_team2, labels=labels, colors=colors, autopct='%1.1f%%', startangle=140)
+    axs[1].set_title('Dati ' + team2)
 
-print("Dizionari:\n", dictionaries)
+    plt.show()
 
-# cerchiamo quante W,D,L hanno le due squadre inserite e ne calcoliamo le percentuali
-# 190<= w + d + l >0
-wins_team1 = 0
-draw_team1 = 0
-loss_team1 = 0
-for index, row in dataset.iterrows(): # itera sulle righe (index) e le colonne (rows) alle quali ci si può riferire con il nome
-    if row[29] == game[0]: # 29 è il nome della colonna dei team, cioè la prima squadra che diamo in input
-        if row[6] == search_String(dictionaries[7], "W"): # 6 è il nome della colonna dei result
-            wins_team1 += 1
-        elif row[6] == search_String(dictionaries[7], "L"):
-            loss_team1 += 1
-        else:
-            draw_team1 += 1
+def main():
+    # problema di classificazione, creiamo un oggetto RandomForestClassifier
+    model = RandomForestClassifier(n_estimators = 50, min_samples_split = 10, random_state = 1)
 
-#stampiamo in risultati raccolti, le percentuali sono calcolate al momento evitando di creare variabili in più
-print("Vittorie: ", wins_team1, "\nSconfitte: ", loss_team1, "\nPareggi: ", draw_team1)
-print("% Vittorie: ", wins_team1 / (wins_team1+loss_team1+draw_team1), "\n% Sconfitte: ", loss_team1 / (wins_team1+loss_team1+draw_team1), "\n% Pareggi: ", draw_team1 / (wins_team1+loss_team1+draw_team1))
+    # devo mettere in X_train tutti i valori codificati relativi alle partite prima del '2021-05-23' (alleniamo 4 anni di partenza e ci riserviamo 1/5 di dataset per il test)
+    dataset = ds.create_dataset() # creo il dataset "pulito"
+    dictionaries = ds.generate_dictionary(dataset) # creo i dizionari
+    dataset = ds.create_data_frame(dataset, dictionaries) # creo il dataset mappato
+    X = dataset.loc[dataset[1] <= 430]
+    X_train = X.drop(6, axis = 1) # prendo tutti i games prima della data 430 (escluso result chiaramente)
+    X_train = X.loc[:, [29, 9, 3, 15, 5, 2, 14]]
+    y_train = X.iloc[:, 6]
 
-gameind = [29, 9, 3, 15, 5, 2, 14]
+    # [!] spostare la colonna 5(result) come ultima colonna per comodità
+    X = dataset.loc[dataset[1] > 430] # prendo tutti i games successivi alla data 430
+    X_test = X.drop(6, axis = 1)
+    columns_to_modify = [0, 4, 7, 8, 10, 11, 12, 13, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
+    X_test[columns_to_modify] = X_test[columns_to_modify].fillna(0)
+    X_test = X.loc[:, [29, 9, 3, 15, 5, 2, 14]]
+    y_test = X.iloc[:, 6]
 
-gamedict = {column: value for column, value in zip(gameind, game)}
+    model.fit(X_train, y_train) # alleno il modello dandogli X e i result di X per ottenere un modello in grado di darci risposte
 
-game_2_pred = pd.DataFrame([gamedict])
+    predictions = model.predict(X_test)
+    accuracy = accuracy_score(y_test, predictions)
+    print("Precisione del modello: ", accuracy)
 
-print("Valori di game inseriti dal utente(mappati):\n", game)
-print("Gamedict:\n", gamedict)
-print("Dataframe:\n", game_2_pred)
+    game = get_input(dictionaries)
 
-predicted = model.predict(game_2_pred)
-print("Predizione: ", predicted, "=", search_Value(dictionaries[7], predicted))
+    print("Dizionari:\n", dictionaries)
+
+    stats = pre_match_stats(dataset, game, dictionaries)
+
+    #stampiamo in risultati raccolti, le percentuali sono calcolate al momento evitando di creare variabili in più
+    print("Vittorie: ", stats[0], "\nSconfitte: ", stats[2], "\nPareggi: ", stats[1])
+    print("% Vittorie: ", stats[0] / (stats[0]+stats[2]+stats[1]), "\n% Sconfitte: ", stats[2] / (stats[0]+stats[2]+stats[1]), "\n% Pareggi: ", stats[1] / (stats[0]+stats[2]+stats[1]))
+
+    #dati della seconda squadra messa
+    print("Vittorie: ", stats[3], "\nSconfitte: ", stats[4], "\nPareggi: ", stats[5])
+    print("% Vittorie: ", stats[3] / (stats[3]+stats[4]+stats[5]), "\n% Sconfitte: ", stats[5] / (stats[3]+stats[4]+stats[5]), "\n% Pareggi: ", stats[4] / (stats[3]+stats[4]+stats[5]))
+    gameind = [29, 9, 3, 15, 5, 2, 14]
+
+    gamedict = {column: value for column, value in zip(gameind, game)}
+
+    game_2_pred = pd.DataFrame([gamedict])
+
+    print("Valori di game inseriti dal utente(mappati):\n", game)
+    print("Gamedict:\n", gamedict)
+    print("Dataframe:\n", game_2_pred)
+
+    predicted = model.predict(game_2_pred)
+    print("Predizione: ", predicted, "=", search_Value(dictionaries[7], predicted))
+    team1 = game[0]
+    team1 = search_Value(dictionaries[0], team1)
+    team2 = game[1]
+    team2 = search_Value(dictionaries[1], team2)
+    print(team1, team2)
+    create_gui((stats[0] / (stats[0]+stats[2]+stats[1])), (stats[1] / (stats[0]+stats[2]+stats[1])), (stats[2] / (stats[0]+stats[2]+stats[1])), (stats[3] / (stats[3]+stats[4]+stats[5])), stats[4] / (stats[3]+stats[4]+stats[5]), stats[5] / (stats[3]+stats[4]+stats[5]), team1, team2)
+
+main()
