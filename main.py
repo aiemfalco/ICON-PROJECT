@@ -136,7 +136,7 @@ def pre_match_stats(dataset, game, dictionaries):
                 loss_team1 += 1
             else:
                 draw_team1 += 1
-        if row[9] == game[1]: # 29 è il nome della colonna dei team, cioè la prima squadra che diamo in input
+        if row[29] == game[1]: # 29 è il nome della colonna dei team, cioè la prima squadra che diamo in input
             if row[6] == search_String(dictionaries[7], "W"): # 6 è il nome della colonna dei result
                 wins_team2 += 1
             elif row[6] == search_String(dictionaries[7], "L"):

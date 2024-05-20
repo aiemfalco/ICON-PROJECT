@@ -44,3 +44,5 @@ tqdm==4.66.2
 typing_extensions==4.10.0
 tzdata==2023.4
 urllib3==2.2.1
+seaborn==0.13.2
+scikit-optimize==0.10.1 
