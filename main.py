@@ -33,7 +33,7 @@ def search_Value(dictionary, number):
 def get_input(dictionaries):
     user_input = []
     i = 0
-    for i in range(7):
+    for i in range(5):
         user_data = ""
         exit = True
 
@@ -68,6 +68,7 @@ def get_input(dictionaries):
                 else:
                     print("La giornata deve essere un numero compreso in [1, 38]")
 
+        '''
         # arbitro della partita    
         if i==3:
             while exit:
@@ -77,9 +78,10 @@ def get_input(dictionaries):
                     exit = False
                 else:
                     print("[!] È necessario inserire un cognome valido")
+        '''
 
         # dove gioca la squadra principale, casa o trasferta
-        if i==4:
+        if i==3:
             while exit:
                 user_data = input("Inserisci dove giocherà la prima squadra (Casa/Trasferta): ")
                 if user_data == "Casa" or user_data == "casa":
@@ -94,7 +96,7 @@ def get_input(dictionaries):
                     print("[!] È necessario scegliere solo tra \"Casa\" o \"Trasferta\"")
         
         # ora della partita
-        if i==5:
+        if i==4:
             while exit:
                 user_data = input("Inserisci l'orario in cui si gioca la partita (nel formato hh:mm): ")
                 if search_String(dictionaries[i], user_data) != None:
@@ -103,6 +105,7 @@ def get_input(dictionaries):
                 else:
                     print("[!] Hai inserito un orario inesistente o in un formato errato (deve essere hh:mm)")
         
+        '''
         # formazione della squadra principale
         if i==6:
             while exit:
@@ -112,6 +115,7 @@ def get_input(dictionaries):
                     exit = False
                 else:
                     print("[!] Formazione non valida")
+        '''
         
         # converte il dato che stiamo maneggiando e lo aggiunge alla lista
         user_data = search_String(dictionaries[i], user_data)
@@ -129,17 +133,17 @@ def pre_match_stats(dataset, game, dictionaries):
     draw_team2 = 0
     loss_team2 = 0
     for index, row in dataset.iterrows(): # itera sulle righe (index) e le colonne (rows) alle quali ci si può riferire con il nome
-        if row[29] == game[0]: # 29 è il nome della colonna dei team, cioè la prima squadra che diamo in input
-            if row[6] == search_String(dictionaries[7], "W"): # 6 è il nome della colonna dei result
+        if row[24] == game[0]: # 29 è il nome della colonna dei team, cioè la prima squadra che diamo in input
+            if row[5] == search_String(dictionaries[5], "W"): # 6 è il nome della colonna dei result
                 wins_team1 += 1
-            elif row[6] == search_String(dictionaries[7], "L"):
+            elif row[5] == search_String(dictionaries[5], "L"):
                 loss_team1 += 1
             else:
                 draw_team1 += 1
-        if row[29] == game[1]: # 29 è il nome della colonna dei team, cioè la prima squadra che diamo in input
-            if row[6] == search_String(dictionaries[7], "W"): # 6 è il nome della colonna dei result
+        if row[24] == game[1]: # 29 è il nome della colonna dei team, cioè la prima squadra che diamo in input
+            if row[5] == search_String(dictionaries[5], "W"): # 6 è il nome della colonna dei result
                 wins_team2 += 1
-            elif row[6] == search_String(dictionaries[7], "L"):
+            elif row[5] == search_String(dictionaries[5], "L"):
                 loss_team2 += 1
             else:
                 draw_team2 += 1
@@ -175,20 +179,20 @@ def main():
     dataset = ds.create_dataset() # creo il dataset "pulito"
     dictionaries = ds.generate_dictionary(dataset) # creo i dizionari
     dataset = ds.create_data_frame(dataset, dictionaries) # creo il dataset mappato
-    X = dataset.loc[dataset[1] <= 430]
-    X_train = X.drop(6, axis = 1) # prendo tutti i games prima della data 430 (escluso result chiaramente)
-    X_train = X.loc[:, [29, 9, 3, 15, 5, 2, 14]]
-    y_train = X.iloc[:, 6]
+    X = dataset.loc[dataset[0] <= 440]
+    X_train = X.drop(5, axis = 1) # prendo tutti i games prima della data 430 (escluso result chiaramente)
+    X_train = X.loc[:, [24, 8, 2, 4, 1]]
+    y_train = X.iloc[:, 5]
 
     # [!] spostare la colonna 5(result) come ultima colonna per comodità
-    X = dataset.loc[dataset[1] > 430] # prendo tutti i games successivi alla data 430
-    X_test = X.drop(6, axis = 1)
-    columns_to_modify = [0, 4, 7, 8, 10, 11, 12, 13, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
+    X = dataset.loc[dataset[0] > 440] # prendo tutti i games successivi alla data 430
+    X_test = X.drop(5, axis = 1)
+    columns_to_modify = [3, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
     X_test[columns_to_modify] = X_test[columns_to_modify].fillna(0)
-    X_test = X.loc[:, [29, 9, 3, 15, 5, 2, 14]]
-    y_test = X.iloc[:, 6]
+    X_test = X.loc[:, [24, 8, 2, 4, 1]]
+    y_test = X.iloc[:, 5]
 
-    model.fit(X_train, y_train)
+    # model.fit(X_train, y_train)
 
     param_space = {
     'n_estimators': Integer(50, 150),
@@ -200,10 +204,11 @@ def main():
     bayes_search = BayesSearchCV(
         model, 
         param_space, 
-        n_iter = 50,  # Numero di iterazioni della ricerca
-        cv = 5,  # Numero di fold della cross-validation
+        n_iter=50,  # Numero di iterazioni della ricerca
+        cv=5,  # Numero di fold della cross-validation
         scoring='accuracy',  # Metrica di valutazione da ottimizzare
-        n_jobs = -1
+        n_jobs=-1,
+        random_state=1
     )
 
     bayes_search.fit(X_train, y_train)
@@ -228,7 +233,7 @@ def main():
     print("Migliori iperparametri:", grid_search.best_params_)
     print("Migliore accuratezza:", grid_search.best_score_)
     ''' 
-    predictions = model.predict(X_test)
+    predictions = bayes_search.predict(X_test)
     cm = confusion_matrix(y_test, predictions)
     plt.figure(figsize=(8, 6))
     sns.heatmap(cm, annot=True, cmap='Blues', fmt='g', cbar=False)
@@ -270,7 +275,7 @@ def main():
     #dati della seconda squadra messa
     print("Vittorie: ", stats[3], "\nSconfitte: ", stats[4], "\nPareggi: ", stats[5])
     print("% Vittorie: ", team2_win_percentage, "\n% Sconfitte: ", team2_lose_percentage, "\n% Pareggi: ", team2_draw_percentage)
-    gameind = [29, 9, 3, 15, 5, 2, 14]
+    gameind = [24, 8, 2, 4, 1]
 
     gamedict = {column: value for column, value in zip(gameind, game)}
 
@@ -280,8 +285,10 @@ def main():
     print("Gamedict:\n", gamedict)
     print("Dataframe:\n", game_2_pred)
 
-    predicted = model.predict(game_2_pred)
-    print("Predizione: ", predicted, "=", search_Value(dictionaries[7], predicted))
+    predicted = bayes_search.predict(game_2_pred)
+    prob = bayes_search.predict_proba(game_2_pred)
+    print("Predizione: ", predicted, "=", search_Value(dictionaries[5], predicted))
+    print(prob)
     team1 = game[0]
     team1 = search_Value(dictionaries[0], team1)
     team2 = game[1]
