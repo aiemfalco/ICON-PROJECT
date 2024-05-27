@@ -1,5 +1,10 @@
 import pandas as pd
 
+def get_dataset():
+    filename = "archive/seriea-matches.csv"
+    dataset = pd.read_csv(filename)
+    return dataset
+
 def create_dataset():
     # carichiamo il dataset da csv
     filename = "archive/seriea-matches.csv"

@@ -8,6 +8,7 @@ import dataset as ds
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score
 import seaborn as sns
+from owlready2 import *
 
 #from pyswip import Prolog
 
@@ -113,15 +114,15 @@ def pre_match_stats(dataset, game, dictionaries):
     draw_team2 = 0
     loss_team2 = 0
     for index, row in dataset.iterrows(): # itera sulle righe (index) e le colonne (rows) alle quali ci si può riferire con il nome
-        if row[22] == game[0]: # 29 è il nome della colonna dei team, cioè la prima squadra che diamo in input
-            if row[3] == search_String(dictionaries[3], "W"): # 6 è il nome della colonna dei result
+        if row[22] == game[0]: # 22 è il nome della colonna dei team, cioè la prima squadra che diamo in input
+            if row[3] == search_String(dictionaries[3], "W"): # 3 è il nome della colonna dei result
                 wins_team1 += 1
             elif row[3] == search_String(dictionaries[3], "L"):
                 loss_team1 += 1
             else:
                 draw_team1 += 1
-        if row[22] == game[1]: # 29 è il nome della colonna dei team, cioè la prima squadra che diamo in input
-            if row[3] == search_String(dictionaries[3], "W"): # 6 è il nome della colonna dei result
+        if row[22] == game[1]: # 22 è il nome della colonna dei team, cioè la prima squadra che diamo in input
+            if row[3] == search_String(dictionaries[3], "W"): # 3 è il nome della colonna dei result
                 wins_team2 += 1
             elif row[3] == search_String(dictionaries[3], "L"):
                 loss_team2 += 1
@@ -157,6 +158,41 @@ def main():
 
     # devo mettere in X_train tutti i valori codificati relativi alle partite prima del '2021-05-23' (alleniamo 4 anni di partenza e ci riserviamo 1/5 di dataset per il test)
     dataset = ds.create_dataset() # creo il dataset "pulito"
+    # ontologia 
+    onto_path = r'C:\Users\Amministratore\Desktop\ICON-PROJECT\archive\ontology.owl'
+    onto = get_ontology("file:///" + onto_path).load()
+
+   
+    dataset2 = ds.get_dataset()
+    teams = set(dataset2['team'])
+    list_teams = list(teams)
+    ordered_teams = sorted(list_teams)
+    captains = set(dataset2['captain'])
+    list_captains = list(captains)
+    ordered_captains = sorted(list_captains)
+
+    dic_teams_cap = {}
+    for index, row in dataset2.iterrows():
+        for item in ordered_teams:
+            if row[49] == item:
+                captain = row[15]
+                dic_teams_cap[item] = captain
+
+    print(dic_teams_cap)
+
+    '''
+    for team, captain in dic_teams_cap.items():
+    # Crea le istanze delle classi dalla tua ontologia
+    team = onto.Squadra(team.replace(' ', '_'))
+    captain = onto.Capitano(captain.replace(' ', '_'))
+
+    # Collega la squadra al capitano utilizzando la proprietà hasCaptain
+    captain.allena = [team]
+    '''
+
+
+
+
     dictionaries = ds.generate_dictionary(dataset) # creo i dizionari
     dataset = ds.create_data_frame(dataset, dictionaries) # creo il dataset mappato
     X = dataset.loc[dataset[1] <= 440]
