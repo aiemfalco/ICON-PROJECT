@@ -8,6 +8,7 @@ import dataset as ds
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score
 import seaborn as sns
+import os
 from owlready2 import *
 
 #from pyswip import Prolog
@@ -159,10 +160,10 @@ def main():
     # devo mettere in X_train tutti i valori codificati relativi alle partite prima del '2021-05-23' (alleniamo 4 anni di partenza e ci riserviamo 1/5 di dataset per il test)
     dataset = ds.create_dataset() # creo il dataset "pulito"
     # ontologia 
-    onto_path = r'C:\Users\Amministratore\Desktop\ICON-PROJECT\archive\ontology.owl'
-    onto = get_ontology("file:///" + onto_path).load()
-
-   
+    onto = get_ontology("http://www.semanticweb.org/amministratore/ontologies/2024/4/untitled-ontology-13")
+    for cls in onto.classes():
+        print(cls)
+    # credo il dizionario squadra-capitano
     dataset2 = ds.get_dataset()
     teams = set(dataset2['team'])
     list_teams = list(teams)
@@ -180,18 +181,18 @@ def main():
 
     print(dic_teams_cap)
 
-    '''
-    for team, captain in dic_teams_cap.items():
-    # Crea le istanze delle classi dalla tua ontologia
-    team = onto.Squadra(team.replace(' ', '_'))
-    captain = onto.Capitano(captain.replace(' ', '_'))
+    #popolo le classi Squadra e Capitano
+    with onto:
+        for squadra, capitano in dic_teams_cap.items():
+            team = onto.Squadra(squadra)
+            captain = onto.Capitano(capitano)
 
-    # Collega la squadra al capitano utilizzando la proprietà hasCaptain
-    captain.allena = [team]
-    '''
+            captain.rappresenta = [captain]
 
+    for team in onto.Squadra.instances():
+        print(team)
 
-
+    onto.save()
 
     dictionaries = ds.generate_dictionary(dataset) # creo i dizionari
     dataset = ds.create_data_frame(dataset, dictionaries) # creo il dataset mappato
