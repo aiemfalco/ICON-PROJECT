@@ -14,7 +14,7 @@ def create_dataset():
 
     features_to_delete = []
     features_to_delete.append(features[2])
-    features_to_delete.append(features[3]) # stringa comp prima inserita
+    features_to_delete.append(features[3])
     features_to_delete.append(features[4])
     features_to_delete.append(features[5])
     features_to_delete.append(features[14])
@@ -23,9 +23,8 @@ def create_dataset():
     features_to_delete.append(features[17])
     features_to_delete.append(features[21])
     for i in range(31, len(features) - 1):
-        features_to_delete.append(features[i]) #stringhe che non ci interessano (features)
+        features_to_delete.append(features[i]) 
 
-    # nel drop possiamo dargli sia il vettore di indici che il vettore di stringhe, si mangia tutto
     dataset = dataset.drop(features_to_delete, axis = 1)
 
     #andiamo ad eliminare tutti i valori null (ne rimanevano solamente 3 nella colonna "dist")
@@ -41,7 +40,7 @@ def create_dataset():
 def generate_dictionary(dataset):
 
     #preprocessing delle features stringhe in intero
-
+    #cambiare il secondo argomento nel range() sostiuendo con la len()
     X_date = list(range(1, 551))
     dates = set(dataset['date'])
     date_list = list(dates)

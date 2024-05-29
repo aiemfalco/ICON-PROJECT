@@ -10,6 +10,7 @@ from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_
 import seaborn as sns
 import os
 from owlready2 import *
+from owlready2.reasoning import sync_reasoner
 
 #from pyswip import Prolog
 
@@ -159,15 +160,20 @@ def main():
 
     # devo mettere in X_train tutti i valori codificati relativi alle partite prima del '2021-05-23' (alleniamo 4 anni di partenza e ci riserviamo 1/5 di dataset per il test)
     dataset = ds.create_dataset() # creo il dataset "pulito"
+
     # ontologia 
-    onto = get_ontology("http://www.semanticweb.org/amministratore/ontologies/2024/4/untitled-ontology-13")
+    path = "C:/Users/Amministratore/Desktop/ICON-PROJECT/archive/ontologia.rdf"
+    onto = get_ontology(path).load()
     for cls in onto.classes():
         print(cls)
+
     # credo il dizionario squadra-capitano
     dataset2 = ds.get_dataset()
+
     teams = set(dataset2['team'])
     list_teams = list(teams)
     ordered_teams = sorted(list_teams)
+
     captains = set(dataset2['captain'])
     list_captains = list(captains)
     ordered_captains = sorted(list_captains)
@@ -179,9 +185,9 @@ def main():
                 captain = row[15]
                 dic_teams_cap[item] = captain
 
-    print(dic_teams_cap)
+    #print(dic_teams_cap)
 
-    #popolo le classi Squadra e Capitano
+    # popolo le classi Squadra e Capitano
     with onto:
         for squadra, capitano in dic_teams_cap.items():
             team = onto.Squadra(squadra)
@@ -189,11 +195,21 @@ def main():
 
             captain.rappresenta = [captain]
 
-    for team in onto.Squadra.instances():
-        print(team)
+    # collego relazione tra capitano e squadra
+    for capitano in onto.Squadra.instances():
+        for squadra in onto.Capitano.instances():
+            capitano.rappresenta.append(squadra)
 
-    onto.save()
 
+    # visualizzo le relazioni
+    for capitano in onto.Capitano.instances():
+        print("Capitano: {capitano.name}")
+        for squadra in capitano.rappresenta:
+            print("Squadra: {squadra.name}")
+
+    onto.save(file = "ontologia.rdf")
+
+    '''
     dictionaries = ds.generate_dictionary(dataset) # creo i dizionari
     dataset = ds.create_data_frame(dataset, dictionaries) # creo il dataset mappato
     X = dataset.loc[dataset[1] <= 440]
@@ -298,4 +314,5 @@ def main():
     team2 = search_Value(dictionaries[1], team2)
     create_gui(team1_win_percentage, team1_draw_percentage, team1_lose_percentage, team2_win_percentage, team2_draw_percentage, team2_lose_percentage, team1, team2)
 
+    '''
 main()
