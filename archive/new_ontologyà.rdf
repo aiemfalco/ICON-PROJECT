@@ -1,0 +1,474 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xml:base="http://www.semanticweb.org/amministratore/ontologies/2024/4/untitled-ontology-16"
+         xmlns="http://www.semanticweb.org/amministratore/ontologies/2024/4/untitled-ontology-16#">
+
+<owl:Ontology rdf:about="http://www.semanticweb.org/amministratore/ontologies/2024/4/untitled-ontology-16"/>
+
+<owl:ObjectProperty rdf:about="#rappresenta">
+  <rdfs:domain rdf:resource="#Capitano"/>
+  <rdfs:range rdf:resource="#Squadra"/>
+</owl:ObjectProperty>
+
+<owl:Class rdf:about="#Squadra">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:Class rdf:about="#Capitano">
+  <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+</owl:Class>
+
+<owl:NamedIndividual rdf:about="#Milan">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Leonardo Bonucci">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Internazionale">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Mauro Icardi">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Napoli">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Lorenzo Insigne">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Juventus">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Gianluigi Buffon">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Lazio">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Senad Lulić">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Roma">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Alessandro Florenzi">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Fiorentina">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Germán Pezzella">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Atalanta">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Papu Gómez">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Hellas Verona">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Rômulo">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Torino">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Andrea Belotti">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Sassuolo">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Francesco Magnanelli">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Udinese">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Danilo Larangeira">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Bologna">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Simone Verdi">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Empoli">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Domenico Maietta">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Sampdoria">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Vasco Regini">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Spezia">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Claudio Terzi">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Salernitana">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Milan Đurić">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Cagliari">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Luca Ceppitelli">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Genoa">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Mattia Perin">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Venezia">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Pietro Ceccaroni">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Benevento">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Sandro">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Crotone">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Alex Cordaz">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Parma">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Bruno Alves">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Lecce">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Marco Mancosu">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Brescia">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Daniele Gastaldello">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#SPAL">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Mirco Antenucci">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Frosinone">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Paolo Sammarco">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Chievo">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#Ivan Radovanović">
+  <rdf:type rdf:resource="#Capitano"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capitano1">
+  <rdf:type rdf:resource="#Capitano"/>
+  <rappresenta rdf:resource="#squadra1"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capitano2">
+  <rdf:type rdf:resource="#Capitano"/>
+  <rappresenta rdf:resource="#squadra2"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capitano3">
+  <rdf:type rdf:resource="#Capitano"/>
+  <rappresenta rdf:resource="#squadra3"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capitano4">
+  <rdf:type rdf:resource="#Capitano"/>
+  <rappresenta rdf:resource="#squadra4"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capitano5">
+  <rdf:type rdf:resource="#Capitano"/>
+  <rappresenta rdf:resource="#squadra5"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capitano6">
+  <rdf:type rdf:resource="#Capitano"/>
+  <rappresenta rdf:resource="#squadra6"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capitano7">
+  <rdf:type rdf:resource="#Capitano"/>
+  <rappresenta rdf:resource="#squadra7"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capitano8">
+  <rdf:type rdf:resource="#Capitano"/>
+  <rappresenta rdf:resource="#squadra8"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capitano9">
+  <rdf:type rdf:resource="#Capitano"/>
+  <rappresenta rdf:resource="#squadra9"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capitano10">
+  <rdf:type rdf:resource="#Capitano"/>
+  <rappresenta rdf:resource="#squadra10"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capitano11">
+  <rdf:type rdf:resource="#Capitano"/>
+  <rappresenta rdf:resource="#squadra11"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capitano12">
+  <rdf:type rdf:resource="#Capitano"/>
+  <rappresenta rdf:resource="#squadra12"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capitano13">
+  <rdf:type rdf:resource="#Capitano"/>
+  <rappresenta rdf:resource="#squadra13"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capitano14">
+  <rdf:type rdf:resource="#Capitano"/>
+  <rappresenta rdf:resource="#squadra14"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capitano15">
+  <rdf:type rdf:resource="#Capitano"/>
+  <rappresenta rdf:resource="#squadra15"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capitano16">
+  <rdf:type rdf:resource="#Capitano"/>
+  <rappresenta rdf:resource="#squadra16"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capitano17">
+  <rdf:type rdf:resource="#Capitano"/>
+  <rappresenta rdf:resource="#squadra17"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capitano18">
+  <rdf:type rdf:resource="#Capitano"/>
+  <rappresenta rdf:resource="#squadra18"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capitano19">
+  <rdf:type rdf:resource="#Capitano"/>
+  <rappresenta rdf:resource="#squadra19"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capitano20">
+  <rdf:type rdf:resource="#Capitano"/>
+  <rappresenta rdf:resource="#squadra20"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capitano21">
+  <rdf:type rdf:resource="#Capitano"/>
+  <rappresenta rdf:resource="#squadra21"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capitano22">
+  <rdf:type rdf:resource="#Capitano"/>
+  <rappresenta rdf:resource="#squadra22"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capitano23">
+  <rdf:type rdf:resource="#Capitano"/>
+  <rappresenta rdf:resource="#squadra23"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capitano24">
+  <rdf:type rdf:resource="#Capitano"/>
+  <rappresenta rdf:resource="#squadra24"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#capitano25">
+  <rdf:type rdf:resource="#Capitano"/>
+  <rappresenta rdf:resource="#squadra25"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#squadra1">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#squadra2">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#squadra3">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#squadra4">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#squadra5">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#squadra6">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#squadra7">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#squadra8">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#squadra9">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#squadra10">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#squadra11">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#squadra12">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#squadra13">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#squadra14">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#squadra15">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#squadra16">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#squadra17">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#squadra18">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#squadra19">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#squadra20">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#squadra21">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#squadra22">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#squadra23">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#squadra24">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#squadra25">
+  <rdf:type rdf:resource="#Squadra"/>
+</owl:NamedIndividual>
+
+
+</rdf:RDF>
