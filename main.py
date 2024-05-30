@@ -163,50 +163,69 @@ def main():
 
     # ontologia 
     path = "./archive/ontology.rdf"
-    onto = get_ontology(path).load()
-    for cls in onto.classes():
-        print(cls)
+    onto = get_ontology("")
+    
+    #creo le classi Squadra, Capitano e le relazioni
+    class rappresenta (Thing >> Thing):
+        pass
+    with onto:
+        class Squadra(Thing):
+            pass
+        class Capitano(Thing):
+            pass
 
-    # credo il dizionario squadra-capitano
+        class rappresenta(ObjectProperty):
+            domain = [Capitano]
+            range = [Squadra]
+    
+    # creo il dizionario squadra-capitano
     dataset2 = ds.get_dataset()
 
     teams = set(dataset2['team'])
     list_teams = list(teams)
     ordered_teams = sorted(list_teams)
 
+    '''
     captains = set(dataset2['captain'])
     list_captains = list(captains)
     ordered_captains = sorted(list_captains)
+    '''
 
     dic_teams_cap = {}
     for index, row in dataset2.iterrows():
         for item in ordered_teams:
             if row[49] == item:
-                captain = row[15]
-                dic_teams_cap[item] = captain
-
-    #print(dic_teams_cap)
+                dic_teams_cap[item] = row[15]
 
     # popolo le classi Squadra e Capitano
     with onto:
         for squadra, capitano in dic_teams_cap.items():
-            team = onto.Squadra(squadra)
-            captain = onto.Capitano(capitano)
+            onto.Squadra(squadra)
+            onto.Capitano(capitano)
 
-            captain.rappresenta = [captain]
+    print(onto.Capitano.instances())
+    print(onto.Squadra.instances())
 
     # collego relazione tra capitano e squadra
-    for capitano in onto.Squadra.instances():
-        for squadra in onto.Capitano.instances():
+    '''
+    for capitano in onto.Capitano.instances():
+        for squadra in onto.Squadra.instances():
             capitano.rappresenta.append(squadra)
+    '''
 
-
+    with onto:
+        for squadra, capitano in dic_teams_cap.items():
+            onto.Capitano(capitano).rappresenta = [onto.Squadra(squadra)]
+            print(onto.Capitano(capitano).rappresenta)
+    
+    '''
     # visualizzo le relazioni
     for capitano in onto.Capitano.instances():
-        print("Capitano: {capitano.name}")
+        print("Capitano:", capitano.name)
         for squadra in capitano.rappresenta:
-            print("Squadra: {squadra.name}")
-
+            print("Squadra:", squadra.name)
+    '''
+    
     onto.save(file = "./archive/ontology.rdf")
 
     '''
