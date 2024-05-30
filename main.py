@@ -162,7 +162,7 @@ def main():
     dataset = ds.create_dataset() # creo il dataset "pulito"
 
     # ontologia 
-    path = "C:/Users/Amministratore/Desktop/ICON-PROJECT/archive/ontologia.rdf"
+    path = "./archive/ontology.rdf"
     onto = get_ontology(path).load()
     for cls in onto.classes():
         print(cls)
@@ -207,7 +207,7 @@ def main():
         for squadra in capitano.rappresenta:
             print("Squadra: {squadra.name}")
 
-    onto.save(file = "ontologia.rdf")
+    onto.save(file = "./archive/ontology.rdf")
 
     '''
     dictionaries = ds.generate_dictionary(dataset) # creo i dizionari
