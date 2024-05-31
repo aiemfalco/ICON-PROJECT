@@ -11,15 +11,6 @@ from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_
 import seaborn as sns
 import os
 from owlready2 import *
-from owlready2.reasoning import sync_reasoner
-
-#from pyswip import Prolog
-
-# Inizializza l'interprete Prolog
-#prolog = Prolog()
-
-# Carica il file Prolog
-#prolog.consult("rules.pl")
 
 def search_String(dictionary, string):
     for key, value in dictionary.items():
@@ -40,7 +31,6 @@ def get_input(dictionaries):
     for i in range(3):
         user_data = ""
         exit = True
-
         # squadra principale
         if i==0:
             while exit:
@@ -50,7 +40,6 @@ def get_input(dictionaries):
                     exit = False
                 else:
                     print("[!] È necessario inserire un nome valido")
-
         # squadra avversaria
         if i==1:
             while exit:
@@ -60,20 +49,6 @@ def get_input(dictionaries):
                     exit = False
                 else:
                     print("[!] È necessario inserire un nome valido")
-
-        '''
-        # giornata del campionato
-        if i==2:
-            while exit:
-                user_data = input("Inserisci a che giornata si gioca la partita: ")
-                if search_String(dictionaries[i], "Matchweek " + str(user_data)) != None:
-                    user_data = "Matchweek " + str(user_data)
-                    print("Input corretto")
-                    exit = False
-                else:
-                    print("La giornata deve essere un numero compreso in [1, 38]")
-        '''
-
         # dove gioca la squadra principale, casa o trasferta
         if i==2:
             while exit:
@@ -87,20 +62,7 @@ def get_input(dictionaries):
                     user_data = "Away"
                     exit = False
                 else:
-                    print("[!] È necessario scegliere solo tra \"Casa\" o \"Trasferta\"")
-        
-        '''
-        # ora della partita
-        if i==4:
-            while exit:
-                user_data = input("Inserisci l'orario in cui si gioca la partita (nel formato hh:mm): ")
-                if search_String(dictionaries[i], user_data) != None:
-                    print("Input corretto")
-                    exit = False
-                else:
-                    print("[!] Hai inserito un orario inesistente o in un formato errato (deve essere hh:mm)")
-        '''
-        
+                    print("[!] È necessario scegliere solo tra \"Casa\" o \"Trasferta\"")           
         # converte il dato che stiamo maneggiando e lo aggiunge alla lista
         user_data = search_String(dictionaries[i], user_data)
         user_input.append(user_data)
@@ -156,83 +118,14 @@ def create_gui(team1_win_percentage, team1_draw_percentage, team1_lose_percentag
     plt.show()
 
 def main():
+    ontology = ot.create_ontology()
+
+    '''
     # problema di classificazione, creiamo un oggetto RandomForestClassifier
     model = RandomForestClassifier(n_estimators = 150, max_depth=10, min_samples_split = 5, random_state = 1)
 
     # devo mettere in X_train tutti i valori codificati relativi alle partite prima del '2021-05-23' (alleniamo 4 anni di partenza e ci riserviamo 1/5 di dataset per il test)
     dataset = ds.create_dataset() # creo il dataset "pulito"
-
-    ontology = ot.create_ontology()
-    '''
-    # ontologia 
-    path = "./archive/ontology.rdf"
-    onto = get_ontology("")
-    
-    #creo le classi Squadra, Capitano e le relazioni
-    class rappresenta (Thing >> Thing):
-        pass
-    with onto:
-        class Squadra(Thing):
-            pass
-        class Capitano(Thing):
-            pass
-
-        class rappresenta(ObjectProperty):
-            domain = [Capitano]
-            range = [Squadra]
-    
-    # creo il dizionario squadra-capitano
-    dataset2 = ds.get_dataset()
-
-    teams = set(dataset2['team'])
-    list_teams = list(teams)
-    ordered_teams = sorted(list_teams)
-
-    '''
-    #captains = set(dataset2['captain'])
-    #list_captains = list(captains)
-    #ordered_captains = sorted(list_captains)
-    '''
-
-    dic_teams_cap = {}
-    for index, row in dataset2.iterrows():
-        for item in ordered_teams:
-            if row[49] == item:
-                dic_teams_cap[item] = row[15]
-
-    # popolo le classi Squadra e Capitano
-    with onto:
-        for squadra, capitano in dic_teams_cap.items():
-            onto.Squadra(squadra)
-            onto.Capitano(capitano)
-
-    print(onto.Capitano.instances())
-    print(onto.Squadra.instances())
-
-    # collego relazione tra capitano e squadra
-    '''
-    #for capitano in onto.Capitano.instances():
-        #for squadra in onto.Squadra.instances():
-            #capitano.rappresenta.append(squadra)
-    '''
-
-    with onto:
-        for squadra, capitano in dic_teams_cap.items():
-            onto.Capitano(capitano).rappresenta = [onto.Squadra(squadra)]
-            print(onto.Capitano(capitano).rappresenta)
-    
-    '''
-    # visualizzo le relazioni
-    #for capitano in onto.Capitano.instances():
-        #print("Capitano:", capitano.name)
-        #for squadra in capitano.rappresenta:
-            #print("Squadra:", squadra.name)
-    '''
-    
-    onto.save(file = "./archive/ontology.rdf")
-
-    '''
-    
     
     dictionaries = ds.generate_dictionary(dataset) # creo i dizionari
     dataset = ds.create_data_frame(dataset, dictionaries) # creo il dataset mappato
@@ -337,5 +230,5 @@ def main():
     team2 = game[1]
     team2 = search_Value(dictionaries[1], team2)
     create_gui(team1_win_percentage, team1_draw_percentage, team1_lose_percentage, team2_win_percentage, team2_draw_percentage, team2_lose_percentage, team1, team2)
-
+    '''
 main()
