@@ -5,6 +5,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import accuracy_score
 import dataset as ds
+import ontology as ot
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score
 import seaborn as sns
@@ -161,6 +162,8 @@ def main():
     # devo mettere in X_train tutti i valori codificati relativi alle partite prima del '2021-05-23' (alleniamo 4 anni di partenza e ci riserviamo 1/5 di dataset per il test)
     dataset = ds.create_dataset() # creo il dataset "pulito"
 
+    ontology = ot.create_ontology()
+    '''
     # ontologia 
     path = "./archive/ontology.rdf"
     onto = get_ontology("")
@@ -186,9 +189,9 @@ def main():
     ordered_teams = sorted(list_teams)
 
     '''
-    captains = set(dataset2['captain'])
-    list_captains = list(captains)
-    ordered_captains = sorted(list_captains)
+    #captains = set(dataset2['captain'])
+    #list_captains = list(captains)
+    #ordered_captains = sorted(list_captains)
     '''
 
     dic_teams_cap = {}
@@ -208,9 +211,9 @@ def main():
 
     # collego relazione tra capitano e squadra
     '''
-    for capitano in onto.Capitano.instances():
-        for squadra in onto.Squadra.instances():
-            capitano.rappresenta.append(squadra)
+    #for capitano in onto.Capitano.instances():
+        #for squadra in onto.Squadra.instances():
+            #capitano.rappresenta.append(squadra)
     '''
 
     with onto:
@@ -220,15 +223,17 @@ def main():
     
     '''
     # visualizzo le relazioni
-    for capitano in onto.Capitano.instances():
-        print("Capitano:", capitano.name)
-        for squadra in capitano.rappresenta:
-            print("Squadra:", squadra.name)
+    #for capitano in onto.Capitano.instances():
+        #print("Capitano:", capitano.name)
+        #for squadra in capitano.rappresenta:
+            #print("Squadra:", squadra.name)
     '''
     
     onto.save(file = "./archive/ontology.rdf")
 
     '''
+    
+    
     dictionaries = ds.generate_dictionary(dataset) # creo i dizionari
     dataset = ds.create_data_frame(dataset, dictionaries) # creo il dataset mappato
     X = dataset.loc[dataset[1] <= 440]
@@ -333,5 +338,4 @@ def main():
     team2 = search_Value(dictionaries[1], team2)
     create_gui(team1_win_percentage, team1_draw_percentage, team1_lose_percentage, team2_win_percentage, team2_draw_percentage, team2_lose_percentage, team1, team2)
 
-    '''
 main()
