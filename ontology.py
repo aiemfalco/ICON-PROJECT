@@ -33,7 +33,6 @@ def create_ontology():
         dettaglioPartita.addProperty("squadra_in_trasferta", [Squadra])
         dettaglioPartita.addProperty("data_partita", [str])
         dettaglioPartita.addProperty("punteggio", [int])
-        dettaglioPartita.addProperty("stadio", [str])
         dettaglioPartita.addProperty("arbitro", [Arbitro])
 
     # creo il dizionario squadra-capitano
@@ -56,6 +55,11 @@ def create_ontology():
         for squadra, capitano in dic_teams_cap.items():
             onto.Squadra(squadra)
             onto.Capitano(capitano)
+
+    with onto:
+        for index, row in dataset.iterrows():
+            if row[6]=="Home":
+                onto.Squadra(row[49]).partita = [onto.Squadra(row[10])]
 
     print(onto.Capitano.instances())
     print(onto.Squadra.instances())
