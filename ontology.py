@@ -25,15 +25,22 @@ def create_ontology():
             domain = [Squadra]
             range = [Squadra]
 
-        # Definizione della classe che estende la relazione per includere attributi
-        class dettaglioPartita(partita):
-            pass
-        # Definizione delle proprietà della relazione partita
-        dettaglioPartita.addProperty("squadra_di_casa", [Squadra])
-        dettaglioPartita.addProperty("squadra_in_trasferta", [Squadra])
-        dettaglioPartita.addProperty("data_partita", [str])
-        dettaglioPartita.addProperty("punteggio", [int])
-        dettaglioPartita.addProperty("arbitro", [Arbitro])
+        # Definizione egli attributi
+        class squadra_di_casa(DataProperty):
+            domain = [Squadra]
+            range = [Squadra]
+        class squadra_in_trasferta(DataProperty):
+            domain = [Squadra]
+            range = [Squadra]
+        class ha_giocato(DataProperty):
+            domain = [Squadra]
+            range = [str]
+        class risultato(DataProperty):
+            domain = [Squadra]
+            range = [str]
+        class arbitrata(DataProperty):
+            domain = [Squadra]
+            range = [Arbitro]
 
     # creo il dizionario squadra-capitano
     dataset = ds.get_dataset()
@@ -59,7 +66,8 @@ def create_ontology():
     with onto:
         for index, row in dataset.iterrows():
             if row[6]=="Home":
-                onto.Squadra(row[49]).partita = [onto.Squadra(row[10])]
+                onto.Squadra(row[49]).partita.append(onto.Squadra(row[10]))
+                #onto.Squadra(row[49]).partita = [onto.Squadra(row[10])]
 
     print(onto.Capitano.instances())
     print(onto.Squadra.instances())
