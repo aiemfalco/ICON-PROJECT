@@ -32,14 +32,14 @@ def create_ontology():
             domain = [Partita]
             range = [Squadra]
         '''
-        class data_partita(ObjectProperty):
+        class data_partita(DataProperty):
             domain = [Partita]
             range = [datetime]
         class risultato(DataProperty):
             domain = [Squadra]
             range = [str]
         '''
-        class arbitrata(DataProperty):
+        class arbitrata(ObjectProperty):
             domain = [Partita]
             range = [Arbitro]
 
@@ -72,7 +72,7 @@ def create_ontology():
                     onto.Arbitro(arbitro)
 
     
-    # popolo la relazione "partita", mettendo in relazione due squadre
+    # popolo gli oggetti di "partita", mettendo in relazione due squadre e aggiungo gli attributi degli oggetti
     with onto:
         for index, row in dataset.iterrows():
             if row[6]=="Home":
@@ -82,9 +82,13 @@ def create_ontology():
                 # Stabilire la relazione tra la squadra ospite e la nuova partita
                 nuova_partita.squadra_in_trasferta.append(Squadra(row[10]))
                 # Stabilire la relazione tra partita e orario, che in questo caso è una stringa
-                #nuova_partita.data_partita.append(row[1])
+                '''
+                nuova_partita.data_partita.append(row[1])
+                '''
                 # Stabilire la relazione tra partita e risultato
-                #nuova_partita.risultato.append(row[7])
+                '''
+                nuova_partita.risultato.append(row[7])
+                '''
                 # Stabilire la relazione tra partita e risultato
                 nuova_partita.arbitrata.append(Arbitro(row[17]))
 
