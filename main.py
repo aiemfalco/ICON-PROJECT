@@ -119,6 +119,7 @@ def create_gui(team1_win_percentage, team1_draw_percentage, team1_lose_percentag
 
 def main():
     ontology = ot.create_ontology()
+    
 
     '''
     # problema di classificazione, creiamo un oggetto RandomForestClassifier
