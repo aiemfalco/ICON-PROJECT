@@ -115,10 +115,21 @@ def create_ontology():
     ordered_date_set = sorted(date_list) 
     dic_dates = dict(zip(ordered_date_set, X_date))
 
+    dic_teamhome_dates = {}
+    for partita in onto.Partita.instances():
+        hometeam = partita.squadra_di_casa.first()
+        if isinstance(hometeam, Squadra):
+            date = partita.data_partita.first()
+            if hometeam not in dic_teamhome_dates:
+                dic_teamhome_dates[hometeam]= []
+            dic_teamhome_dates[hometeam].append(date)
 
+    print(dic_teamhome_dates)
+
+    '''
     with onto:
         for index, row in dataset.iterrows(): #scorro il dataset
-            for partita in onto.Partita.instances(): # scorro tutte le partite in Partita
+            #for partita in onto.Partita.instances(): # scorro tutte le partite in Partita
                 matchweek = row["round"].split(' ')
                 # print(matchweek[1])
                 if int(matchweek[1]) >= 5: # ci accertiamo che una partita sia almeno alla quinta giotnata
@@ -127,6 +138,7 @@ def create_ontology():
                         dataset["last_five_home"] = games_played.tail(5) # gli ultimi 5 results di squadra in casa di partita sottofroma di stringa
     
     print(dataset["last_five_home"])
+    '''
     onto.save(file = "./archive/ontology.rdf")
 
     return onto
