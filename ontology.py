@@ -10,9 +10,9 @@ def get_last_5_matches_results(squadra, date_partita, dizionario_partite_casa):
     current_match_index = -1
 
     # Trova la posizione della partita in corso nel dizionario
-    for squadra, data in dizionario_partite_casa.items():
-        if date_partita in data:
-            current_match_index = dizionario_partite_casa[squadra].index(date_partita)
+    for s, data in dizionario_partite_casa.items():
+        if date_partita in data and squadra in s:
+            current_match_index = dizionario_partite_casa[s].index(date_partita)
             break
 
     if current_match_index != -1:
@@ -20,7 +20,7 @@ def get_last_5_matches_results(squadra, date_partita, dizionario_partite_casa):
         for i in range(current_match_index - 1, current_match_index - 6, -1):
             if i != 0:
                 # Ottieni il risultato della partita
-                result = dizionario_partite_casa[squadra][i]
+                result = dizionario_partite_casa[s][i]
 
                 # Aggiungi il risultato alla lista
                 last_5_matches_results.append(result)
@@ -112,7 +112,8 @@ def create_ontology():
                 nuova_partita.risultato.append(row[7])
                 # Stabilire la relazione tra partita e risultato
                 nuova_partita.arbitrata.append(Arbitro(row[17]))
- 
+
+    '''
     squadra_di_interesse = onto.Squadra("Roma")
     for partita in onto.Partita.instances():
         # Verifica se la squadra di interesse è la squadra di casa o ospite nella partita corrente
@@ -125,6 +126,7 @@ def create_ontology():
             print("Risultato:", partita.risultato)
             print("Arbitro:", partita.arbitrata)
             print("-----------------------")
+    '''
 
     # popolo la relazione "rappresenta" tra squadra e capitano
     with onto:
@@ -153,7 +155,24 @@ def create_ontology():
     dic_dates = dict(zip(ordered_date_set, X_date))
 
     dic_teamhome_dates = {}
+    list_team_dates_to_sort = []
     for partita in onto.Partita.instances():
+        date = partita.data_partita.first()
+        hometeam = partita.squadra_di_casa.first()
+        awayteam = partita.squadra_in_trasferta.first()
+        if str(hometeam) not in dic_teamhome_dates:
+            dic_teamhome_dates[str(hometeam)] = []
+            dic_teamhome_dates[str(hometeam)].append(date)
+        else:          
+            dic_teamhome_dates[str(hometeam)].append(date)
+        if str(awayteam) not in dic_teamhome_dates:
+            dic_teamhome_dates[str(awayteam)] = []
+            dic_teamhome_dates[str(awayteam)].append(date)
+        else:          
+            dic_teamhome_dates[str(awayteam)].append(date)
+        dic_teamhome_dates[str(hometeam)] = sorted(dic_teamhome_dates[str(hometeam)])
+        dic_teamhome_dates[str(awayteam)] = sorted(dic_teamhome_dates[str(awayteam)])
+        '''
         hometeam = partita.squadra_di_casa.first()
         date = partita.data_partita.first()
         if str(hometeam) not in dic_teamhome_dates:
@@ -161,6 +180,9 @@ def create_ontology():
             dic_teamhome_dates[str(hometeam)].append(date)
         else:          
             dic_teamhome_dates[str(hometeam)].append(date)
+        '''
+    
+    print(dic_teamhome_dates)
 
     '''
     with onto:

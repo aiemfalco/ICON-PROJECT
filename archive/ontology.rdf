@@ -62,13 +62,13 @@
   <rappresenta rdf:resource="#Milan"/>
 </owl:NamedIndividual>
 
-<owl:NamedIndividual rdf:about="#Internazionale">
+<owl:NamedIndividual rdf:about="#Inter">
   <rdf:type rdf:resource="#Squadra"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Mauro Icardi">
   <rdf:type rdf:resource="#Capitano"/>
-  <rappresenta rdf:resource="#Internazionale"/>
+  <rappresenta rdf:resource="#Inter"/>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="#Napoli">
@@ -603,10 +603,6 @@
   <risultato rdf:datatype="http://www.w3.org/2001/XMLSchema#string">D</risultato>
 </owl:NamedIndividual>
 
-<owl:NamedIndividual rdf:about="#Inter">
-  <rdf:type rdf:resource="#Squadra"/>
-</owl:NamedIndividual>
-
 <owl:NamedIndividual rdf:about="#partita7">
   <rdf:type rdf:resource="#Partita"/>
   <squadra_di_casa rdf:resource="#Milan"/>
@@ -726,7 +722,7 @@
 
 <owl:NamedIndividual rdf:about="#partita20">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Genoa"/>
   <arbitrata rdf:resource="#Valerio Marini"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-08-21</data_partita>
@@ -735,7 +731,7 @@
 
 <owl:NamedIndividual rdf:about="#partita21">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Bologna"/>
   <arbitrata rdf:resource="#Giovanni Ayroldi"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-09-18</data_partita>
@@ -744,7 +740,7 @@
 
 <owl:NamedIndividual rdf:about="#partita22">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Atalanta"/>
   <arbitrata rdf:resource="#Fabio Maresca"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-09-25</data_partita>
@@ -753,7 +749,7 @@
 
 <owl:NamedIndividual rdf:about="#partita23">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Juventus"/>
   <arbitrata rdf:resource="#Maurizio Mariani"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-10-24</data_partita>
@@ -762,7 +758,7 @@
 
 <owl:NamedIndividual rdf:about="#partita24">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Udinese"/>
   <arbitrata rdf:resource="#Juan Sacchi"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-10-31</data_partita>
@@ -771,7 +767,7 @@
 
 <owl:NamedIndividual rdf:about="#partita25">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Napoli"/>
   <arbitrata rdf:resource="#Paolo Valeri"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-11-21</data_partita>
@@ -780,7 +776,7 @@
 
 <owl:NamedIndividual rdf:about="#partita26">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Spezia"/>
   <arbitrata rdf:resource="#Davide Ghersini"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-12-01</data_partita>
@@ -789,7 +785,7 @@
 
 <owl:NamedIndividual rdf:about="#partita27">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Cagliari"/>
   <arbitrata rdf:resource="#Matteo Marchetti"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-12-12</data_partita>
@@ -798,7 +794,7 @@
 
 <owl:NamedIndividual rdf:about="#partita28">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Torino"/>
   <arbitrata rdf:resource="#Marco Guida"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-12-22</data_partita>
@@ -807,7 +803,7 @@
 
 <owl:NamedIndividual rdf:about="#partita29">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Lazio"/>
   <arbitrata rdf:resource="#Luca Pairetto"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2022-01-09</data_partita>
@@ -816,7 +812,7 @@
 
 <owl:NamedIndividual rdf:about="#partita30">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Venezia"/>
   <arbitrata rdf:resource="#Matteo Marchetti"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2022-01-22</data_partita>
@@ -825,7 +821,7 @@
 
 <owl:NamedIndividual rdf:about="#partita31">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Milan"/>
   <arbitrata rdf:resource="#Marco Guida"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2022-02-05</data_partita>
@@ -834,7 +830,7 @@
 
 <owl:NamedIndividual rdf:about="#partita32">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Sassuolo"/>
   <arbitrata rdf:resource="#Francesco Fourneau"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2022-02-20</data_partita>
@@ -843,7 +839,7 @@
 
 <owl:NamedIndividual rdf:about="#partita33">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Salernitana"/>
   <arbitrata rdf:resource="#Livio Marinelli"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2022-03-04</data_partita>
@@ -852,7 +848,7 @@
 
 <owl:NamedIndividual rdf:about="#partita34">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Fiorentina"/>
   <arbitrata rdf:resource="#Daniele Chiffi"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2022-03-19</data_partita>
@@ -861,7 +857,7 @@
 
 <owl:NamedIndividual rdf:about="#partita35">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Hellas Verona"/>
   <arbitrata rdf:resource="#Livio Marinelli"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2022-04-09</data_partita>
@@ -870,7 +866,7 @@
 
 <owl:NamedIndividual rdf:about="#partita36">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Roma"/>
   <arbitrata rdf:resource="#Simone Sozza"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2022-04-23</data_partita>
@@ -879,7 +875,7 @@
 
 <owl:NamedIndividual rdf:about="#partita37">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Empoli"/>
   <arbitrata rdf:resource="#Gianluca Manganiello"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2022-05-06</data_partita>
@@ -888,7 +884,7 @@
 
 <owl:NamedIndividual rdf:about="#partita38">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Sampdoria"/>
   <arbitrata rdf:resource="#Marco Di Bello"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2022-05-22</data_partita>
@@ -3975,7 +3971,7 @@
 
 <owl:NamedIndividual rdf:about="#partita381">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Fiorentina"/>
   <arbitrata rdf:resource="#Giampaolo Calvarese"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2020-09-26</data_partita>
@@ -3984,7 +3980,7 @@
 
 <owl:NamedIndividual rdf:about="#partita382">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Milan"/>
   <arbitrata rdf:resource="#Maurizio Mariani"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2020-10-17</data_partita>
@@ -3993,7 +3989,7 @@
 
 <owl:NamedIndividual rdf:about="#partita383">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Parma"/>
   <arbitrata rdf:resource="#Marco Piccinini"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2020-10-31</data_partita>
@@ -4002,7 +3998,7 @@
 
 <owl:NamedIndividual rdf:about="#partita384">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Torino"/>
   <arbitrata rdf:resource="#Federico La Penna"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2020-11-22</data_partita>
@@ -4011,7 +4007,7 @@
 
 <owl:NamedIndividual rdf:about="#partita385">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Bologna"/>
   <arbitrata rdf:resource="#Paolo Valeri"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2020-12-05</data_partita>
@@ -4020,7 +4016,7 @@
 
 <owl:NamedIndividual rdf:about="#partita386">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Napoli"/>
   <arbitrata rdf:resource="#Davide Massa"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2020-12-16</data_partita>
@@ -4029,7 +4025,7 @@
 
 <owl:NamedIndividual rdf:about="#partita387">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Spezia"/>
   <arbitrata rdf:resource="#Michael Fabbri"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2020-12-20</data_partita>
@@ -4038,7 +4034,7 @@
 
 <owl:NamedIndividual rdf:about="#partita388">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Crotone"/>
   <arbitrata rdf:resource="#Gianluca Aureliano"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-01-03</data_partita>
@@ -4047,7 +4043,7 @@
 
 <owl:NamedIndividual rdf:about="#partita389">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Juventus"/>
   <arbitrata rdf:resource="#Daniele Doveri"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-01-17</data_partita>
@@ -4056,7 +4052,7 @@
 
 <owl:NamedIndividual rdf:about="#partita390">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Benevento"/>
   <arbitrata rdf:resource="#Fabrizio Pasqua"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-01-30</data_partita>
@@ -4065,7 +4061,7 @@
 
 <owl:NamedIndividual rdf:about="#partita391">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Lazio"/>
   <arbitrata rdf:resource="#Michael Fabbri"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-02-14</data_partita>
@@ -4074,7 +4070,7 @@
 
 <owl:NamedIndividual rdf:about="#partita392">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Genoa"/>
   <arbitrata rdf:resource="#Daniele Chiffi"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-02-28</data_partita>
@@ -4083,7 +4079,7 @@
 
 <owl:NamedIndividual rdf:about="#partita393">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Atalanta"/>
   <arbitrata rdf:resource="#Maurizio Mariani"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-03-08</data_partita>
@@ -4092,7 +4088,7 @@
 
 <owl:NamedIndividual rdf:about="#partita394">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Sassuolo"/>
   <arbitrata rdf:resource="#Massimiliano Irrati"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-04-07</data_partita>
@@ -4101,7 +4097,7 @@
 
 <owl:NamedIndividual rdf:about="#partita395">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Cagliari"/>
   <arbitrata rdf:resource="#Luca Pairetto"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-04-11</data_partita>
@@ -4110,7 +4106,7 @@
 
 <owl:NamedIndividual rdf:about="#partita396">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Hellas Verona"/>
   <arbitrata rdf:resource="#Rosario Abisso"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-04-25</data_partita>
@@ -4119,7 +4115,7 @@
 
 <owl:NamedIndividual rdf:about="#partita397">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Sampdoria"/>
   <arbitrata rdf:resource="#Giovanni Ayroldi"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-05-08</data_partita>
@@ -4128,7 +4124,7 @@
 
 <owl:NamedIndividual rdf:about="#partita398">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Roma"/>
   <arbitrata rdf:resource="#Daniele Chiffi"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-05-12</data_partita>
@@ -4137,7 +4133,7 @@
 
 <owl:NamedIndividual rdf:about="#partita399">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Udinese"/>
   <arbitrata rdf:resource="#Manuel Volpi"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-05-23</data_partita>
@@ -7395,7 +7391,7 @@
 
 <owl:NamedIndividual rdf:about="#partita761">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Lecce"/>
   <arbitrata rdf:resource="#Federico La Penna"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2019-08-26</data_partita>
@@ -7404,7 +7400,7 @@
 
 <owl:NamedIndividual rdf:about="#partita762">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Udinese"/>
   <arbitrata rdf:resource="#Maurizio Mariani"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2019-09-14</data_partita>
@@ -7413,7 +7409,7 @@
 
 <owl:NamedIndividual rdf:about="#partita763">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Lazio"/>
   <arbitrata rdf:resource="#Fabio Maresca"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2019-09-25</data_partita>
@@ -7422,7 +7418,7 @@
 
 <owl:NamedIndividual rdf:about="#partita764">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Juventus"/>
   <arbitrata rdf:resource="#Gianluca Rocchi"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2019-10-06</data_partita>
@@ -7431,7 +7427,7 @@
 
 <owl:NamedIndividual rdf:about="#partita765">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Parma"/>
   <arbitrata rdf:resource="#Daniele Chiffi"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2019-10-26</data_partita>
@@ -7440,7 +7436,7 @@
 
 <owl:NamedIndividual rdf:about="#partita766">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Hellas Verona"/>
   <arbitrata rdf:resource="#Paolo Valeri"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2019-11-09</data_partita>
@@ -7449,7 +7445,7 @@
 
 <owl:NamedIndividual rdf:about="#partita767">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#SPAL"/>
   <arbitrata rdf:resource="#Massimiliano Irrati"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2019-12-01</data_partita>
@@ -7458,7 +7454,7 @@
 
 <owl:NamedIndividual rdf:about="#partita768">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Roma"/>
   <arbitrata rdf:resource="#Giampaolo Calvarese"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2019-12-06</data_partita>
@@ -7467,7 +7463,7 @@
 
 <owl:NamedIndividual rdf:about="#partita769">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Genoa"/>
   <arbitrata rdf:resource="#Luca Pairetto"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2019-12-21</data_partita>
@@ -7476,7 +7472,7 @@
 
 <owl:NamedIndividual rdf:about="#partita770">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Atalanta"/>
   <arbitrata rdf:resource="#Gianluca Rocchi"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2020-01-11</data_partita>
@@ -7485,7 +7481,7 @@
 
 <owl:NamedIndividual rdf:about="#partita771">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Cagliari"/>
   <arbitrata rdf:resource="#Gianluca Manganiello"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2020-01-26</data_partita>
@@ -7494,7 +7490,7 @@
 
 <owl:NamedIndividual rdf:about="#partita772">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Milan"/>
   <arbitrata rdf:resource="#Fabio Maresca"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2020-02-09</data_partita>
@@ -7503,7 +7499,7 @@
 
 <owl:NamedIndividual rdf:about="#partita773">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Sampdoria"/>
   <arbitrata rdf:resource="#Maurizio Mariani"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2020-06-21</data_partita>
@@ -7512,7 +7508,7 @@
 
 <owl:NamedIndividual rdf:about="#partita774">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Sassuolo"/>
   <arbitrata rdf:resource="#Davide Massa"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2020-06-24</data_partita>
@@ -7521,7 +7517,7 @@
 
 <owl:NamedIndividual rdf:about="#partita775">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Brescia"/>
   <arbitrata rdf:resource="#Gianluca Manganiello"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2020-07-01</data_partita>
@@ -7530,7 +7526,7 @@
 
 <owl:NamedIndividual rdf:about="#partita776">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Bologna"/>
   <arbitrata rdf:resource="#Luca Pairetto"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2020-07-05</data_partita>
@@ -7539,7 +7535,7 @@
 
 <owl:NamedIndividual rdf:about="#partita777">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Torino"/>
   <arbitrata rdf:resource="#Davide Massa"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2020-07-13</data_partita>
@@ -7548,7 +7544,7 @@
 
 <owl:NamedIndividual rdf:about="#partita778">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Fiorentina"/>
   <arbitrata rdf:resource="#Piero Giacomelli"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2020-07-22</data_partita>
@@ -7557,7 +7553,7 @@
 
 <owl:NamedIndividual rdf:about="#partita779">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Napoli"/>
   <arbitrata rdf:resource="#Paolo Valeri"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2020-07-28</data_partita>
@@ -11157,7 +11153,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1179">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Torino"/>
   <arbitrata rdf:resource="#Paolo Mazzoleni"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2018-08-26</data_partita>
@@ -11166,7 +11162,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1180">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Parma"/>
   <arbitrata rdf:resource="#Gianluca Manganiello"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2018-09-15</data_partita>
@@ -11175,7 +11171,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1181">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Fiorentina"/>
   <arbitrata rdf:resource="#Paolo Mazzoleni"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2018-09-25</data_partita>
@@ -11184,7 +11180,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1182">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Cagliari"/>
   <arbitrata rdf:resource="#Davide Massa"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2018-09-29</data_partita>
@@ -11193,7 +11189,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1183">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Milan"/>
   <arbitrata rdf:resource="#Marco Guida"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2018-10-21</data_partita>
@@ -11202,7 +11198,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1184">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Genoa"/>
   <arbitrata rdf:resource="#Paolo Valeri"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2018-11-03</data_partita>
@@ -11211,7 +11207,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1185">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Frosinone"/>
   <arbitrata rdf:resource="#Luca Pairetto"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2018-11-24</data_partita>
@@ -11220,7 +11216,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1186">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Udinese"/>
   <arbitrata rdf:resource="#Rosario Abisso"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2018-12-15</data_partita>
@@ -11229,7 +11225,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1187">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Napoli"/>
   <arbitrata rdf:resource="#Paolo Mazzoleni"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2018-12-26</data_partita>
@@ -11238,7 +11234,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1188">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Sassuolo"/>
   <arbitrata rdf:resource="#Luca Pairetto"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2019-01-19</data_partita>
@@ -11247,7 +11243,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1189">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Bologna"/>
   <arbitrata rdf:resource="#Fabrizio Pasqua"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2019-02-03</data_partita>
@@ -11256,7 +11252,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1190">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Sampdoria"/>
   <arbitrata rdf:resource="#Daniele Doveri"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2019-02-17</data_partita>
@@ -11265,7 +11261,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1191">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#SPAL"/>
   <arbitrata rdf:resource="#Giampaolo Calvarese"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2019-03-10</data_partita>
@@ -11274,7 +11270,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1192">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Lazio"/>
   <arbitrata rdf:resource="#Paolo Mazzoleni"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2019-03-31</data_partita>
@@ -11283,7 +11279,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1193">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Atalanta"/>
   <arbitrata rdf:resource="#Massimiliano Irrati"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2019-04-07</data_partita>
@@ -11292,7 +11288,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1194">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Roma"/>
   <arbitrata rdf:resource="#Marco Guida"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2019-04-20</data_partita>
@@ -11301,7 +11297,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1195">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Juventus"/>
   <arbitrata rdf:resource="#Luca Banti"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2019-04-27</data_partita>
@@ -11310,7 +11306,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1196">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Chievo"/>
   <arbitrata rdf:resource="#Paolo Valeri"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2019-05-13</data_partita>
@@ -11319,7 +11315,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1197">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Empoli"/>
   <arbitrata rdf:resource="#Luca Banti"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2019-05-26</data_partita>
@@ -14577,7 +14573,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1559">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Fiorentina"/>
   <arbitrata rdf:resource="#Paolo Tagliavento"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2017-08-20</data_partita>
@@ -14586,7 +14582,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1560">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#SPAL"/>
   <arbitrata rdf:resource="#Claudio Gavillucci"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2017-09-10</data_partita>
@@ -14595,7 +14591,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1561">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Genoa"/>
   <arbitrata rdf:resource="#Marco Guida"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2017-09-24</data_partita>
@@ -14604,7 +14600,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1562">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Milan"/>
   <arbitrata rdf:resource="#Paolo Tagliavento"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2017-10-15</data_partita>
@@ -14613,7 +14609,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1563">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Sampdoria"/>
   <arbitrata rdf:resource="#Marco Guida"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2017-10-24</data_partita>
@@ -14622,7 +14618,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1564">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Torino"/>
   <arbitrata rdf:resource="#Daniele Orsato"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2017-11-05</data_partita>
@@ -14631,7 +14627,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1565">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Atalanta"/>
   <arbitrata rdf:resource="#Michael Fabbri"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2017-11-19</data_partita>
@@ -14640,7 +14636,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1566">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Chievo"/>
   <arbitrata rdf:resource="#Giampaolo Calvarese"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2017-12-03</data_partita>
@@ -14649,7 +14645,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1567">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Udinese"/>
   <arbitrata rdf:resource="#Maurizio Mariani"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2017-12-16</data_partita>
@@ -14658,7 +14654,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1568">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Lazio"/>
   <arbitrata rdf:resource="#Gianluca Rocchi"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2017-12-30</data_partita>
@@ -14667,7 +14663,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1569">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Roma"/>
   <arbitrata rdf:resource="#Davide Massa"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2018-01-21</data_partita>
@@ -14676,7 +14672,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1570">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Crotone"/>
   <arbitrata rdf:resource="#Daniele Orsato"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2018-02-03</data_partita>
@@ -14685,7 +14681,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1571">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Bologna"/>
   <arbitrata rdf:resource="#Paolo Valeri"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2018-02-11</data_partita>
@@ -14694,7 +14690,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1572">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Benevento"/>
   <arbitrata rdf:resource="#Luca Pairetto"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2018-02-24</data_partita>
@@ -14703,7 +14699,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1573">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Napoli"/>
   <arbitrata rdf:resource="#Daniele Orsato"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2018-03-11</data_partita>
@@ -14712,7 +14708,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1574">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Hellas Verona"/>
   <arbitrata rdf:resource="#Gianluca Rocchi"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2018-03-31</data_partita>
@@ -14721,7 +14717,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1575">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Cagliari"/>
   <arbitrata rdf:resource="#Fabrizio Pasqua"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2018-04-17</data_partita>
@@ -14730,7 +14726,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1576">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Juventus"/>
   <arbitrata rdf:resource="#Daniele Orsato"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2018-04-28</data_partita>
@@ -14739,7 +14735,7 @@
 
 <owl:NamedIndividual rdf:about="#partita1577">
   <rdf:type rdf:resource="#Partita"/>
-  <squadra_di_casa rdf:resource="#Internazionale"/>
+  <squadra_di_casa rdf:resource="#Inter"/>
   <squadra_in_trasferta rdf:resource="#Sassuolo"/>
   <arbitrata rdf:resource="#Rosario Abisso"/>
   <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2018-05-12</data_partita>
