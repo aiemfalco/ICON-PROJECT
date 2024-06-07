@@ -3,17 +3,7 @@ import dataset as ds
 from owlready2 import *
 
 def get_last_5_matches_results(squadra, date_partita, dizionario_partite_casa):
-    """
-    Questa funzione prende una squadra, una data della partita e un dizionario di partite e restituisce una lista di caratteri (W, D, L) con i risultati delle ultime 5 partite della squadra.
 
-    Args:
-    squadra: Nome della squadra per cui si vogliono ottenere i risultati.
-    date_partita: Data della partita in corso.
-    dizionario_partite: Dizionario che mappa le squadre alle date delle partite.
-
-    Returns:
-    Lista di caratteri (W, D, L) con i risultati delle ultime 5 partite della squadra.
-    """
     # Inizializza una lista vuota per i risultati
     last_5_matches_results = []
     
@@ -28,14 +18,12 @@ def get_last_5_matches_results(squadra, date_partita, dizionario_partite_casa):
     if current_match_index != -1:
         # Itera sulle ultime 5 partite, escludendo la partita in corso
         for i in range(current_match_index - 1, current_match_index - 6, -1):
-            if i >= 0:
+            if i != 0:
                 # Ottieni il risultato della partita
                 result = dizionario_partite_casa[squadra][i]
 
                 # Aggiungi il risultato alla lista
                 last_5_matches_results.append(result)
-            else:
-                break
     
     # Restituisci la lista dei risultati
     return last_5_matches_results
@@ -147,6 +135,16 @@ def create_ontology():
     dataset['last_five_home'] = None
     dataset['last_five_away'] = None
 
+    '''
+    set_teams = []
+
+    for elemento in set_teams:
+        X_date = []
+        for index, row in dataset.iterrows():
+            if row["team"] == elemento:
+                X_date.append(row["date"])
+    '''
+
     # dizionario delle date ordinato
     X_date = list(range(1, 551))
     dates = set(dataset['date'])
@@ -164,7 +162,6 @@ def create_ontology():
         else:          
             dic_teamhome_dates[str(hometeam)].append(date)
 
-    print(dic_teamhome_dates[".Milan"][0])
     '''
     with onto:
         for index, row in dataset.iterrows(): #scorro il dataset
