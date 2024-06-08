@@ -237,6 +237,7 @@ def create_ontology():
                         dataset.loc[index, "last_five_home"] = ','.join(last_five_home_dates)
         '''
     
+    '''
     squadre_stampate = []
     
     for index, row in dataset.iterrows():
@@ -252,7 +253,19 @@ def create_ontology():
             dataset.loc[index, "last_five"] = last_5_matches_results
             # Aggiorno la lista delle squadre stampate
             squadre_stampate.append(squadra)
-    
+    '''
+    for index, row in dataset.iterrows():
+        # Ottieni le informazioni dalla riga corrente
+        squadra = row["team"]
+        date_partita = row["date"]
+        matchweek = row["round"].split(' ')
+        if int(matchweek[1]) > 5:
+            # Ottieni i risultati delle ultime 5 partite
+            last_5_matches_results = get_last_5_matches_results(squadra, date_partita, dic_teamhome_dates, onto)
+            # Aggiorna il DataFrame con i risultati 
+            dataset.loc[index, "last_five"] = last_5_matches_results
+        else:
+            dataset.loc[index, "last_five"] = "0"
     # print(dataset["last_five_home"])    
 
     onto.save(file = "./archive/ontology.rdf")
