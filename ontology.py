@@ -2,7 +2,7 @@ import pandas as pd
 import dataset as ds
 from owlready2 import *
 
-def get_last_5_matches_results(squadra, date_partita, dizionario_partite_casa):
+def get_last_5_matches_results(squadra, date_partita, dizionario_partite_casa, ontology):
 
     # Inizializza una lista vuota per i risultati
     last_5_matches_results = []
@@ -21,11 +21,21 @@ def get_last_5_matches_results(squadra, date_partita, dizionario_partite_casa):
             if i != 0:
                 # Ottieni il risultato della partita
                 result = dizionario_partite_casa[s][i]
+                for partita in ontology.Partita.instances():
+                    # Controllo che la data sia giusta e che la squadra sia giusta per ogni iterata, in caso positivo appendo il risultato alla lista.
+                    if result == partita.data_partita.first() and (str(partita.squadra_di_casa.first()) == s or str(partita.squadra_in_trasferta.first()) == s):
+                        result = partita.risultato.first()
+                        if str(partita.squadra_in_trasferta.first()) == s and partita.risultato.first() != "D":       
+                            if result == "W":
+                                result = "L"
+                            else:
+                                result = "W"
+                        # Aggiungi il risultato alla lista
+                        last_5_matches_results.append(result)
 
-                # Aggiungi il risultato alla lista
-                last_5_matches_results.append(result)
-    
+
     # Restituisci la lista dei risultati
+    last_5_matches_results = ''.join(last_5_matches_results)
     return last_5_matches_results
 
 
@@ -134,8 +144,7 @@ def create_ontology():
             onto.Capitano(capitano).rappresenta = [onto.Squadra(squadra)]
 
     # creare le due nuove caratteristiche "last_five_home" e "last_five_away" per tutte le squadre
-    dataset['last_five_home'] = None
-    dataset['last_five_away'] = None
+    dataset['last_five'] = None
 
     '''
     set_teams = []
@@ -182,7 +191,7 @@ def create_ontology():
             dic_teamhome_dates[str(hometeam)].append(date)
         '''
     
-    print(dic_teamhome_dates)
+    # print(dic_teamhome_dates)
 
     '''
     with onto:
@@ -237,12 +246,12 @@ def create_ontology():
         #verifica se la squadra è stata già stampata
         if squadra not in squadre_stampate:
             # Ottieni i risultati delle ultime 5 partite
-            last_5_matches_results = get_last_5_matches_results(squadra, date_partita, dic_teamhome_dates)
-            print(f"{squadra} {last_5_matches_results}")
-            #aggiorno la lista delle squadre stampate
-            squadre_stampate.append(squadra)
+            last_5_matches_results = get_last_5_matches_results(squadra, date_partita, dic_teamhome_dates, onto)
+            # print(f"{squadra} {last_5_matches_results}")
             # Aggiorna il DataFrame con i risultati 
-            # dataset.loc[index, "last_five_home"] = last_5_matches_results
+            dataset.loc[index, "last_five"] = last_5_matches_results
+            # Aggiorno la lista delle squadre stampate
+            squadre_stampate.append(squadra)
     
     # print(dataset["last_five_home"])    
 
