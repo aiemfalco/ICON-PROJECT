@@ -118,15 +118,18 @@ def create_gui(team1_win_percentage, team1_draw_percentage, team1_lose_percentag
     plt.show()
 
 def main():
-    ontology = ot.create_ontology()
-    
 
-    '''
+    ontology = ot.create_ontology()
+
     # problema di classificazione, creiamo un oggetto RandomForestClassifier
     model = RandomForestClassifier(n_estimators = 150, max_depth=10, min_samples_split = 5, random_state = 1)
+    # prendiamo il dataset da csv "grezzo"
+    dataset = ds.get_dataset()
+    # gli aggiungiamo la nuova colonna ottenuta grazie all'ontologia
+    dataset = ot.getNewColumn(ontology, dataset)
 
     # devo mettere in X_train tutti i valori codificati relativi alle partite prima del '2021-05-23' (alleniamo 4 anni di partenza e ci riserviamo 1/5 di dataset per il test)
-    dataset = ds.create_dataset() # creo il dataset "pulito"
+    dataset = ds.refine_dataset(dataset) # creo il dataset "pulito" di features che non ci servono 
     
     dictionaries = ds.generate_dictionary(dataset) # creo i dizionari
     dataset = ds.create_data_frame(dataset, dictionaries) # creo il dataset mappato
@@ -231,5 +234,4 @@ def main():
     team2 = game[1]
     team2 = search_Value(dictionaries[1], team2)
     create_gui(team1_win_percentage, team1_draw_percentage, team1_lose_percentage, team2_win_percentage, team2_draw_percentage, team2_lose_percentage, team1, team2)
-    '''
 main()

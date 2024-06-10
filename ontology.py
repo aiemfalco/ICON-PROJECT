@@ -20,10 +20,11 @@ def get_last_5_matches_results(squadra, date_partita, dizionario_partite_casa, o
         for i in range(current_match_index - 1, current_match_index - 6, -1):
             if i != 0:
                 # Ottieni il risultato della partita
-                result = dizionario_partite_casa[s][i]
+                date = dizionario_partite_casa[s][i]
+                #scorriamo le partite in Partita
                 for partita in ontology.Partita.instances():
                     # Controllo che la data sia giusta e che la squadra sia giusta per ogni iterata, in caso positivo appendo il risultato alla lista.
-                    if result == partita.data_partita.first() and (str(partita.squadra_di_casa.first()) == s or str(partita.squadra_in_trasferta.first()) == s):
+                    if date == partita.data_partita.first() and (str(partita.squadra_di_casa.first()) == s or str(partita.squadra_in_trasferta.first()) == s):
                         result = partita.risultato.first()
                         if str(partita.squadra_in_trasferta.first()) == s and partita.risultato.first() != "D":       
                             if result == "W":
@@ -123,38 +124,23 @@ def create_ontology():
                 # Stabilire la relazione tra partita e risultato
                 nuova_partita.arbitrata.append(Arbitro(row[17]))
 
-    '''
-    squadra_di_interesse = onto.Squadra("Roma")
-    for partita in onto.Partita.instances():
-        # Verifica se la squadra di interesse è la squadra di casa o ospite nella partita corrente
-        if squadra_di_interesse in partita.squadra_di_casa or squadra_di_interesse in partita.squadra_in_trasferta:
-        # Stampa i dettagli della partita
-            print("Partita index:", partita)
-            print("Data partita:", partita.data_partita)
-            print("Squadra di casa:", partita.squadra_di_casa[0] if squadra_di_interesse in partita.squadra_di_casa else partita.squadra_in_trasferta[0])
-            print("Squadra ospite:", partita.squadra_in_trasferta[0] if squadra_di_interesse in partita.squadra_di_casa else partita.squadra_di_casa[0])
-            print("Risultato:", partita.risultato)
-            print("Arbitro:", partita.arbitrata)
-            print("-----------------------")
-    '''
-
     # popolo la relazione "rappresenta" tra squadra e capitano
     with onto:
         for squadra, capitano in dic_teams_cap.items():
             onto.Capitano(capitano).rappresenta = [onto.Squadra(squadra)]
+    
+    # salvo l'ontologia
+    onto.save(file = "./archive/ontology.rdf")
 
-    # creare le due nuove caratteristiche "last_five_home" e "last_five_away" per tutte le squadre
+    
+            
+    # print(dataset["last_five"])    
+
+    return onto
+
+def getNewColumn(onto, dataset):
+    # creo una nuova colonna "last_five" grazie alla conoscenza derivata
     dataset['last_five'] = None
-
-    '''
-    set_teams = []
-
-    for elemento in set_teams:
-        X_date = []
-        for index, row in dataset.iterrows():
-            if row["team"] == elemento:
-                X_date.append(row["date"])
-    '''
 
     # dizionario delle date ordinato
     X_date = list(range(1, 551))
@@ -181,79 +167,7 @@ def create_ontology():
             dic_teamhome_dates[str(awayteam)].append(date)
         dic_teamhome_dates[str(hometeam)] = sorted(dic_teamhome_dates[str(hometeam)])
         dic_teamhome_dates[str(awayteam)] = sorted(dic_teamhome_dates[str(awayteam)])
-        '''
-        hometeam = partita.squadra_di_casa.first()
-        date = partita.data_partita.first()
-        if str(hometeam) not in dic_teamhome_dates:
-            dic_teamhome_dates[str(hometeam)] = []
-            dic_teamhome_dates[str(hometeam)].append(date)
-        else:          
-            dic_teamhome_dates[str(hometeam)].append(date)
-        '''
-    
-    # print(dic_teamhome_dates)
 
-    '''
-    with onto:
-        for index, row in dataset.iterrows(): #scorro il dataset
-            #for partita in onto.Partita.instances(): # scorro tutte le partite in Partita
-                if row["home"] == dic_teamhome_dates(row["home"]):
-                    matchweek = row["round"].split(' ')
-                    # print(matchweek[1])
-                    if int(matchweek[1]) >= 5: # ci accertiamo che una partita sia almeno alla quinta giornata
-                        if row["date"] == partita.data_partita and row["team"] == onto.partita.squadra_di_casa and row["opponent"] == onto.partita.squadra_in_trasferta:
-                            games_played = dataset[row["home"] == partita.squadra_in_casa] # tutte le partite giocate da squadra di casa in partita
-                            dataset["last_five_home"] = games_played.tail(5) # gli ultimi 5 results di squadra in casa di partita sottofroma di stringa
-    '''
-    '''
-    with onto:
-        for index, row in dataset.iterrows():
-            # Recupera le date delle ultime 5 partite in casa
-            if row["team"] in dic_teamhome_dates:
-                last_five_home_dates = []
-                for date in dic_teamhome_dates[row["team"]]:
-                    if len(last_five_home_dates) < 5:
-                        last_five_home_dates.append(str(date))
-
-                # Controlla se la partita è almeno alla quinta giornata
-                matchweek = row["round"].split(' ')
-                if int(matchweek[1]) >= 5:
-                    # Salva la partita corrente in una variabile
-                    current_match = None
-                    for partita in onto.Partita.instances():
-                        if (
-                            row["date"] == partita.data_partita.first()
-                            and row["team"] == partita.squadra_di_casa.first()
-                            and row["opponent"] == partita.squadra_in_trasferta.first()
-                        ):
-                            current_match = partita
-                            break
-
-                    # Controlla se la partita corrente è valida
-                    if current_match:
-                        # Inserisci le date nella colonna "last_five_home"
-                        if "last_five_home" not in dataset.columns:
-                            dataset["last_five_home"] = []
-                        dataset.loc[index, "last_five_home"] = ','.join(last_five_home_dates)
-        '''
-    
-    '''
-    squadre_stampate = []
-    
-    for index, row in dataset.iterrows():
-        # Ottieni le informazioni dalla riga corrente
-        squadra = row["team"]
-        date_partita = row["date"]
-        #verifica se la squadra è stata già stampata
-        if squadra not in squadre_stampate:
-            # Ottieni i risultati delle ultime 5 partite
-            last_5_matches_results = get_last_5_matches_results(squadra, date_partita, dic_teamhome_dates, onto)
-            # print(f"{squadra} {last_5_matches_results}")
-            # Aggiorna il DataFrame con i risultati 
-            dataset.loc[index, "last_five"] = last_5_matches_results
-            # Aggiorno la lista delle squadre stampate
-            squadre_stampate.append(squadra)
-    '''
     for index, row in dataset.iterrows():
         # Ottieni le informazioni dalla riga corrente
         squadra = row["team"]
@@ -266,8 +180,5 @@ def create_ontology():
             dataset.loc[index, "last_five"] = last_5_matches_results
         else:
             dataset.loc[index, "last_five"] = "0"
-    # print(dataset["last_five_home"])    
 
-    onto.save(file = "./archive/ontology.rdf")
-
-    return onto
+    return dataset
