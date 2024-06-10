@@ -132,10 +132,6 @@ def create_ontology():
     # salvo l'ontologia
     onto.save(file = "./archive/ontology.rdf")
 
-    
-            
-    # print(dataset["last_five"])    
-
     return onto
 
 def getNewColumn(onto, dataset):
@@ -172,13 +168,14 @@ def getNewColumn(onto, dataset):
         # Ottieni le informazioni dalla riga corrente
         squadra = row["team"]
         date_partita = row["date"]
-        matchweek = row["round"].split(' ')
-        if int(matchweek[1]) > 5:
+        #matchweek = row["round"].split(' ')
+        #matchweek = row[0]
+        matchn = index + 1
+        if (matchn) % 38 == 1 or (matchn) % 38 == 2 or (matchn) % 38 == 3 or (matchn) % 38 == 4 or (matchn) % 38 == 5:
+            dataset.loc[index, "last_five"] = "0"
+        else:
             # Ottieni i risultati delle ultime 5 partite
             last_5_matches_results = get_last_5_matches_results(squadra, date_partita, dic_teamhome_dates, onto)
             # Aggiorna il DataFrame con i risultati 
             dataset.loc[index, "last_five"] = last_5_matches_results
-        else:
-            dataset.loc[index, "last_five"] = "0"
-
     return dataset

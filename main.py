@@ -129,8 +129,14 @@ def main():
     dataset = ot.getNewColumn(ontology, dataset)
 
     # devo mettere in X_train tutti i valori codificati relativi alle partite prima del '2021-05-23' (alleniamo 4 anni di partenza e ci riserviamo 1/5 di dataset per il test)
-    dataset = ds.refine_dataset(dataset) # creo il dataset "pulito" di features che non ci servono 
-    
+    dataset = ds.refine_dataset(dataset) # creo il dataset "pulito" di features che non ci servono
+
+    pd.set_option('display.max_rows', None)
+    for index, row in dataset.iterrows():
+        if row["last_five"] == "":
+            print(index, row)
+    #print(dataset["last_five"])
+
     dictionaries = ds.generate_dictionary(dataset) # creo i dizionari
     dataset = ds.create_data_frame(dataset, dictionaries) # creo il dataset mappato
     X = dataset.loc[dataset[1] <= 440]
@@ -139,11 +145,10 @@ def main():
     X_train = X.loc[:, [22, 6, 2]]
     y_train = X.iloc[:, 3]
 
-    # [!] spostare la colonna 5(result) come ultima colonna per comodità
     X = dataset.loc[dataset[1] > 440] # prendo tutti i games successivi alla data 430
     X_test = X.drop(3, axis = 1)
     X_test = X.drop(1, axis = 1)
-    columns_to_modify = [4, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
+    columns_to_modify = [4, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23]
     X_test[columns_to_modify] = X_test[columns_to_modify].fillna(0)
     X_test = X.loc[:, [22, 6, 2]]
     y_test = X.iloc[:, 3]
@@ -172,7 +177,7 @@ def main():
     print("Migliori iperparametri:", best_params)
     best_score = bayes_search.best_score_
     print("Miglior risultato di accuracy:", best_score)
- 
+
     predictions = bayes_search.predict(X_test)
     cm = confusion_matrix(y_test, predictions)
     plt.figure(figsize=(8, 6))
@@ -234,4 +239,5 @@ def main():
     team2 = game[1]
     team2 = search_Value(dictionaries[1], team2)
     create_gui(team1_win_percentage, team1_draw_percentage, team1_lose_percentage, team2_win_percentage, team2_draw_percentage, team2_lose_percentage, team1, team2)
+    
 main()
