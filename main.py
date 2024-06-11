@@ -5,17 +5,12 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import accuracy_score
 import dataset as ds
+import ontology as ot
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score
 import seaborn as sns
-
-#from pyswip import Prolog
-
-# Inizializza l'interprete Prolog
-#prolog = Prolog()
-
-# Carica il file Prolog
-#prolog.consult("rules.pl")
+import os
+from owlready2 import *
 
 def search_String(dictionary, string):
     for key, value in dictionary.items():
@@ -36,7 +31,6 @@ def get_input(dictionaries):
     for i in range(3):
         user_data = ""
         exit = True
-
         # squadra principale
         if i==0:
             while exit:
@@ -46,7 +40,6 @@ def get_input(dictionaries):
                     exit = False
                 else:
                     print("[!] È necessario inserire un nome valido")
-
         # squadra avversaria
         if i==1:
             while exit:
@@ -56,20 +49,6 @@ def get_input(dictionaries):
                     exit = False
                 else:
                     print("[!] È necessario inserire un nome valido")
-
-        '''
-        # giornata del campionato
-        if i==2:
-            while exit:
-                user_data = input("Inserisci a che giornata si gioca la partita: ")
-                if search_String(dictionaries[i], "Matchweek " + str(user_data)) != None:
-                    user_data = "Matchweek " + str(user_data)
-                    print("Input corretto")
-                    exit = False
-                else:
-                    print("La giornata deve essere un numero compreso in [1, 38]")
-        '''
-
         # dove gioca la squadra principale, casa o trasferta
         if i==2:
             while exit:
@@ -83,20 +62,7 @@ def get_input(dictionaries):
                     user_data = "Away"
                     exit = False
                 else:
-                    print("[!] È necessario scegliere solo tra \"Casa\" o \"Trasferta\"")
-        
-        '''
-        # ora della partita
-        if i==4:
-            while exit:
-                user_data = input("Inserisci l'orario in cui si gioca la partita (nel formato hh:mm): ")
-                if search_String(dictionaries[i], user_data) != None:
-                    print("Input corretto")
-                    exit = False
-                else:
-                    print("[!] Hai inserito un orario inesistente o in un formato errato (deve essere hh:mm)")
-        '''
-        
+                    print("[!] È necessario scegliere solo tra \"Casa\" o \"Trasferta\"")           
         # converte il dato che stiamo maneggiando e lo aggiunge alla lista
         user_data = search_String(dictionaries[i], user_data)
         user_input.append(user_data)
@@ -113,15 +79,15 @@ def pre_match_stats(dataset, game, dictionaries):
     draw_team2 = 0
     loss_team2 = 0
     for index, row in dataset.iterrows(): # itera sulle righe (index) e le colonne (rows) alle quali ci si può riferire con il nome
-        if row[22] == game[0]: # 29 è il nome della colonna dei team, cioè la prima squadra che diamo in input
-            if row[3] == search_String(dictionaries[3], "W"): # 6 è il nome della colonna dei result
+        if row[22] == game[0]: # 22 è il nome della colonna dei team, cioè la prima squadra che diamo in input
+            if row[3] == search_String(dictionaries[3], "W"): # 3 è il nome della colonna dei result
                 wins_team1 += 1
             elif row[3] == search_String(dictionaries[3], "L"):
                 loss_team1 += 1
             else:
                 draw_team1 += 1
-        if row[22] == game[1]: # 29 è il nome della colonna dei team, cioè la prima squadra che diamo in input
-            if row[3] == search_String(dictionaries[3], "W"): # 6 è il nome della colonna dei result
+        if row[22] == game[1]: # 22 è il nome della colonna dei team, cioè la prima squadra che diamo in input
+            if row[3] == search_String(dictionaries[3], "W"): # 3 è il nome della colonna dei result
                 wins_team2 += 1
             elif row[3] == search_String(dictionaries[3], "L"):
                 loss_team2 += 1
@@ -152,11 +118,29 @@ def create_gui(team1_win_percentage, team1_draw_percentage, team1_lose_percentag
     plt.show()
 
 def main():
+
+    ontology = ot.create_ontology()
+
     # problema di classificazione, creiamo un oggetto RandomForestClassifier
     model = RandomForestClassifier(n_estimators = 150, max_depth=10, min_samples_split = 5, random_state = 1)
+    # prendiamo il dataset da csv "grezzo"
+    dataset = ds.get_dataset()
+    # gli aggiungiamo la nuova colonna ottenuta grazie all'ontologia
+    dataset = ot.getNewColumn(ontology, dataset)
 
     # devo mettere in X_train tutti i valori codificati relativi alle partite prima del '2021-05-23' (alleniamo 4 anni di partenza e ci riserviamo 1/5 di dataset per il test)
-    dataset = ds.create_dataset() # creo il dataset "pulito"
+    dataset = ds.refine_dataset(dataset) # creo il dataset "pulito" di features che non ci servono
+
+    '''
+    # codice usato per controllare i vari problemi di last_five
+    pd.set_option('display.max_rows', None)
+    for index, row in dataset.iterrows():
+        #print(index)
+        if row["last_five"] == "":
+            print(str(index) + " " + str(row.iloc[0]) + " " + row["date"] + " " + row["result"] + " " + row["opponent"] + " " + row["team"] + " " + row["last_five"])
+    print(dataset["last_five"])
+    '''
+
     dictionaries = ds.generate_dictionary(dataset) # creo i dizionari
     dataset = ds.create_data_frame(dataset, dictionaries) # creo il dataset mappato
     X = dataset.loc[dataset[1] <= 440]
@@ -165,11 +149,10 @@ def main():
     X_train = X.loc[:, [22, 6, 2]]
     y_train = X.iloc[:, 3]
 
-    # [!] spostare la colonna 5(result) come ultima colonna per comodità
     X = dataset.loc[dataset[1] > 440] # prendo tutti i games successivi alla data 430
     X_test = X.drop(3, axis = 1)
     X_test = X.drop(1, axis = 1)
-    columns_to_modify = [4, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
+    columns_to_modify = [4, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23]
     X_test[columns_to_modify] = X_test[columns_to_modify].fillna(0)
     X_test = X.loc[:, [22, 6, 2]]
     y_test = X.iloc[:, 3]
@@ -198,7 +181,7 @@ def main():
     print("Migliori iperparametri:", best_params)
     best_score = bayes_search.best_score_
     print("Miglior risultato di accuracy:", best_score)
- 
+
     predictions = bayes_search.predict(X_test)
     cm = confusion_matrix(y_test, predictions)
     plt.figure(figsize=(8, 6))
@@ -260,5 +243,5 @@ def main():
     team2 = game[1]
     team2 = search_Value(dictionaries[1], team2)
     create_gui(team1_win_percentage, team1_draw_percentage, team1_lose_percentage, team2_win_percentage, team2_draw_percentage, team2_lose_percentage, team1, team2)
-
+    
 main()
