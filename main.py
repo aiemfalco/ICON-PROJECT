@@ -134,7 +134,7 @@ def main():
     pd.set_option('display.max_rows', None)
     for index, row in dataset.iterrows():
         if row["last_five"] == "":
-            print(index, row)
+            print(str(index) + " " + str(row.iloc[0]) + " " + row["date"] + " " + row["result"] + " " + row["opponent"] + " " + row["team"] + " " + row["last_five"])
     #print(dataset["last_five"])
 
     dictionaries = ds.generate_dictionary(dataset) # creo i dizionari

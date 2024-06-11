@@ -91,8 +91,8 @@ def create_ontology():
     for index, row in dataset.iterrows():
         for item in ordered_teams:
             # qui si scorrono tutti i teams presenti nel dataset, e si assegna il corrispondente capitano del team
-            if row[49] == item:
-                dic_teams_cap[item] = row[15]
+            if row.iloc[49] == item:
+                dic_teams_cap[item] = row.iloc[15]
 
     # popolo le classi Squadra e Capitano
     with onto:
@@ -104,25 +104,25 @@ def create_ontology():
     with onto:
         for index, row in dataset.iterrows():
             for arbitro in arbitri:
-                if row[17] == arbitro:
+                if row.iloc[17] == arbitro:
                     onto.Arbitro(arbitro)
 
     
     # popolo gli oggetti di "partita", mettendo in relazione due squadre e aggiungo gli attributi degli oggetti
     with onto:
         for index, row in dataset.iterrows():
-            if row[6]=="Home":
+            if row.iloc[6]=="Home":
                 nuova_partita = Partita()
                 # Stabilire la relazione tra la squadra di casa e la nuova partita
-                nuova_partita.squadra_di_casa.append(Squadra(row[49]))
+                nuova_partita.squadra_di_casa.append(Squadra(row.iloc[49]))
                 # Stabilire la relazione tra la squadra ospite e la nuova partita
-                nuova_partita.squadra_in_trasferta.append(Squadra(row[10]))
+                nuova_partita.squadra_in_trasferta.append(Squadra(row.iloc[10]))
                 # Stabilire la relazione tra partita e orario, che in questo caso è una stringa
-                nuova_partita.data_partita.append(row[1])
+                nuova_partita.data_partita.append(row.iloc[1])
                 # Stabilire la relazione tra partita e risultato
-                nuova_partita.risultato.append(row[7])
+                nuova_partita.risultato.append(row.iloc[7])
                 # Stabilire la relazione tra partita e risultato
-                nuova_partita.arbitrata.append(Arbitro(row[17]))
+                nuova_partita.arbitrata.append(Arbitro(row.iloc[17]))
 
     # popolo la relazione "rappresenta" tra squadra e capitano
     with onto:
