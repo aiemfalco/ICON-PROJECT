@@ -131,11 +131,15 @@ def main():
     # devo mettere in X_train tutti i valori codificati relativi alle partite prima del '2021-05-23' (alleniamo 4 anni di partenza e ci riserviamo 1/5 di dataset per il test)
     dataset = ds.refine_dataset(dataset) # creo il dataset "pulito" di features che non ci servono
 
+    '''
+    # codice usato per controllare i vari problemi di last_five
     pd.set_option('display.max_rows', None)
     for index, row in dataset.iterrows():
+        #print(index)
         if row["last_five"] == "":
             print(str(index) + " " + str(row.iloc[0]) + " " + row["date"] + " " + row["result"] + " " + row["opponent"] + " " + row["team"] + " " + row["last_five"])
-    #print(dataset["last_five"])
+    print(dataset["last_five"])
+    '''
 
     dictionaries = ds.generate_dictionary(dataset) # creo i dizionari
     dataset = ds.create_data_frame(dataset, dictionaries) # creo il dataset mappato

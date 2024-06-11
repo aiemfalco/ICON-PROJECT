@@ -18,21 +18,20 @@ def get_last_5_matches_results(squadra, date_partita, dizionario_partite_casa, o
     if current_match_index != -1:
         # Itera sulle ultime 5 partite, escludendo la partita in corso
         for i in range(current_match_index - 1, current_match_index - 6, -1):
-            if i != 0:
-                # Ottieni il risultato della partita
-                date = dizionario_partite_casa[s][i]
-                #scorriamo le partite in Partita
-                for partita in ontology.Partita.instances():
-                    # Controllo che la data sia giusta e che la squadra sia giusta per ogni iterata, in caso positivo appendo il risultato alla lista.
-                    if date == partita.data_partita.first() and (str(partita.squadra_di_casa.first()) == s or str(partita.squadra_in_trasferta.first()) == s):
-                        result = partita.risultato.first()
-                        if str(partita.squadra_in_trasferta.first()) == s and partita.risultato.first() != "D":       
-                            if result == "W":
-                                result = "L"
-                            else:
-                                result = "W"
-                        # Aggiungi il risultato alla lista
-                        last_5_matches_results.append(result)
+            # Ottieni il risultato della partita
+            date = dizionario_partite_casa[s][i]
+            #scorriamo le partite in Partita
+            for partita in ontology.Partita.instances():
+                # Controllo che la data sia giusta e che la squadra sia giusta per ogni iterata, in caso positivo appendo il risultato alla lista.
+                if date == partita.data_partita.first() and (str(partita.squadra_di_casa.first()) == s or str(partita.squadra_in_trasferta.first()) == s):
+                    result = partita.risultato.first()
+                    if str(partita.squadra_in_trasferta.first()) == s and partita.risultato.first() != "D":       
+                        if result == "W":
+                            result = "L"
+                        else:
+                            result = "W"
+                    # Aggiungi il risultato alla lista
+                    last_5_matches_results.append(result)
 
 
     # Restituisci la lista dei risultati
