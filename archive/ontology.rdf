@@ -8,6 +8,8 @@
 
 <owl:Ontology rdf:about=""/>
 <owl:ObjectProperty rdf:about="#rappresenta">
+  <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  <rdfs:range rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
   <rdfs:domain rdf:resource="#Capitano"/>
   <rdfs:range rdf:resource="#Squadra"/>
 </owl:ObjectProperty>

@@ -2,6 +2,10 @@ import pandas as pd
 import dataset as ds
 from owlready2 import *
 
+def load_onto(path):
+    onto = get_ontology(path)
+    return onto
+
 def get_last_5_matches_results(squadra, date_partita, dizionario_partite_casa, ontology):
 
     # Inizializza una lista vuota per i risultati
@@ -40,12 +44,8 @@ def get_last_5_matches_results(squadra, date_partita, dizionario_partite_casa, o
 
 
 def create_ontology():
-    path = "./archive/ontology.rdf"
+
     onto = get_ontology("")
-    
-    #creo le classi Squadra, Capitano e le relazioni
-    class rappresenta (Thing >> Thing):
-        pass
     with onto:
         class Squadra(Thing):
             pass
@@ -56,12 +56,14 @@ def create_ontology():
         class Partita(Thing):
             pass
         
-        # RELAZIONI
+        # Relazioni tra classi
+        class rappresenta (Thing >> Thing):
+            pass
         class rappresenta(ObjectProperty):
             domain = [Capitano]
             range = [Squadra]
 
-        # Definizione egli attributi
+        # Definizione degli attributi
         class squadra_di_casa(ObjectProperty):
             domain = [Partita]
             range = [Squadra]
@@ -146,35 +148,36 @@ def getNewColumn(onto, dataset):
 
     dic_teamhome_dates = {}
     list_team_dates_to_sort = []
-    for partita in onto.Partita.instances():
-        date = partita.data_partita.first()
-        hometeam = partita.squadra_di_casa.first()
-        awayteam = partita.squadra_in_trasferta.first()
-        if str(hometeam) not in dic_teamhome_dates:
-            dic_teamhome_dates[str(hometeam)] = []
-            dic_teamhome_dates[str(hometeam)].append(date)
-        else:          
-            dic_teamhome_dates[str(hometeam)].append(date)
-        if str(awayteam) not in dic_teamhome_dates:
-            dic_teamhome_dates[str(awayteam)] = []
-            dic_teamhome_dates[str(awayteam)].append(date)
-        else:          
-            dic_teamhome_dates[str(awayteam)].append(date)
-        dic_teamhome_dates[str(hometeam)] = sorted(dic_teamhome_dates[str(hometeam)])
-        dic_teamhome_dates[str(awayteam)] = sorted(dic_teamhome_dates[str(awayteam)])
+    with onto:
+        for partita in onto.Partita.instances():
+            date = partita.data_partita.first()
+            hometeam = partita.squadra_di_casa.first()
+            awayteam = partita.squadra_in_trasferta.first()
+            if str(hometeam) not in dic_teamhome_dates:
+                dic_teamhome_dates[str(hometeam)] = []
+                dic_teamhome_dates[str(hometeam)].append(date)
+            else:          
+                dic_teamhome_dates[str(hometeam)].append(date)
+            if str(awayteam) not in dic_teamhome_dates:
+                dic_teamhome_dates[str(awayteam)] = []
+                dic_teamhome_dates[str(awayteam)].append(date)
+            else:          
+                dic_teamhome_dates[str(awayteam)].append(date)
+            dic_teamhome_dates[str(hometeam)] = sorted(dic_teamhome_dates[str(hometeam)])
+            dic_teamhome_dates[str(awayteam)] = sorted(dic_teamhome_dates[str(awayteam)])
 
-    for index, row in dataset.iterrows():
-        # Ottieni le informazioni dalla riga corrente
-        squadra = row["team"]
-        date_partita = row["date"]
-        #matchweek = row["round"].split(' ')
-        #matchweek = row[0]
-        matchn = index + 1
-        if (matchn) % 38 == 1 or (matchn) % 38 == 2 or (matchn) % 38 == 3 or (matchn) % 38 == 4 or (matchn) % 38 == 5:
-            dataset.loc[index, "last_five"] = "0"
-        else:
-            # Ottieni i risultati delle ultime 5 partite
-            last_5_matches_results = get_last_5_matches_results(squadra, date_partita, dic_teamhome_dates, onto)
-            # Aggiorna il DataFrame con i risultati 
-            dataset.loc[index, "last_five"] = last_5_matches_results
+        for index, row in dataset.iterrows():
+            # Ottieni le informazioni dalla riga corrente
+            squadra = row["team"]
+            date_partita = row["date"]
+            #matchweek = row["round"].split(' ')
+            #matchweek = row[0]
+            matchn = index + 1
+            if (matchn) % 38 == 1 or (matchn) % 38 == 2 or (matchn) % 38 == 3 or (matchn) % 38 == 4 or (matchn) % 38 == 5:
+                dataset.loc[index, "last_five"] = "0"
+            else:
+                # Ottieni i risultati delle ultime 5 partite
+                last_5_matches_results = get_last_5_matches_results(squadra, date_partita, dic_teamhome_dates, onto)
+                # Aggiorna il DataFrame con i risultati 
+                dataset.loc[index, "last_five"] = last_5_matches_results
     return dataset

@@ -12,6 +12,7 @@ import seaborn as sns
 import os
 from owlready2 import *
 
+
 def search_String(dictionary, string):
     for key, value in dictionary.items():
         if string == key:
@@ -118,8 +119,31 @@ def create_gui(team1_win_percentage, team1_draw_percentage, team1_lose_percentag
     plt.show()
 
 def main():
+    path = "./archive/ontology.rdf"
+    try:
+        ontology = get_ontology("file://" + path).load()
+        #ontology = ot.load_onto(path)
+        if(ontology):
+            for cls in ontology.classes():
+                print(cls) #le classi e le istanze ci sono, le carica
+    except FileNotFoundError:
+        print("Creo l'ontologia...")
+        ontology = ot.create_ontology()
+    
+    print(type(ontology.Squadra), type(ontology.Capitano),type(ontology.Partita), type(ontology.Arbitro) ) #problema, dalla load le classi non sono del tipo che devono
+    # funziona solo alla prima run(quindi dopo la creazione dell'ontologia), se la carica, invece, le istanze ci sono ma non stampa gli attributi booh...
+    for partita in ontology.Partita.instances():
+        print("Partita arbitrata da: ", partita.arbitrata)
+    '''
+    path = "./archive/ontology.rdf"
+    if os.path.exists(path):
+        ontology = ot.load_onto(path)
+        print("Onto loaded", ontology)
+        print("Classes: ", ontology.classes())
+    else:
+        ontology = ot.create_ontology()
 
-    ontology = ot.create_ontology()
+    '''
 
     # problema di classificazione, creiamo un oggetto RandomForestClassifier
     model = RandomForestClassifier(n_estimators = 150, max_depth=10, min_samples_split = 5, random_state = 1)
