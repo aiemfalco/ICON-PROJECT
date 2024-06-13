@@ -2,6 +2,7 @@ import pandas as pd
 import dataset as ds
 from owlready2 import *
 from rdflib import Graph, Namespace
+import urllib.parse
 
 def generate_instance_URI(base_uri, class_name, instance_id):
     return f"{base_uri}{class_name}/{instance_id}"
@@ -61,29 +62,28 @@ def create_ontology():
             pass
         
         # Relazioni tra classi
-        class rappresenta (Thing >> Thing):
-            pass
         class rappresenta(ObjectProperty):
             domain = [Capitano]
             range = [Squadra]
-
-        # Definizione degli attributi
         class squadra_di_casa(ObjectProperty):
             domain = [Partita]
             range = [Squadra]
         class squadra_in_trasferta(ObjectProperty):
             domain = [Partita]
-            range = [Squadra]
+        class arbitrata(ObjectProperty):
+            domain = [Partita]
+            range = [Arbitro]
+
+        # Definizione degli attributi
+        class nome_squadra(DataProperty):
+            domain = [Squadra]
+            range = [str]
         class data_partita(DataProperty):
             domain = [Partita]
             range = [datetime.date]
         class risultato(DataProperty):
-            domain = [Squadra]
-            range = [str]
-        class arbitrata(ObjectProperty):
             domain = [Partita]
-            range = [Arbitro]
-            functional = True
+            range = [str]
 
     # creo il dizionario squadra-capitano
     dataset = ds.get_dataset()
@@ -103,9 +103,13 @@ def create_ontology():
     # popolo le classi Squadra e Capitano
     with onto:
         for squadra, capitano in dic_teams_cap.items():
-            onto.Squadra(squadra)
-            onto.Capitano(capitano)
-
+            #onto.Squadra(squadra)
+            #onto.Capitano(capitano)
+            s = Squadra(squadra)
+            s.nome_squadra = [squadra]
+            c = Capitano(capitano)
+    
+    # popolo la classe Arbitro
     arbitri = set(dataset["referee"])
     with onto:
         for index, row in dataset.iterrows():
@@ -118,7 +122,7 @@ def create_ontology():
     with onto:
         for index, row in dataset.iterrows():
             if row.iloc[6]=="Home":
-                nuova_partita = Partita()
+                nuova_partita = Partita() 
                 # Stabilire la relazione tra la squadra di casa e la nuova partita
                 nuova_partita.squadra_di_casa.append(Squadra(row.iloc[49]))
                 # Stabilire la relazione tra la squadra ospite e la nuova partita
@@ -127,13 +131,20 @@ def create_ontology():
                 nuova_partita.data_partita.append(row.iloc[1])
                 # Stabilire la relazione tra partita e risultato
                 nuova_partita.risultato.append(row.iloc[7])
-                # Stabilire la relazione tra partita e risultato
+                # Stabilire la relazione tra partita e arbitro
                 nuova_partita.arbitrata.append(Arbitro(row.iloc[17]))
 
     # popolo la relazione "rappresenta" tra squadra e capitano
     with onto:
         for squadra, capitano in dic_teams_cap.items():
             onto.Capitano(capitano).rappresenta = [onto.Squadra(squadra)]
+
+    '''for partita in onto.Partita.instances():
+        if partita.arbitrata:
+            # Codifica il nome dell'arbitro per formare un URI valido
+            encoded_name = urllib.parse.quote(partita.arbitrata)
+            arbitro_uri = f"http://example.org/arbitro/{encoded_name}"
+            partita.arbitrata.iri = arbitro_uri
 
     #assegnamo URI ad ogni istanza di Partita, Squadra, Arbitro, Capitano
     prefix = "http://example.org/ontology.rdf#"
@@ -152,18 +163,10 @@ def create_ontology():
     for i, capitano in enumerate(onto.Capitano.instances(), start = 1):
         uri = f"{prefix}Capitano{i}"
         capitano = Capitano(uri)
+    '''
 
-    # assegno uri alle istanze della relazione arbitrata
-    contatore_uri = 0
-    for partita in onto.Partita.instances():
-        arbitro = partita.arbitrata
-        uri_relazione = f"partita{partita.iri}_arbitro{arbitro.iri}_{contatore_uri}"
-        #partita.arbitrata.value.set_uri(uri_relazione)
-        arbitro.set_uri(uri_relazione)
-        contatore_uri += 1
-    
     # salvo l'ontologia
-    onto.save(file = "./archive/ontology.rdf")
+    onto.save(file = "./archive/ontology.rdf", format="rdfxml")
 
     return onto
 
@@ -215,25 +218,17 @@ def getNewColumn(onto, dataset):
     return dataset
 
 def asktoSparQL():
-    g = Graph()
-    g.parse("./archive/ontology.rdf")
-    namespace = Namespace("c")
-
-    #visualizzo le partite arbitrate da 
-    query = """
-    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-    PREFIX owl: <http://www.w3.org/2002/07/owl#>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-    PREFIX : <http://example.org/ontology.rdf#>
-    SELECT ?partita ?arbitro
-    WHERE {
-        ?partita a :Partita .
-    ?partita :arbitrata ?arbitro .
-    }
+    team_name = "Juventus"
+    query = f"""
+        SELECT ?partita ?data
+        WHERE {{
+            ?partita rdf:type :Partita .
+            ?partita :data_partita ?data .
+            ?squadra rdf:type :Squadra .
+            ?squadra :nome_squadra "{team_name}" .
+            ?partita :squadra_di_casa ?squadra .
+            }}
     """
-
-    result = g.query(query)
-
-    for row in result:
-        print(f"Partita {row.Partita}, arbitrata da: {row.Arbitro}")
+    result = list(default_world.sparql(query))
+    for r in result:
+        print(f"Match: {r[0]}, date: {r[1]}")

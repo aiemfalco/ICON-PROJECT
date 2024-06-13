@@ -148,7 +148,7 @@ def main():
     for partita in ontology.Partita.instances():
         print("partita arbitrata da: ", partita.arbitrata)
     '''
-    # ot.asktoSparQL()
+    ot.asktoSparQL()
     '''
     # problema di classificazione, creiamo un oggetto RandomForestClassifier
     model = RandomForestClassifier(n_estimators = 150, max_depth=10, min_samples_split = 5, random_state = 1)
