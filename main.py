@@ -122,6 +122,7 @@ def main():
     # path = "./archive/ontology.rdf"
     ontology = ot.create_ontology()
     '''
+    # tentativi di caricamento dell'ontologia
     try:
         ontology = get_ontology("file://" + path).load()
         #ontology = ot.load_onto(path)
@@ -148,7 +149,8 @@ def main():
     for partita in ontology.Partita.instances():
         print("partita arbitrata da: ", partita.arbitrata)
     '''
-    ot.asktoSparQL()
+    #ot.asktoSparQL()
+    ot.queryH2H("Atalanta", "Roma") #squadre di esempio, verranno passate delle squadre date dall'utente
     '''
     # problema di classificazione, creiamo un oggetto RandomForestClassifier
     model = RandomForestClassifier(n_estimators = 150, max_depth=10, min_samples_split = 5, random_state = 1)
@@ -160,6 +162,7 @@ def main():
     # devo mettere in X_train tutti i valori codificati relativi alle partite prima del '2021-05-23' (alleniamo 4 anni di partenza e ci riserviamo 1/5 di dataset per il test)
     dataset = ds.refine_dataset(dataset) # creo il dataset "pulito" di features che non ci servono
 
+    
     non serve
     # codice usato per controllare i vari problemi di last_five
     pd.set_option('display.max_rows', None)
@@ -168,6 +171,7 @@ def main():
         if row["last_five"] == "":
             print(str(index) + " " + str(row.iloc[0]) + " " + row["date"] + " " + row["result"] + " " + row["opponent"] + " " + row["team"] + " " + row["last_five"])
     print(dataset["last_five"])
+    
 
     dictionaries = ds.generate_dictionary(dataset) # creo i dizionari
     dataset = ds.create_data_frame(dataset, dictionaries) # creo il dataset mappato
@@ -233,6 +237,8 @@ def main():
 
     game = get_input(dictionaries)
 
+    ot.asktoSparQLH2H(game[0], game[1])
+
     print("Dizionari:\n", dictionaries)
 
     stats = pre_match_stats(dataset, game, dictionaries)
@@ -271,5 +277,5 @@ def main():
     team2 = game[1]
     team2 = search_Value(dictionaries[1], team2)
     create_gui(team1_win_percentage, team1_draw_percentage, team1_lose_percentage, team2_win_percentage, team2_draw_percentage, team2_lose_percentage, team1, team2)
-'''
+    '''
 main()
