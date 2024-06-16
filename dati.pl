@@ -1,92 +1,92 @@
-squadra('Chievo').
-squadra('Genoa').
-squadra('Fiorentina').
-squadra('SPAL').
-squadra('Parma').
-squadra('Juventus').
-squadra('Empoli').
-squadra('Lazio').
-squadra('Bologna').
-squadra('Salernitana').
-squadra('Sassuolo').
-squadra('Sampdoria').
-squadra('Roma').
-squadra('Benevento').
-squadra('Brescia').
-squadra('Atalanta').
-squadra('Udinese').
-squadra('Venezia').
-squadra('Inter').
-squadra('Hellas Verona').
-squadra('Spezia').
 squadra('Napoli').
-squadra('Cagliari').
-squadra('Milan').
-squadra('Torino').
+squadra('SPAL').
+squadra('Fiorentina').
+squadra('Sassuolo').
+squadra('Parma').
+squadra('Empoli').
 squadra('Crotone').
+squadra('Genoa').
+squadra('Torino').
+squadra('Bologna').
 squadra('Frosinone').
+squadra('Venezia').
+squadra('Atalanta').
+squadra('Lazio').
+squadra('Spezia').
+squadra('Udinese').
+squadra('Sampdoria').
+squadra('Benevento').
+squadra('Juventus').
+squadra('Hellas Verona').
+squadra('Roma').
+squadra('Brescia').
+squadra('Salernitana').
+squadra('Cagliari').
+squadra('Inter').
 squadra('Lecce').
-arbitro('Federico La Penna').
-arbitro('Riccardo Pinzani').
-arbitro('Eugenio Abbattista').
-arbitro('Juan Sacchi').
-arbitro('Massimiliano Irrati').
-arbitro('Davide Massa').
-arbitro('Claudio Gavillucci').
-arbitro('Piero Giacomelli').
-arbitro('Davide Ghersini').
-arbitro('Livio Marinelli').
-arbitro('Luca Pairetto').
-arbitro('Daniele Paterna').
-arbitro('Fabio Maresca').
+squadra('Chievo').
+squadra('Milan').
 arbitro('Francesco Meraviglia').
-arbitro('Daniele Orsato').
-arbitro('Marco Guida').
-arbitro('Ivan Pezzuto').
-arbitro('Daniele Chiffi').
-arbitro('Giovanni Ayroldi').
-arbitro('Cosso Cosso').
-arbitro('Antonio Giua').
-arbitro('Maurizio Mariani').
-arbitro('Matteo Marcenaro').
-arbitro('Rosario Abisso').
-arbitro('Marco Piccinini').
-arbitro('Michael Fabbri').
-arbitro('Giacomo Camplone').
-arbitro('Antonio Damato').
 arbitro('Gianpiero Miele').
-arbitro('Paolo Tagliavento').
-arbitro('Lorenzo Illuzzi').
-arbitro('Daniel Amabile').
-arbitro('Riccardo Ros').
-arbitro('Fabrizio Pasqua').
-arbitro('Matteo Gariglio').
-arbitro('Luca Banti').
-arbitro('Daniele Doveri').
-arbitro('Gianluca Aureliano').
-arbitro('Matteo Marchetti').
-arbitro('Andrea Colombo').
-arbitro('Antonio Di Martino').
-arbitro('Gianluca Rocchi').
-arbitro('Federico Dionisi').
-arbitro('Lorenzo Maggioni').
-arbitro('Simone Sozza').
-arbitro('Marco Di Bello').
-arbitro('Manuel Volpi').
-arbitro('Niccolò Baroni').
-arbitro('Marco Serra').
-arbitro('Paolo Mazzoleni').
-arbitro('Luigi Nasca').
+arbitro('Daniele Paterna').
+arbitro('Matteo Marcenaro').
 arbitro('Aleandro Di Paolo').
-arbitro('Alberto Santoro').
+arbitro('Luigi Nasca').
+arbitro('Ivan Pezzuto').
+arbitro('Davide Ghersini').
+arbitro('Giovanni Ayroldi').
+arbitro('Marco Piccinini').
+arbitro('Matteo Gariglio').
+arbitro('Federico La Penna').
+arbitro('Cosso Cosso').
 arbitro('Francesco Fourneau').
-arbitro('Antonio Rapuano').
-arbitro('Gianluca Manganiello').
-arbitro('Alessandro Prontera').
+arbitro('Marco Guida').
+arbitro('Andrea Colombo').
+arbitro('Antonio Damato').
+arbitro('Riccardo Pinzani').
+arbitro('Rosario Abisso').
+arbitro('Lorenzo Illuzzi').
 arbitro('Valerio Marini').
-arbitro('Paolo Valeri').
-arbitro('Luca Massimi').
+arbitro('Marco Di Bello').
+arbitro('Luca Pairetto').
+arbitro('Federico Dionisi').
+arbitro('Piero Giacomelli').
+arbitro('Alberto Santoro').
+arbitro('Lorenzo Maggioni').
+arbitro('Alessandro Prontera').
+arbitro('Antonio Di Martino').
+arbitro('Niccolò Baroni').
+arbitro('Claudio Gavillucci').
+arbitro('Luca Banti').
+arbitro('Michael Fabbri').
+arbitro('Massimiliano Irrati').
+arbitro('Fabrizio Pasqua').
+arbitro('Daniele Chiffi').
+arbitro('Davide Massa').
+arbitro('Maurizio Mariani').
+arbitro('Marco Serra').
+arbitro('Simone Sozza').
+arbitro('Gianluca Manganiello').
+arbitro('Antonio Giua').
+arbitro('Paolo Mazzoleni').
+arbitro('Matteo Marchetti').
 arbitro('Giampaolo Calvarese').
+arbitro('Daniele Orsato').
+arbitro('Giacomo Camplone').
+arbitro('Juan Sacchi').
+arbitro('Daniele Doveri').
+arbitro('Riccardo Ros').
+arbitro('Luca Massimi').
+arbitro('Gianluca Rocchi').
+arbitro('Antonio Rapuano').
+arbitro('Paolo Tagliavento').
+arbitro('Paolo Valeri').
+arbitro('Manuel Volpi').
+arbitro('Fabio Maresca').
+arbitro('Livio Marinelli').
+arbitro('Eugenio Abbattista').
+arbitro('Gianluca Aureliano').
+arbitro('Daniel Amabile').
 giornata(1).
 giornata(2).
 giornata(3).

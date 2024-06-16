@@ -24,7 +24,7 @@ vincolo_arbitro_unico([partita(_, _, G, A)|Rest]) :-
 
 % Generazione di un calendario valido
 calendario(Calendario) :-
-    findall/4(partita(S1, S2, G, A), partita(S1, S2, G, A), Partite),
+    findall(partita(S1, S2, G, A), partita(S1, S2, G, A), Partite),
     permutation(Partite, Calendario),
     vincolo_unicita_giornata(Calendario),
     vincolo_arbitro_unico(Calendario).
@@ -39,5 +39,3 @@ print_calendario([partita(S1, S2, G, A) | Rest]) :-
     format('Partita: ~w vs ~w, Giornata: ~w, Arbitro: ~w~n', [S1, S2, G, A]),
     print_calendario(Rest).
 
-% Query per eseguire la stampa del calendario
-:- stampa_calendario.

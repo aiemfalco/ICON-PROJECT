@@ -1,6 +1,7 @@
 import dataset as ds
-from pyswip import Prolog
+from constraint import Problem, AllDifferentConstraint
 
+'''
 def get_teams_and_referees():
     dataset = ds.get_dataset()
 
@@ -43,8 +44,83 @@ prolog = Prolog()
 prolog.consult('scheduleNewSeason.pl')
 
 # Esegui la query per stampare il calendario
-result = list(prolog.query("stampa_calendario"))
+result = list(prolog.query("calendario(Calendario)"))
 
 # Stampa il risultato
-for row in result:
-    print(row)
+if result:
+    for row in result[0]['Calendario']:
+        print(f"Partita: {row['S1']} vs {row['S2']}, Giornata: {row['G']}, Arbitro: {row['A']}")
+else:
+    print("Nessun calendario generato.")
+'''
+def get_teams_and_referees():
+    dataset = ds.get_dataset()
+
+    teams = list(set(dataset['team']))
+    referees = list(set(dataset['referee']))
+    rounds = list(range(1, 39))
+    
+    return teams, referees, rounds
+
+def calendario_csp(teams, referees, rounds):
+    problem = Problem()
+
+    # Aggiungi variabili: ogni partita è identificata da (team1, team2, round, referee)
+    matches = [(team1, team2, round_num, referee)
+               for team1 in teams
+               for team2 in teams
+               for round_num in rounds
+               for referee in referees
+               if team1 != team2]
+
+    problem.addVariables(matches, [0, 1])  # Variabile binaria: 0 = non giocata, 1 = giocata
+
+    # Vincolo: Ogni squadra gioca esattamente una volta per giornata
+    for team in teams:
+        for round_num in rounds:
+            round_matches = [(team1, team2, round_num, referee)
+                             for team1, team2, rnd, referee in matches
+                             if (team1 == team or team2 == team) and rnd == round_num]
+            problem.addConstraint(lambda *args: sum(args) == 1, round_matches)
+
+    # Vincolo: Ogni arbitro arbitra esattamente una volta per giornata
+    for round_num in rounds:
+        for referee in referees:
+            referee_matches = [(team1, team2, round_num, referee)
+                               for team1, team2, rnd, ref in matches
+                               if rnd == round_num and ref == referee]
+            problem.addConstraint(lambda *args: sum(args) <= 1, referee_matches)
+
+    # Vincolo: Unica partita per squadra per giornata
+    for round_num in rounds:
+        for team in teams:
+            team_matches = [(team1, team2, round_num, referee)
+                            for team1, team2, rnd, referee in matches
+                            if (team1 == team or team2 == team) and rnd == round_num]
+            problem.addConstraint(lambda *args: sum(args) <= 1, team_matches)
+
+    solutions = problem.getSolutions()
+
+    if solutions:
+        solution = solutions[0]  # Prendiamo la prima soluzione trovata
+        calendar = [match for match in solution if solution[match] == 1]
+        return calendar
+    else:
+        return None
+
+def print_calendario(calendar):
+    if calendar:
+        for match in calendar:
+            team1, team2, round_num, referee = match
+            print(f"Partita: {team1} vs {team2}, Giornata: {round_num}, Arbitro: {referee}")
+    else:
+        print("Nessun calendario generato.")
+
+# Genera le liste
+teams, referees, rounds = get_teams_and_referees()
+
+# Genera il calendario
+calendar = calendario_csp(teams, referees, rounds)
+
+# Stampa il calendario
+print_calendario(calendar)
