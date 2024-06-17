@@ -12,9 +12,32 @@ import os
 from owlready2 import *
 import learning as lg
 
+def chiedi_scelta():
+    print("Scegli una delle seguenti opzioni:")
+    print("1. Apprendimento supervisionato")
+    print("2. CSP")
+    print("3. Esegui query SPARQL")
+    
+    scelta = None
+    while scelta not in ['1', '2', '3']:
+        scelta = input("Inserisci il numero della tua scelta (1, 2, o 3): ")
+        if scelta not in ['1', '2', '3']:
+            print("Scelta non valida. Per favore, scegli 1, 2, o 3.")
+    
+    return scelta
+
 def main():
-    # path = "./archive/ontology.rdf"
+
+    scelta = int(chiedi_scelta())
+    if scelta == 1:
+        lg.learner()
+    elif scelta == 2:
+        print("CSP")
+    else:
+        print("Ontologia")
+
     '''
+     # path = "./archive/ontology.rdf"
     # tentativi di caricamento dell'ontologia
     try:
         ontology = get_ontology("file://" + path).load()
@@ -42,6 +65,4 @@ def main():
     for partita in ontology.Partita.instances():
         print("partita arbitrata da: ", partita.arbitrata)
     '''
-    lg.learner()
-    
 main()

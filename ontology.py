@@ -2,6 +2,10 @@ import pandas as pd
 import dataset as ds
 from owlready2 import *
 
+'''
+    Modulo riguardo l'ontologia
+'''
+
 
 def load_onto():
     onto = get_ontology("./archive/ontology.rdf").load()

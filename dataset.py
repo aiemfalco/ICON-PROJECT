@@ -1,5 +1,9 @@
 import pandas as pd
 
+'''
+    Modulo che riguarda la pulizia del dataset grezzo caricato da csv
+'''
+
 def get_dataset():
     filename = "archive/seriea-matches.csv"
     dataset = pd.read_csv(filename)

@@ -8,6 +8,10 @@ from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_
 import seaborn as sns
 import ontology as ot
 
+'''
+    Modulo riguardo l'apprendimento supervisionato
+'''
+
 def search_String(dictionary, string):
     for key, value in dictionary.items():
         if string == key:
@@ -117,7 +121,7 @@ def learner():
     # problema di classificazione, creiamo un oggetto RandomForestClassifier
     ontology = ot.create_ontology()
     #ot.asktoSparQL()
-    ot.queryH2H("Atalanta", "Roma") #squadre di esempio, verranno passate delle squadre date dall'utente
+    #ot.queryH2H("Atalanta", "Roma") #squadre di esempio, verranno passate delle squadre date dall'utente
 
     model = RandomForestClassifier(n_estimators = 150, max_depth=10, min_samples_split = 5, random_state = 1)
     # prendiamo il dataset da csv "grezzo"
