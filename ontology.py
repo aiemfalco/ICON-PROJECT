@@ -192,15 +192,14 @@ def getNewColumn(onto, dataset):
                 dataset.loc[index, "last_five"] = last_5_matches_results
     return dataset
 
-def asktoSparQL():
-    team_name = "Juventus"
+def games_of_a_team(squadra1):
     query = f"""
         SELECT ?partita ?risultato
         WHERE {{
             ?partita rdf:type :Partita .
             ?partita :risultato ?risultato .
             ?squadra rdf:type :Squadra .
-            ?squadra :nome_squadra "{team_name}" .
+            ?squadra :nome_squadra "{squadra1}" .
             ?partita :squadra_di_casa ?squadra .
             }}
     """
@@ -208,7 +207,31 @@ def asktoSparQL():
     for r in result:
         print("Match:", str(r[0])[1:], " result:", r[1])
 
-def queryH2H(squadra1, squadra2):
+def matches_this_day(onto, data):
+    # risolvere problema che non carica l'ontologia con load_onto e quindi la query non va
+    query = f"""
+        SELECT ?partita ?data
+        WHERE {{
+            ?partita rdf:type :Partita .
+            ?partita :data_partita ?data
+            ?squadraH rdf:type :Squadra .
+            ?squadraH :nome_squadra "{onto.partita.squadra_di_casa}" .
+            ?squadraA rdf:type :Squadra .
+            ?squadraA :nome_squadra "{onto.partita.squadra_in_trasferta}" .
+            ?partita :squadra_di_casa ?squadraH .
+            ?partita :squadra_in_trasferta ?squadraA .
+            }}
+    """
+    # Esegui la query
+    results = list(default_world.sparql(query))
+    if results:
+        print(f"Partite giocate il {data}:")
+        for result in results:
+            print(result[0])
+    else:
+        print(f"Nessuna partita trovata per la data {data}.")
+
+def history_vs(squadra1, squadra2):
     vs1 = 0
     vs2 = 0
     d = 0

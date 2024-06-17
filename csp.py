@@ -1,5 +1,5 @@
 import dataset as ds
-from constraint import Problem, AllDifferentConstraint
+#from constraint import Problem, AllDifferentConstraint
 import random
 
 '''
