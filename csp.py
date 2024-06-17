@@ -1,5 +1,6 @@
 import dataset as ds
 from constraint import Problem, AllDifferentConstraint
+import random
 
 '''
 def get_teams_and_referees():
@@ -63,50 +64,75 @@ def get_teams_and_referees():
     return teams, referees, rounds
 
 def calendario_csp(teams, referees, rounds):
+    # Seleziona casualmente 20 squadre dalla lista dei team
+    selected_teams = random.sample(teams, 20)
+    
+    # Genera tutte le partite possibili
+    all_matches = [(team1, team2) for team1 in selected_teams for team2 in selected_teams if team1 != team2]
+    
+    # Distribuisci le partite nelle giornate
+    matches_per_round = len(all_matches) // len(rounds)
+    random.shuffle(all_matches)
+    
     problem = Problem()
-
-    # Aggiungi variabili: ogni partita è identificata da (team1, team2, round, referee)
-    matches = [(team1, team2, round_num, referee)
-               for team1 in teams
-               for team2 in teams
-               for round_num in rounds
-               for referee in referees
-               if team1 != team2]
-
-    problem.addVariables(matches, [0, 1])  # Variabile binaria: 0 = non giocata, 1 = giocata
-
+    
+    for round_num in rounds:
+        round_matches = all_matches[:matches_per_round]
+        all_matches = all_matches[matches_per_round:]
+        for match in round_matches:
+            team1, team2 = match
+            # Aggiungi variabili per ogni partita in un determinato round e con un determinato arbitro
+            for referee in referees:
+                problem.addVariable((team1, team2, round_num, referee), [0, 1])
+    
     # Vincolo: Ogni squadra gioca esattamente una volta per giornata
-    for team in teams:
+    for team in selected_teams:
         for round_num in rounds:
-            round_matches = [(team1, team2, round_num, referee)
-                             for team1, team2, rnd, referee in matches
-                             if (team1 == team or team2 == team) and rnd == round_num]
-            problem.addConstraint(lambda *args: sum(args) == 1, round_matches)
-
-    # Vincolo: Ogni arbitro arbitra esattamente una volta per giornata
+            team_round_matches = [(team1, team2, round_num, referee)
+                                  for team1 in selected_teams
+                                  for team2 in selected_teams
+                                  if team1 != team2
+                                  for referee in referees
+                                  if team1 == team or team2 == team]
+            problem.addConstraint(lambda *args: sum(args) == 1, team_round_matches)
+    
+    # Vincolo: Ogni arbitro arbitra al massimo una volta per giornata
     for round_num in rounds:
         for referee in referees:
             referee_matches = [(team1, team2, round_num, referee)
-                               for team1, team2, rnd, ref in matches
-                               if rnd == round_num and ref == referee]
+                               for team1 in selected_teams
+                               for team2 in selected_teams
+                               if team1 != team2]
             problem.addConstraint(lambda *args: sum(args) <= 1, referee_matches)
-
-    # Vincolo: Unica partita per squadra per giornata
-    for round_num in rounds:
-        for team in teams:
-            team_matches = [(team1, team2, round_num, referee)
-                            for team1, team2, rnd, referee in matches
-                            if (team1 == team or team2 == team) and rnd == round_num]
-            problem.addConstraint(lambda *args: sum(args) <= 1, team_matches)
-
+    
+    # Vincolo: Ogni squadra gioca 19 partite in casa e 19 in trasferta
+    for team in selected_teams:
+        home_matches = [(team1, team2, round_num, referee)
+                        for team1 in selected_teams
+                        for team2 in selected_teams
+                        if team1 == team
+                        for round_num in rounds
+                        for referee in referees]
+        away_matches = [(team1, team2, round_num, referee)
+                        for team1 in selected_teams
+                        for team2 in selected_teams
+                        if team2 == team
+                        for round_num in rounds
+                        for referee in referees]
+        problem.addConstraint(lambda *args: sum(args) == 19, home_matches)
+        problem.addConstraint(lambda *args: sum(args) == 19, away_matches)
+    
     solutions = problem.getSolutions()
-
+    
     if solutions:
         solution = solutions[0]  # Prendiamo la prima soluzione trovata
-        calendar = [match for match in solution if solution[match] == 1]
+        calendar = [(team1, team2, round_num, referee)
+                    for (team1, team2, round_num, referee) in solution
+                    if solution[(team1, team2, round_num, referee)] == 1]
         return calendar
     else:
         return None
+    
 
 def print_calendario(calendar):
     if calendar:
@@ -115,6 +141,8 @@ def print_calendario(calendar):
             print(f"Partita: {team1} vs {team2}, Giornata: {round_num}, Arbitro: {referee}")
     else:
         print("Nessun calendario generato.")
+
+
 
 # Genera le liste
 teams, referees, rounds = get_teams_and_referees()
