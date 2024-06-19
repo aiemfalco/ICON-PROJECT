@@ -207,19 +207,14 @@ def games_of_a_team(squadra1):
     for r in result:
         print("Match:", str(r[0])[1:], " result:", r[1])
 
-def matches_this_day(onto, data):
+def matches_this_day(data):
     # risolvere problema che non carica l'ontologia con load_onto e quindi la query non va
     query = f"""
         SELECT ?partita ?data
         WHERE {{
             ?partita rdf:type :Partita .
-            ?partita :data_partita ?data
-            ?squadraH rdf:type :Squadra .
-            ?squadraH :nome_squadra "{onto.partita.squadra_di_casa}" .
-            ?squadraA rdf:type :Squadra .
-            ?squadraA :nome_squadra "{onto.partita.squadra_in_trasferta}" .
-            ?partita :squadra_di_casa ?squadraH .
-            ?partita :squadra_in_trasferta ?squadraA .
+            ?partita :data_partita ?data .
+            ?partita :data_partita "{data}" .
             }}
     """
     # Esegui la query

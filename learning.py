@@ -117,9 +117,8 @@ def create_gui(team1_win_percentage, team1_draw_percentage, team1_lose_percentag
 
     plt.show()
 
-def learner():
+def learner(ontology):
     # problema di classificazione, creiamo un oggetto RandomForestClassifier
-    ontology = ot.create_ontology()
 
     model = RandomForestClassifier(n_estimators = 150, max_depth=10, min_samples_split = 5, random_state = 1)
     # prendiamo il dataset da csv "grezzo"
