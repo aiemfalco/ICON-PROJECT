@@ -6,11 +6,6 @@ from owlready2 import *
     Modulo riguardo l'ontologia
 '''
 
-
-def load_onto():
-    onto = get_ontology("./archive/ontology.rdf").load()
-    return onto
-
 def get_last_5_matches_results(squadra, date_partita, dizionario_partite_casa, ontology):
 
     # Inizializza una lista vuota per i risultati
