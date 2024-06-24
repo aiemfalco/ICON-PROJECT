@@ -13,53 +13,65 @@ def get_teams_and_referees():
     return teams, referees, rounds
 
 def create_schedule(teams, referees, days):
+
     problem = Problem()
     
     # Definire le variabili per le partite
-    matches = []
+    matches = [] # 380 stringhe, chiavi poi 
     for day in days:
-        for i in range(len(teams)//2):
+        for i in range(len(teams)//2): #380(38x10) matches, da 1_0 a 38_9
             matches.append(f"match{day}_{i}")
 
     # Aggiungere variabili per ogni partita
-    for match in matches[:190]:  # 19 giorni * 10 partite al giorno
-        problem.addVariable(match, [(team1, team2) for team1 in teams for team2 in teams if team1 != team2])
+    for match in matches:
+        problem.addVariable(match, [(team1, team2) for team1 in teams for team2 in teams if team1 != team2]) #aggiunge 380 variabili
 
-    # Vincolo: ogni squadra gioca una sola partita per giornata
+    # Assegnare arbitri alle partite, aggiungo variabili per ogni partita
     for day in days:
-        match_day_vars = [f"match{day}_{i}" for i in range(len(teams)//2)]
-        problem.addConstraint(AllDifferentConstraint(), match_day_vars)
-    
-    # Vincolo: nessuna partita ripetuta nel girone di andata
-    for i in range(len(teams)//2):
-        match_pairs = [f"match{day}_{i}" for day in days]
-        problem.addConstraint(AllDifferentConstraint(), match_pairs)
-    
-    '''Vincolo: girone di ritorno invertito rispetto all'andata
-    for day in days:
-        for i in range(len(teams)//2):
-           if day + len(days) < 2 * len(days):
-                match_andata = f"match{day}_{i}"
-                match_ritorno = f"match{day + len(days)}_{i}"
-                problem.addConstraint(lambda andata, ritorno: andata == ritorno[::-1], [match_andata, match_ritorno])
-    '''
-    andata_days = days
-    ritorno_days = list(range(len(days), 2*len(days)))
-    
-    for day in andata_days:
-        for i in range(len(teams)//2):
-            match_andata = f"match{day}_{i}"
-            match_ritorno = f"match{day + len(days)}_{i}"
-            if match_ritorno in matches:  # Verifica che la variabile esista
-                problem.addConstraint(lambda andata, ritorno: andata == ritorno[::-1], [match_andata, match_ritorno])
-
-    # Assegnare arbitri alle partite
-    for day in days:
-        for i in range(len(teams)//2):
+        for i in range(len(teams)//2): #38 x 10
             match = f"match{day}_{i}"
-            problem.addVariable(f"referee_{match}", referees)
+            problem.addVariable(f"referee_{match}", referees) #aggiunge 380 variabili
+
+    # Vincolo 1: ogni squadra gioca esattamente una partita per ogni giornata
+    for day in range(1, len(days) + 1):
+        # prende tutti i match che vanno da day_0 a day_9 a ogni iterata (quindi una giornata)
+        day_matches = [match for match in matches if match.startswith(f"match{day}_")]
+
+        # Lista delle squadre coinvolte in ciascuna partita della giornata
+        teams_involved = []
+        for match in day_matches:
+            team1, team2 = problem.get_assignment(match)
+            teams_involved.extend([team1, team2])
+        '''
+        # Lista delle variabili per le partite di questa giornata
+        match_vars = [problem._variables(match) for match in day_matches] # non esiste sto metodo PD!
+        
+        # Lista delle squadre coinvolte in tutte le partite di questa giornata
+        teams_involved = []
+        for match_var in day_matches:
+            teams_involved.extend(problem.get_values(match_vars))
+        '''
+
+        # Aggiungi vincolo: tutte le squadre coinvolte devono essere diverse tra loro
+        problem.addConstraint(AllDifferentConstraint(), teams_involved)
+
+
+    ''' Vincolo: ogni squadra gioca una sola partita per giornata
+    for day in days:
+        teams_for_day = [f"match{day}_{i}" for i in range(len(teams)//2)]
+        # teams_for_day = [match for match in matches if team in match and problem.getSolution()[match] == day]
+        for team in teams:
+            # problem.addConstraint(lambda *matches, team=team: sum(team in match for match in matches) == 1, teams_for_day)
+            problem.addConstraint(AllDifferentConstraint(), teams_for_day)
     
-    # Vincolo: ogni arbitro arbitra una sola partita per giornata
+    andata_days = days[:19]
+    for day in andata_days: 
+        for i in range(len(teams)//2): # 19 x 10
+            match_andata = f"match{day}_{i}" #match di andata viene preso tra [1_0 , 19_9]
+            match_ritorno = f"match{day + len(andata_days)}_{i}" # match di ritorno viene preso tra [20_0 , 38_9]
+            problem.addConstraint(lambda andata, ritorno: andata == ritorno[::-1], [match_andata, match_ritorno])
+    '''
+    # Vincolo 2: ogni arbitro arbitra una sola partita per giornata
     for day in days:
         referee_vars = [f"referee_match{day}_{i}" for i in range(len(teams)//2)]
         problem.addConstraint(AllDifferentConstraint(), referee_vars)    
@@ -68,11 +80,3 @@ def create_schedule(teams, referees, days):
     solution = problem.getSolution()
 
     return solution
-
-# Esempio di utilizzo
-teams = [f"Team{i}" for i in range(1, 21)]
-referees = [f"Referee{i}" for i in range(1, 11)]
-days = list(range(1, 20))  # 19 giornate per il girone di andata
-
-schedule = create_schedule(teams, referees, days)
-print(schedule)

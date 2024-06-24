@@ -12,6 +12,7 @@ import dataset as ds
 import ontology as ot
 import learning as lg
 import csp as csp
+import scarabocchi as sca
 
 def chiedi_scelta():
     scelta = None
@@ -32,13 +33,12 @@ def main():
     if scelta == 1:
         lg.learner(ontology)
     elif scelta == 2:
-        liste = csp.get_teams_and_referees()
-        schedule = csp.create_schedule(liste[0], liste[1], liste[2])
-        if schedule:
-            for day, matches in schedule.items():
-                print(f"Giornata {day}:")
-                for match in matches:
-                    print(f"  {match[0]} vs {match[1]} (Arbitro: {match[2]})")
+        liste = sca.get_teams_and_referees()
+        schedule = sca.create_schedule(liste[0], liste[1], liste[2])
+        filtered_matches = {k: v for k, v in schedule.items() if k.startswith('match')}
+        sorted_matches = sorted(filtered_matches.items(), key=lambda x: int(x[0][5:].split('_')[0]))
+        for match_id, teams in sorted_matches:
+            print(f"{match_id}: {teams[0]} vs {teams[1]}")
     else:
         print("Queries disponibili:")
         print("1. Mostra le partite giocate da due squadre(casa e trasferta)")
