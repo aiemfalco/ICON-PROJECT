@@ -7349,6 +7349,177 @@
   <risultato rdf:datatype="http://www.w3.org/2001/XMLSchema#string">D</risultato>
 </owl:NamedIndividual>
 
+<owl:NamedIndividual rdf:about="#ParNap2020-09-20">
+  <rdf:type rdf:resource="#Partita"/>
+  <squadra_di_casa rdf:resource="#Parma"/>
+  <squadra_in_trasferta rdf:resource="#Napoli"/>
+  <arbitrata rdf:resource="#Maurizio Mariani"/>
+  <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2020-09-20</data_partita>
+  <risultato rdf:datatype="http://www.w3.org/2001/XMLSchema#string">L</risultato>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ParHel2020-10-04">
+  <rdf:type rdf:resource="#Partita"/>
+  <squadra_di_casa rdf:resource="#Parma"/>
+  <squadra_in_trasferta rdf:resource="#Hellas Verona"/>
+  <arbitrata rdf:resource="#Antonio Giua"/>
+  <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2020-10-04</data_partita>
+  <risultato rdf:datatype="http://www.w3.org/2001/XMLSchema#string">W</risultato>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ParSpe2020-10-25">
+  <rdf:type rdf:resource="#Partita"/>
+  <squadra_di_casa rdf:resource="#Parma"/>
+  <squadra_in_trasferta rdf:resource="#Spezia"/>
+  <arbitrata rdf:resource="#Valerio Marini"/>
+  <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2020-10-25</data_partita>
+  <risultato rdf:datatype="http://www.w3.org/2001/XMLSchema#string">D</risultato>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ParFio2020-11-07">
+  <rdf:type rdf:resource="#Partita"/>
+  <squadra_di_casa rdf:resource="#Parma"/>
+  <squadra_in_trasferta rdf:resource="#Fiorentina"/>
+  <arbitrata rdf:resource="#Federico La Penna"/>
+  <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2020-11-07</data_partita>
+  <risultato rdf:datatype="http://www.w3.org/2001/XMLSchema#string">D</risultato>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ParBen2020-12-06">
+  <rdf:type rdf:resource="#Partita"/>
+  <squadra_di_casa rdf:resource="#Parma"/>
+  <squadra_in_trasferta rdf:resource="#Benevento"/>
+  <arbitrata rdf:resource="#Juan Sacchi"/>
+  <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2020-12-06</data_partita>
+  <risultato rdf:datatype="http://www.w3.org/2001/XMLSchema#string">D</risultato>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ParCag2020-12-16">
+  <rdf:type rdf:resource="#Partita"/>
+  <squadra_di_casa rdf:resource="#Parma"/>
+  <squadra_in_trasferta rdf:resource="#Cagliari"/>
+  <arbitrata rdf:resource="#Ivan Pezzuto"/>
+  <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2020-12-16</data_partita>
+  <risultato rdf:datatype="http://www.w3.org/2001/XMLSchema#string">D</risultato>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ParJuv2020-12-19">
+  <rdf:type rdf:resource="#Partita"/>
+  <squadra_di_casa rdf:resource="#Parma"/>
+  <squadra_in_trasferta rdf:resource="#Juventus"/>
+  <arbitrata rdf:resource="#Giampaolo Calvarese"/>
+  <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2020-12-19</data_partita>
+  <risultato rdf:datatype="http://www.w3.org/2001/XMLSchema#string">L</risultato>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ParTor2021-01-03">
+  <rdf:type rdf:resource="#Partita"/>
+  <squadra_di_casa rdf:resource="#Parma"/>
+  <squadra_in_trasferta rdf:resource="#Torino"/>
+  <arbitrata rdf:resource="#Daniele Doveri"/>
+  <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-01-03</data_partita>
+  <risultato rdf:datatype="http://www.w3.org/2001/XMLSchema#string">L</risultato>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ParLaz2021-01-10">
+  <rdf:type rdf:resource="#Partita"/>
+  <squadra_di_casa rdf:resource="#Parma"/>
+  <squadra_in_trasferta rdf:resource="#Lazio"/>
+  <arbitrata rdf:resource="#Luca Pairetto"/>
+  <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-01-10</data_partita>
+  <risultato rdf:datatype="http://www.w3.org/2001/XMLSchema#string">L</risultato>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ParSam2021-01-24">
+  <rdf:type rdf:resource="#Partita"/>
+  <squadra_di_casa rdf:resource="#Parma"/>
+  <squadra_in_trasferta rdf:resource="#Sampdoria"/>
+  <arbitrata rdf:resource="#Gianluca Manganiello"/>
+  <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-01-24</data_partita>
+  <risultato rdf:datatype="http://www.w3.org/2001/XMLSchema#string">L</risultato>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ParBol2021-02-07">
+  <rdf:type rdf:resource="#Partita"/>
+  <squadra_di_casa rdf:resource="#Parma"/>
+  <squadra_in_trasferta rdf:resource="#Bologna"/>
+  <arbitrata rdf:resource="#Marco Guida"/>
+  <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-02-07</data_partita>
+  <risultato rdf:datatype="http://www.w3.org/2001/XMLSchema#string">L</risultato>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ParUdi2021-02-21">
+  <rdf:type rdf:resource="#Partita"/>
+  <squadra_di_casa rdf:resource="#Parma"/>
+  <squadra_in_trasferta rdf:resource="#Udinese"/>
+  <arbitrata rdf:resource="#Massimiliano Irrati"/>
+  <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-02-21</data_partita>
+  <risultato rdf:datatype="http://www.w3.org/2001/XMLSchema#string">D</risultato>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ParInt2021-03-04">
+  <rdf:type rdf:resource="#Partita"/>
+  <squadra_di_casa rdf:resource="#Parma"/>
+  <squadra_in_trasferta rdf:resource="#Inter"/>
+  <arbitrata rdf:resource="#Fabrizio Pasqua"/>
+  <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-03-04</data_partita>
+  <risultato rdf:datatype="http://www.w3.org/2001/XMLSchema#string">L</risultato>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ParRom2021-03-14">
+  <rdf:type rdf:resource="#Partita"/>
+  <squadra_di_casa rdf:resource="#Parma"/>
+  <squadra_in_trasferta rdf:resource="#Roma"/>
+  <arbitrata rdf:resource="#Marco Piccinini"/>
+  <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-03-14</data_partita>
+  <risultato rdf:datatype="http://www.w3.org/2001/XMLSchema#string">W</risultato>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ParGen2021-03-19">
+  <rdf:type rdf:resource="#Partita"/>
+  <squadra_di_casa rdf:resource="#Parma"/>
+  <squadra_in_trasferta rdf:resource="#Genoa"/>
+  <arbitrata rdf:resource="#Daniele Doveri"/>
+  <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-03-19</data_partita>
+  <risultato rdf:datatype="http://www.w3.org/2001/XMLSchema#string">L</risultato>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ParMil2021-04-10">
+  <rdf:type rdf:resource="#Partita"/>
+  <squadra_di_casa rdf:resource="#Parma"/>
+  <squadra_in_trasferta rdf:resource="#Milan"/>
+  <arbitrata rdf:resource="#Fabio Maresca"/>
+  <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-04-10</data_partita>
+  <risultato rdf:datatype="http://www.w3.org/2001/XMLSchema#string">L</risultato>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ParCro2021-04-24">
+  <rdf:type rdf:resource="#Partita"/>
+  <squadra_di_casa rdf:resource="#Parma"/>
+  <squadra_in_trasferta rdf:resource="#Crotone"/>
+  <arbitrata rdf:resource="#Antonio Rapuano"/>
+  <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-04-24</data_partita>
+  <risultato rdf:datatype="http://www.w3.org/2001/XMLSchema#string">L</risultato>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ParAta2021-05-09">
+  <rdf:type rdf:resource="#Partita"/>
+  <squadra_di_casa rdf:resource="#Parma"/>
+  <squadra_in_trasferta rdf:resource="#Atalanta"/>
+  <arbitrata rdf:resource="#Antonio Giua"/>
+  <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-05-09</data_partita>
+  <risultato rdf:datatype="http://www.w3.org/2001/XMLSchema#string">L</risultato>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="#ParSas2021-05-16">
+  <rdf:type rdf:resource="#Partita"/>
+  <squadra_di_casa rdf:resource="#Parma"/>
+  <squadra_in_trasferta rdf:resource="#Sassuolo"/>
+  <arbitrata rdf:resource="#Marco Piccinini"/>
+  <data_partita rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2021-05-16</data_partita>
+  <risultato rdf:datatype="http://www.w3.org/2001/XMLSchema#string">L</risultato>
+</owl:NamedIndividual>
+
 <owl:NamedIndividual rdf:about="#JuvNap2019-08-31">
   <rdf:type rdf:resource="#Partita"/>
   <squadra_di_casa rdf:resource="#Juventus"/>
