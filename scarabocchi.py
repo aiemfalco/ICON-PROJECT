@@ -38,19 +38,10 @@ def create_schedule(teams, referees, days):
         day_matches = [match for match in matches if match.startswith(f"match{day}_")]
 
         # Lista delle squadre coinvolte in ciascuna partita della giornata
-        teams_involved = []
+        teams_involved = [] # sarà = a teams per ogni day
         for match in day_matches:
             team1, team2 = problem.get_assignment(match)
             teams_involved.extend([team1, team2])
-        '''
-        # Lista delle variabili per le partite di questa giornata
-        match_vars = [problem._variables(match) for match in day_matches] # non esiste sto metodo PD!
-        
-        # Lista delle squadre coinvolte in tutte le partite di questa giornata
-        teams_involved = []
-        for match_var in day_matches:
-            teams_involved.extend(problem.get_values(match_vars))
-        '''
 
         # Aggiungi vincolo: tutte le squadre coinvolte devono essere diverse tra loro
         problem.addConstraint(AllDifferentConstraint(), teams_involved)

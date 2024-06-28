@@ -12,6 +12,7 @@ import dataset as ds
 import ontology as ot
 import learning as lg
 import csp as csp
+import cuciniamo as cc
 import scarabocchi as sca
 
 def chiedi_scelta():
@@ -33,8 +34,8 @@ def main():
     if scelta == 1:
         lg.learner(ontology)
     elif scelta == 2:
-        liste = sca.get_teams_and_referees()
-        schedule = sca.create_schedule(liste[0], liste[1], liste[2])
+        liste = cc.get_teams_and_referees()
+        schedule = cc.create_schedule(liste[0], liste[1], liste[2])
         filtered_matches = {k: v for k, v in schedule.items() if k.startswith('match')}
         sorted_matches = sorted(filtered_matches.items(), key=lambda x: int(x[0][5:].split('_')[0]))
         for match_id, teams in sorted_matches:
