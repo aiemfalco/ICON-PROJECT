@@ -6,7 +6,7 @@ def get_teams_and_referees():
 
     dataset = ds.get_dataset()
     teams = list(set(dataset['team']))
-    teams = random.sample(teams, 20) # seleziona randomicamente 20 squadre dalla lista teams(diverse ad ogni run)
+    teams = random.sample(teams, 20) # seleziona randomicamente 20 squadre dalla lista teams(diverse ad ogni run, non ci importa la veridicità)
     referees = list(set(dataset['referee']))
     rounds = list(range(1, 39))
     
@@ -35,7 +35,7 @@ def create_schedule(teams, referees, days):
                 problem.addConstraint(lambda a, b: a[0] != b[0] and a[0] != b[1] and a[1] != b[0] and a[1] != b[1],
                                       (day_matches[i], day_matches[j])) # vincolo tutte le squadre devono essere diverse in tutte le partite della giornata i
                 
-    # Vincolo 2: tutte le partite/team1 vs team2) devono essere diverse in ogni giornata (itera per tutte le 19 giornate di andata )
+    # Vincolo 2: tutte le partite(team1 vs team2) devono essere diverse in ogni giornata (itera per tutte le 19 giornate di andata )
     for day1 in half_days:
         for day2 in half_days: #19x19
             if day1 < day2:
