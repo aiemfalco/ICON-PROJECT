@@ -26,13 +26,16 @@ def create_schedule(dataset):
         away_teams = [f"R{round}M{match}_away" for match in range(10)]
         all_teams = home_teams + away_teams
         # imponiamo che i teams devono essere tutti diversi, relativi alla giornata(round)
-        problem.addConstraint(AllDifferentConstraint(), all_teams) 
+        
+        # Questa riga di codice toglie tutti gli elementi che si presentano due volte.
+        problem.addConstraint(AllDifferentConstraint(), all_teams)  
         # lo stesso per gli arbitri
         referees_round = [f"R{round}M{match}_referee" for match in range(10)]
         problem.addConstraint(AllDifferentConstraint(), referees_round)
 
     # Vincolo 2: una squadra non può affrontare se stessa - FUNZIONA
     for (home, away, arbiter) in matches: #scorro matches, dove ogni cella ha tre stringhe
+        # Uso la funzione lambda
         problem.addConstraint(lambda h, a: h != a, (home, away)) # impongo che home e away devono essere diversi
 
     # Vincolo 3: Aggiungo vincolo per evitare ripetizioni esatte nelle giornate
@@ -62,7 +65,7 @@ def create_schedule(dataset):
 
     # Stampare il calendario
     for round in range(1, 20):
-        print(f"Giornata {round} (Andata):")
+        print(f"Giornata {round} (Andata): \n")
         for match in range(10):
             home = solution[f"R{round}M{match}_home"]
             away = solution[f"R{round}M{match}_away"]
@@ -70,7 +73,7 @@ def create_schedule(dataset):
             print(f"{home} vs {away} - Arbitro: {referee}")
 
     for round in range(20, 39):
-        print(f"Giornata {round} (Ritorno):")
+        print(f"Giornata {round} (Ritorno): \n")
         for match in range(10):
             home = solution[f"R{round}M{match}_home"]
             away = solution[f"R{round}M{match}_away"]
