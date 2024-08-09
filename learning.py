@@ -1,5 +1,6 @@
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
+from sklearn.tree import DecisionTreeClassifier
 import dataset as ds
 from skopt import BayesSearchCV
 from skopt.space import Real, Categorical, Integer
@@ -119,8 +120,13 @@ def create_gui(team1_win_percentage, team1_draw_percentage, team1_lose_percentag
 
 def learner(ontology):
     # problema di classificazione, creiamo un oggetto RandomForestClassifier
+    # Qui alleniamo tutti i modelli di apprendimento supervisionato scelti
 
-    model = RandomForestClassifier(n_estimators = 150, max_depth=10, min_samples_split = 5, random_state = 1)
+    # base_estimator parte da un albero di profondità 1, quindi solo il root
+    base_estimator = DecisionTreeClassifier(max_depth = 1)
+
+    model_rf = RandomForestClassifier(n_estimators = 150, max_depth = 10, min_samples_split = 5, random_state = 1)
+    model_ada = AdaBoostClassifier(n_estimators = 50, learning_rate = 1.0, random_state = 42, estimator = base_estimator)
     # prendiamo il dataset da csv "grezzo"
     dataset = ds.get_dataset()
     # gli aggiungiamo la nuova colonna ottenuta grazie all'ontologia
@@ -145,16 +151,25 @@ def learner(ontology):
     X_test = X.loc[:, [22, 6, 2]]
     y_test = X.iloc[:, 3]
 
-    param_space = {
+    # Questi sono i parametri per il random forest
+    param_space_rf = {
     'n_estimators': Integer(50, 150),
     'max_depth': Integer(1, 20),
     'min_samples_split': Integer(2, 10)
     }
+    
+    # Questi sono i parametri per l'ada boost
+    param_space_ada = {
+    'n_estimators': (50, 500),  # Numero di estimatori deboli
+    'learning_rate': (0.01, 1.0, 'log-uniform'),  # Learning rate
+    'algorithm': ['SAMME', 'SAMME.R']  # Algoritmo di boosting
+    }
 
-    # Esecuzione della Bayesian Optimization
-    bayes_search = BayesSearchCV(
-        model, 
-        param_space, 
+
+    # Esecuzione della Bayesian Optimization per il random forest
+    bayes_search_rf = BayesSearchCV(
+        model_rf,
+        param_space_rf, 
         n_iter=50,  # Numero di iterazioni della ricerca
         cv=5,  # Numero di fold della cross-validation
         scoring='accuracy',  # Metrica di valutazione da ottimizzare
@@ -162,16 +177,39 @@ def learner(ontology):
         random_state=1 #seed per riproducibilità
     )
 
-    bayes_search.fit(X_train, y_train)
+    # Esecuzione della Bayesian Optimization per l'ada boost
+    bayes_search_ada = BayesSearchCV(
+        model_ada,
+        param_space_ada,
+        n_iter = 50,  # Numero di iterazioni della ricerca
+        cv = 5,  # Numero di fold della cross-validation
+        scoring = 'accuracy',  # Metrica di valutazione da ottimizzare
+        n_jobs =- 1,
+        random_state = 1  # Seed per riproducibilità
+    )   
+
+
+    bayes_search_rf.fit(X_train, y_train)
+
+    bayes_search_ada.fit(X_train, y_train)
 
     # Estrazione dei migliori iperparametri
-    best_params = bayes_search.best_params_
-    print("Migliori iperparametri:", best_params)
-    best_score = bayes_search.best_score_
-    print("Miglior risultato di accuracy:", best_score)
+    best_params = bayes_search_rf.best_params_
+    print("Migliori iperparametri per il random forest:", best_params)
+    best_score = bayes_search_rf.best_score_
+    print("Miglior risultato di accuracy per il random forest:", best_score)
 
-    predictions = bayes_search.predict(X_test)
-    cm = confusion_matrix(y_test, predictions)
+    best_params_ada = bayes_search_ada.best_params_
+    print("I migliori parametri trovati per l'ada boosting:", best_params_ada)
+    best_score_ada = bayes_search_ada.best_score_
+    print("Miglior risultato di accuracy per l'ada boosting:", best_score_ada)
+
+
+    predictions_rf = bayes_search_rf.predict(X_test)
+    predictions_ada = bayes_search_ada.predict(X_test)
+
+    cm = confusion_matrix(y_test, predictions_rf)
+    cm = confusion_matrix(y_test, predictions_ada)
     plt.figure(figsize=(8, 6))
     sns.heatmap(cm, annot=True, cmap='Blues', fmt='g', cbar=False)
     plt.xlabel('Predicted labels')
@@ -179,21 +217,27 @@ def learner(ontology):
     plt.title('Confusion Matrix')
     plt.show()
 
-    accuracy = accuracy_score(y_test, predictions)
-    print("Accuratezza del modello: ", accuracy)
+    accuracy_rf = accuracy_score(y_test, predictions_rf)
+    accuracy_ada = accuracy_score(y_test, predictions_ada)
+    print("Accuratezza del modello per il random forest: ", accuracy_rf)
+    print("Accuratezza del modello per l'ada boosting: ", accuracy_ada)
 
-    precision = precision_score(y_test, predictions, average='macro')  # Puoi scegliere 'micro', 'macro' o 'weighted'
-    print("Precision:", precision)
+    precision_rf = precision_score(y_test, predictions_rf, average='macro')  # Puoi scegliere 'micro', 'macro' o 'weighted'
+    precision_ada = precision_score(y_test, predictions_ada, average='macro', zero_division = 0)  # Puoi scegliere 'micro', 'macro' o 'weighted'
+    print("Precision per il random forest:", precision_rf)
+    print("Precision per l'ada boosting:", precision_ada)
 
-    recall = recall_score(y_test, predictions, average='macro')  # Puoi scegliere 'micro', 'macro' o 'weighted'
-    print("Recall:", recall)
+    recall_rf = recall_score(y_test, predictions_rf, average='macro')  # Puoi scegliere 'micro', 'macro' o 'weighted'
+    recall_ada = recall_score(y_test, predictions_ada, average='macro')  # Puoi scegliere 'micro', 'macro' o 'weighted'
+    print("Recall per il random forest:", recall_rf)
+    print("Recall per l'ada boosting:", recall_ada)
 
-    f1 = f1_score(y_test, predictions, average='macro')  # Puoi scegliere 'micro', 'macro' o 'weighted'
-    print("F1-score:", f1)
+    f1_rf = f1_score(y_test, predictions_rf, average='macro')  # Puoi scegliere 'micro', 'macro' o 'weighted'
+    f1_ada = f1_score(y_test, predictions_ada, average='macro')  # Puoi scegliere 'micro', 'macro' o 'weighted'
+    print("F1-score per il random forest:", f1_rf)
+    print("F1-score per l'ada boosting:", f1_ada)
 
     game = get_input(dictionaries)
-
-    print("Dizionari:\n", dictionaries)
 
     stats = pre_match_stats(dataset, game, dictionaries)
 
@@ -218,14 +262,15 @@ def learner(ontology):
 
     game_2_pred = pd.DataFrame([gamedict])
 
-    print("Valori di game inseriti dal utente(mappati):\n", game)
-    print("Gamedict:\n", gamedict)
-    print("Dataframe:\n", game_2_pred)
 
-    predicted = bayes_search.predict(game_2_pred)
-    prob = bayes_search.predict_proba(game_2_pred)
-    print("Predizione: ", predicted, "=", search_Value(dictionaries[3], predicted))
-    print(prob)
+    predicted_rf = bayes_search_rf.predict(game_2_pred)
+    predicted_ada = bayes_search_ada.predict(game_2_pred)
+    prob_rf = bayes_search_rf.predict_proba(game_2_pred)
+    prob_ada = bayes_search_ada.predict_proba(game_2_pred)
+    print("Predizione RANDOM FOREST: ", predicted_rf, "=", search_Value(dictionaries[3], predicted_rf))
+    print("Predizione ADABOOSTING: ", predicted_ada, "=", search_Value(dictionaries[3], predicted_ada))
+    print(prob_rf)
+    print(prob_ada)
     team1 = game[0]
     team1 = search_Value(dictionaries[0], team1)
     team2 = game[1]
