@@ -119,12 +119,10 @@ def create_gui(team1_win_percentage, team1_draw_percentage, team1_lose_percentag
     plt.show()
 
 def learner(ontology):
-    # problema di classificazione, creiamo un oggetto RandomForestClassifier
-    # Qui alleniamo tutti i modelli di apprendimento supervisionato scelti
-
+    # Problema di classificazione, creiamo un oggetto RandomForestClassifier e adaBoosting e alleniamo i modelli di apprendimento
     # base_estimator parte da un albero di profondità 1, quindi solo il root
     base_estimator = DecisionTreeClassifier(max_depth = 1)
-
+    # i due modelli
     model_rf = RandomForestClassifier(n_estimators = 150, max_depth = 10, min_samples_split = 5, random_state = 1)
     model_ada = AdaBoostClassifier(n_estimators = 50, learning_rate = 1.0, random_state = 42, estimator = base_estimator)
     # prendiamo il dataset da csv "grezzo"
