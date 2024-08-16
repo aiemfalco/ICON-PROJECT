@@ -1,12 +1,3 @@
-import pandas as pd
-from skopt import BayesSearchCV
-from skopt.space import Real, Categorical, Integer
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import GridSearchCV
-import matplotlib.pyplot as plt
-from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score
-import seaborn as sns
-import os
 from owlready2 import *
 import dataset as ds
 import ontology as ot

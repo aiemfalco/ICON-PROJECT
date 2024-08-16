@@ -1,5 +1,4 @@
 from constraint import Problem, AllDifferentConstraint
-import dataset as ds
 import random
 
 def create_schedule(dataset): 

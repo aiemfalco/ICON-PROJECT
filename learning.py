@@ -3,7 +3,7 @@ from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.tree import DecisionTreeClassifier
 import dataset as ds
 from skopt import BayesSearchCV
-from skopt.space import Real, Categorical, Integer
+from skopt.space import Integer
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score, accuracy_score
 import seaborn as sns

@@ -1,4 +1,3 @@
-import pandas as pd
 import dataset as ds
 from owlready2 import *
 
