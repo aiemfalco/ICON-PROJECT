@@ -172,6 +172,7 @@ def getNewColumn(onto, dataset):
             dic_teamhome_dates[str(hometeam)] = sorted(dic_teamhome_dates[str(hometeam)])
             dic_teamhome_dates[str(awayteam)] = sorted(dic_teamhome_dates[str(awayteam)])
 
+        # Andiamo a scorrere il dataset in ordine, le squadre nelle prime 5 righe, essendo il dataset ordinato, non possono avere più più di 4 partite pregresse quindi impostiamo il valore della colonna "last_five" a 0
         for index, row in dataset.iterrows():
             # Ottieni le informazioni dalla riga corrente
             squadra = row["team"]
@@ -179,13 +180,16 @@ def getNewColumn(onto, dataset):
             matchn = index + 1
             if (matchn) % 38 == 1 or (matchn) % 38 == 2 or (matchn) % 38 == 3 or (matchn) % 38 == 4 or (matchn) % 38 == 5:
                 dataset.loc[index, "last_five"] = "0"
-            else:
+            else: # mentre dalla sesta riga in poi andiamo a prendere i risultati precedenti, chiamando get_last_5_matches_results
                 # Ottieni i risultati delle ultime 5 partite
                 last_5_matches_results = get_last_5_matches_results(squadra, date_partita, dic_teamhome_dates, onto)
                 # Aggiorna il DataFrame con i risultati 
                 dataset.loc[index, "last_five"] = last_5_matches_results
     return dataset
 
+'''
+    Query SPARQL
+'''
 def games_of_a_team(squadra1):
     query = f"""
         SELECT ?partita ?risultato

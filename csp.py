@@ -28,9 +28,17 @@ def create_schedule(dataset):
         
         # Questa riga di codice toglie tutti gli elementi che si presentano due volte.
         problem.addConstraint(AllDifferentConstraint(), all_teams)  
-        # lo stesso per gli arbitri
-        referees_round = [f"R{round}M{match}_referee" for match in range(10)]
+
+        # Vincolo sugli arbitri: devono essere tutti diversi nella giornata
+        referees_round = [f"R{round}M{match}_referee" for match in range(10)] # contiene tutti gli arbitri della giornata "round"
         problem.addConstraint(AllDifferentConstraint(), referees_round)
+
+        # Aggiungiamo la casualità degli arbitri
+        referees_round = random.sample(referees, 10)  # Seleziona 10 arbitri casuali per la giornata
+        referees_vars = [f"R{round}M{match}_referee" for match in range(10)]
+        for var in referees_vars:
+            problem.addConstraint(lambda arb, r=referees_round: arb in r, [var])
+        problem.addConstraint(AllDifferentConstraint(), referees_vars)
 
     # Vincolo 2: una squadra non può affrontare se stessa - FUNZIONA
     for (home, away, arbiter) in matches: #scorro matches, dove ogni cella ha tre stringhe
@@ -64,7 +72,7 @@ def create_schedule(dataset):
 
     # Stampare il calendario
     for round in range(1, 20):
-        print(f"Giornata {round} (Andata): \n")
+        print(f"\nGiornata {round} (Andata): ")
         for match in range(10):
             home = solution[f"R{round}M{match}_home"]
             away = solution[f"R{round}M{match}_away"]
