@@ -19,7 +19,7 @@ def create_schedule(dataset):
             problem.addVariable(f"R{round}M{match}_referee", referees)
             matches.append((f"R{round}M{match}_home", f"R{round}M{match}_away", f"R{round}M{match}_referee")) # 380 matches
 
-    # Vincolo 1: tutte le squadre devono essere diverse nella giornata - FUNZIONA
+    # Vincolo 1: tutte le squadre e gli arbitri devono essere diversi nella giornata - FUNZIONA
     for round in range(1, len(rounds)+1): # da 1 a 38, si esclude il 39 perciò mettiamo +1
         home_teams = [f"R{round}M{match}_home" for match in range(10)]
         away_teams = [f"R{round}M{match}_away" for match in range(10)]

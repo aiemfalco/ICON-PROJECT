@@ -6,6 +6,11 @@ from skopt import BayesSearchCV
 from skopt.space import Integer
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score, accuracy_score
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import label_binarize
+from sklearn.metrics import roc_curve, auc
+from sklearn.multiclass import OneVsRestClassifier
+import numpy as np
 import seaborn as sns
 import ontology as ot
 
@@ -119,37 +124,38 @@ def create_gui(team1_win_percentage, team1_draw_percentage, team1_lose_percentag
     plt.show()
 
 def learner(ontology):
-    # Problema di classificazione, creiamo un oggetto RandomForestClassifier e adaBoosting e alleniamo i modelli di apprendimento
+    # Problema di classificazione, creiamo un oggetto RandomForestClassifier e AdaBoosting
     # base_estimator parte da un albero di profondità 1, quindi solo il root
     base_estimator = DecisionTreeClassifier(max_depth = 1)
-    # i due modelli
+    # Istanziamo i due modelli
     model_rf = RandomForestClassifier(n_estimators = 150, max_depth = 10, min_samples_split = 5, random_state = 1)
     model_ada = AdaBoostClassifier(n_estimators = 50, learning_rate = 1.0, random_state = 42, estimator = base_estimator)
-    # prendiamo il dataset da csv "grezzo"
+    # prendiamo il dataset grezzo da csv
     dataset = ds.get_dataset()
-    # gli aggiungiamo la nuova colonna ottenuta grazie all'ontologia
+    # gli aggiungiamo la nuova colonna ottenuta grazie all'ontologia (conoscenza derivata)
     dataset = ot.getNewColumn(ontology, dataset)
 
     # devo mettere in X_train tutti i valori codificati relativi alle partite prima del '2021-05-23' (alleniamo 4 anni di partenza e ci riserviamo 1/5 di dataset per il test)
     dataset = ds.refine_dataset(dataset) # creo il dataset "pulito" di features che non ci servono
-    print("numero di colonne post feature selection: ")
-    print(len(dataset.columns.tolist()))
+
+    dataset1 = dataset
+    # print(dataset["result"]) colonna di W, D, L
 
     dictionaries = ds.generate_dictionary(dataset) # creo i dizionari
     dataset = ds.create_data_frame(dataset, dictionaries) # creo il dataset mappato
-    X = dataset.loc[dataset[1] <= 440]
+    X = dataset.loc[dataset[1] <= 440] # seleziono i 4/5 del dataset da dare al training
     X_train = X.drop(3, axis = 1) # prendo tutti i games prima della data 430 (escluso result chiaramente)
     X_train = X.drop(1, axis = 1) # droppo la colonna delle date che ci è servita solo come spartiacque
     X_train = X.loc[:, [22, 6, 2]]
     y_train = X.iloc[:, 3]
 
-    X = dataset.loc[dataset[1] > 440] # prendo tutti i games successivi alla data 430
+    X = dataset.loc[dataset[1] > 440] # prendo tutti i games successivi alla data 430, il restante 1/5 da dare al test 
     X_test = X.drop(3, axis = 1)
     X_test = X.drop(1, axis = 1)
     columns_to_modify = [4, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23]
     X_test[columns_to_modify] = X_test[columns_to_modify].fillna(0)
     X_test = X.loc[:, [22, 6, 2]]
-    y_test = X.iloc[:, 3]
+    y_test = X.iloc[:, 3] # le ground truth degli esempi di test (unseen examples)
 
     # Questi sono i parametri per il random forest
     param_space_rf = {
@@ -223,20 +229,58 @@ def learner(ontology):
     print("Accuratezza del modello per l'ada boosting: ", accuracy_ada)
 
     precision_rf = precision_score(y_test, predictions_rf, average='macro')  # Puoi scegliere 'micro', 'macro' o 'weighted'
-    precision_ada = precision_score(y_test, predictions_ada, average='macro', zero_division = 0)  # Puoi scegliere 'micro', 'macro' o 'weighted'
+    precision_ada = precision_score(y_test, predictions_ada, average='macro', zero_division = 0) 
     print("Precision per il random forest:", precision_rf)
     print("Precision per l'ada boosting:", precision_ada)
 
-    recall_rf = recall_score(y_test, predictions_rf, average='macro')  # Puoi scegliere 'micro', 'macro' o 'weighted'
-    recall_ada = recall_score(y_test, predictions_ada, average='macro')  # Puoi scegliere 'micro', 'macro' o 'weighted'
+    recall_rf = recall_score(y_test, predictions_rf, average='macro') 
+    recall_ada = recall_score(y_test, predictions_ada, average='macro')  
     print("Recall per il random forest:", recall_rf)
     print("Recall per l'ada boosting:", recall_ada)
 
-    f1_rf = f1_score(y_test, predictions_rf, average='macro')  # Puoi scegliere 'micro', 'macro' o 'weighted'
-    f1_ada = f1_score(y_test, predictions_ada, average='macro')  # Puoi scegliere 'micro', 'macro' o 'weighted'
+    f1_rf = f1_score(y_test, predictions_rf, average='macro') 
+    f1_ada = f1_score(y_test, predictions_ada, average='macro') 
     print("F1-score per il random forest:", f1_rf)
     print("F1-score per l'ada boosting:", f1_ada)
 
+    # Curva di ROC
+    # Binarizza le etichette (one-vs-rest) per il ROC multiclasse
+    y_train_bin = label_binarize(y_train, classes=[1, 2, 3])
+    y_test_bin = label_binarize(y_test, classes=[1, 2, 3])
+    print(np.unique(y_test)) # stampa [1 2 3] che sono i valori unici presenti in y_test
+    n_classes = y_train_bin.shape[1]
+
+    # Predici le probabilità per il test set 
+    y_score = bayes_search_rf.predict_proba(X_test)
+
+    print(np.unique(y_test, return_counts=True)) # ho 186 esempi per W, 256 per D, 257 per L
+
+    # Calcolo fpr e tpr per ogni classe 
+    fpr = dict()
+    tpr = dict()
+    roc_auc = dict()
+    for i in range(n_classes):
+        fpr[i], tpr[i], _ = roc_curve(y_test_bin[:, i], y_score[:, i])
+        roc_auc[i] = auc(fpr[i], tpr[i])
+
+    # Calcola la curva ROC e l'AUC per ciascuna classe
+    plt.figure()
+    colors = ['aqua', 'darkorange', 'cornflowerblue']
+    for i, color in zip(range(n_classes), colors):
+        plt.plot(fpr[i], tpr[i], color=color, lw=2,
+                label='ROC curve of class {0} (area = {1:0.2f})'
+                ''.format(['W', 'D', 'L'][i], roc_auc[i]))
+
+    plt.plot([0, 1], [0, 1], 'k--', lw=2)
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('ROC Curve for Multi-Class Random Forest')
+    plt.legend(loc="lower right")
+    plt.show()
+
+    # Fase di input 
     game = get_input(dictionaries)
 
     stats = pre_match_stats(dataset, game, dictionaries)
