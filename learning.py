@@ -243,7 +243,7 @@ def learner(ontology):
     print("F1-score per il random forest:", f1_rf)
     print("F1-score per l'ada boosting:", f1_ada)
 
-    # Curva di ROC
+    # Curva di ROC Random Forest
     # Binarizza le etichette (one-vs-rest) per il ROC multiclasse
     y_train_bin = label_binarize(y_train, classes=[1, 2, 3])
     y_test_bin = label_binarize(y_test, classes=[1, 2, 3])
@@ -277,6 +277,43 @@ def learner(ontology):
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
     plt.title('ROC Curve for Multi-Class Random Forest')
+    plt.legend(loc="lower right")
+    plt.show()
+
+    # Curva di ROC AdaBoost
+    # Binarizza le etichette (one-vs-rest) per il ROC multiclasse
+    y_train_bin = label_binarize(y_train, classes=[1, 2, 3])
+    y_test_bin = label_binarize(y_test, classes=[1, 2, 3])
+    print(np.unique(y_test)) # stampa [1 2 3] che sono i valori unici presenti in y_test
+    n_classes = y_train_bin.shape[1]
+
+    # Predici le probabilità per il test set 
+    y_score = bayes_search_ada.predict_proba(X_test)
+
+    print(np.unique(y_test, return_counts=True)) # ho 186 esempi per W, 256 per D, 257 per L
+
+    # Calcolo fpr e tpr per ogni classe 
+    fpr = dict()
+    tpr = dict()
+    roc_auc = dict()
+    for i in range(n_classes):
+        fpr[i], tpr[i], _ = roc_curve(y_test_bin[:, i], y_score[:, i])
+        roc_auc[i] = auc(fpr[i], tpr[i])
+
+    # Calcola la curva ROC e l'AUC per ciascuna classe
+    plt.figure()
+    colors = ['aqua', 'darkorange', 'cornflowerblue']
+    for i, color in zip(range(n_classes), colors):
+        plt.plot(fpr[i], tpr[i], color=color, lw=2,
+                label='ROC curve of class {0} (area = {1:0.2f})'
+                ''.format(['W', 'D', 'L'][i], roc_auc[i]))
+
+    plt.plot([0, 1], [0, 1], 'k--', lw=2)
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('ROC Curve for Multi-Class Ada Boost')
     plt.legend(loc="lower right")
     plt.show()
 
