@@ -17,20 +17,21 @@ import ontology as ot
 '''
     Modulo riguardo l'apprendimento supervisionato
 '''
-
+# Restituisce il valore di una stringa in un dizionario, se presente
 def search_String(dictionary, string):
     for key, value in dictionary.items():
         if string == key:
             return value
     return None  # Restituisce None se la stringa non è presente nel dizionario
 
+# Restituisce la chiave del valore di un dizionario, se presente
 def search_Value(dictionary, number):
     for key, value in dictionary.items():
         if value == number:
             return key
     return None  # Restituisce None se il numero non è presente nel dizionario
 
-# metodo che prende in input la stringa di input che servirà come input al modello
+# Funzione che prende gli input (features) necessari al modello per fare la sua predizione
 def get_input(dictionaries):
     user_input = []
     i = 0
@@ -92,8 +93,8 @@ def pre_match_stats(dataset, game, dictionaries):
                 loss_team1 += 1
             else:
                 draw_team1 += 1
-        if row[22] == game[1]: # 22 è il nome della colonna dei team, cioè la prima squadra che diamo in input
-            if row[3] == search_String(dictionaries[3], "W"): # 3 è il nome della colonna dei result
+        if row[22] == game[1]:
+            if row[3] == search_String(dictionaries[3], "W"):
                 wins_team2 += 1
             elif row[3] == search_String(dictionaries[3], "L"):
                 loss_team2 += 1
@@ -138,9 +139,6 @@ def learner(ontology):
     # devo mettere in X_train tutti i valori codificati relativi alle partite prima del '2021-05-23' (alleniamo 4 anni di partenza e ci riserviamo 1/5 di dataset per il test)
     dataset = ds.refine_dataset(dataset) # creo il dataset "pulito" di features che non ci servono
 
-    dataset1 = dataset
-    # print(dataset["result"]) colonna di W, D, L
-
     dictionaries = ds.generate_dictionary(dataset) # creo i dizionari
     dataset = ds.create_data_frame(dataset, dictionaries) # creo il dataset mappato
     X = dataset.loc[dataset[1] <= 440] # seleziono i 4/5 del dataset da dare al training
@@ -157,14 +155,14 @@ def learner(ontology):
     X_test = X.loc[:, [22, 6, 2]]
     y_test = X.iloc[:, 3] # le ground truth degli esempi di test (unseen examples)
 
-    # Questi sono i parametri per il random forest
+    # Questi sono i parametri e il relativo spazio di ricerca per il random forest
     param_space_rf = {
     'n_estimators': Integer(50, 150),
     'max_depth': Integer(1, 20),
     'min_samples_split': Integer(2, 10)
     }
     
-    # Questi sono i parametri per l'ada boost
+    # Questi sono i parametri e il relativo spazio di ricerca per l'ada boost
     param_space_ada = {
     'n_estimators': (50, 500),  # Numero di estimatori deboli
     'learning_rate': (0.01, 1.0, 'log-uniform'),  # Learning rate
@@ -193,7 +191,6 @@ def learner(ontology):
         n_jobs =- 1,
         random_state = 1  # Seed per riproducibilità
     )   
-
 
     bayes_search_rf.fit(X_train, y_train)
 
@@ -244,13 +241,13 @@ def learner(ontology):
     print("F1-score per l'ada boosting:", f1_ada)
 
     # Curva di ROC Random Forest
-    # Binarizza le etichette (one-vs-rest) per il ROC multiclasse
+    # Binarizzo le etichette (one-vs-rest) per il ROC multiclasse
     y_train_bin = label_binarize(y_train, classes=[1, 2, 3])
     y_test_bin = label_binarize(y_test, classes=[1, 2, 3])
     print(np.unique(y_test)) # stampa [1 2 3] che sono i valori unici presenti in y_test
     n_classes = y_train_bin.shape[1]
 
-    # Predici le probabilità per il test set 
+    # probabilità per il test set 
     y_score = bayes_search_rf.predict_proba(X_test)
 
     print(np.unique(y_test, return_counts=True)) # ho 186 esempi per W, 256 per D, 257 per L
@@ -281,13 +278,13 @@ def learner(ontology):
     plt.show()
 
     # Curva di ROC AdaBoost
-    # Binarizza le etichette (one-vs-rest) per il ROC multiclasse
+    # BinarizzO le etichette (one-vs-rest) per il ROC multiclasse
     y_train_bin = label_binarize(y_train, classes=[1, 2, 3])
     y_test_bin = label_binarize(y_test, classes=[1, 2, 3])
     print(np.unique(y_test)) # stampa [1 2 3] che sono i valori unici presenti in y_test
     n_classes = y_train_bin.shape[1]
 
-    # Predici le probabilità per il test set 
+    #probabilità per il test set 
     y_score = bayes_search_ada.predict_proba(X_test)
 
     print(np.unique(y_test, return_counts=True)) # ho 186 esempi per W, 256 per D, 257 per L
@@ -330,11 +327,9 @@ def learner(ontology):
     team2_draw_percentage = stats[5] / (stats[3]+stats[4]+stats[5])
     team2_lose_percentage = stats[4] / (stats[3]+stats[4]+stats[5])
 
-    #stampiamo in risultati raccolti, le percentuali sono calcolate al momento evitando di creare variabili in più
+    # stampiamo in risultati 
     print("Vittorie: ", stats[0], "\nSconfitte: ", stats[2], "\nPareggi: ", stats[1])
     print("% Vittorie: ", team1_win_percentage, "\n% Sconfitte: ", team1_lose_percentage, "\n% Pareggi: ", team1_draw_percentage)
-
-    #dati della seconda squadra messa
     print("Vittorie: ", stats[3], "\nSconfitte: ", stats[4], "\nPareggi: ", stats[5])
     print("% Vittorie: ", team2_win_percentage, "\n% Sconfitte: ", team2_lose_percentage, "\n% Pareggi: ", team2_draw_percentage)
     gameind = [22, 6, 2]
@@ -342,7 +337,6 @@ def learner(ontology):
     gamedict = {column: value for column, value in zip(gameind, game)}
 
     game_2_pred = pd.DataFrame([gamedict])
-
 
     predicted_rf = bayes_search_rf.predict(game_2_pred)
     predicted_ada = bayes_search_ada.predict(game_2_pred)

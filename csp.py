@@ -1,6 +1,10 @@
 from constraint import Problem, AllDifferentConstraint
 import random
 
+'''
+    Modulo che riguardo il CSP
+'''
+# Stampo il calendario che rispetta i vincoli imposti
 def create_schedule(dataset): 
 
     teams = list(set(dataset['team']))
@@ -67,10 +71,10 @@ def create_schedule(dataset):
             problem.addConstraint(lambda h, a, rh, ra: h == ra and a == rh, 
                                 (home_team, away_team, return_home_team, return_away_team))
 
-    # Risolvere il problema
+    # Risolvo il problema
     solution = problem.getSolution()
 
-    # Stampare il calendario
+    # Stampo il calendario
     for round in range(1, 20):
         print(f"\nGiornata {round} (Andata): ")
         for match in range(10):

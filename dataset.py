@@ -4,6 +4,7 @@ import pandas as pd
     Modulo che riguarda la pulizia del dataset grezzo caricato da csv
 '''
 
+# Restituisce il dataset grezzo
 def get_dataset():
     filename = "archive/seriea-matches.csv"
     dataset = pd.read_csv(filename)
@@ -15,6 +16,7 @@ def get_dataset():
     
     return dataset
 
+# Restituisce il dataset ridotto delle features che abbiamo deciso di rimuovere 
 def refine_dataset(dataset):
 
     features = dataset.columns.tolist()
@@ -39,10 +41,10 @@ def refine_dataset(dataset):
     
     return dataset
 
+# Restiuisce i dizionari delle features che hanno bisogno di mapping per essere date ai modelli.
 def generate_dictionary(dataset):
 
     # preprocessing delle features stringhe in intero
-    # cambiare il secondo argomento nel range() sostiuendo con la len()
     dates = set(dataset['date'])
     X_date = list(range(1, len(dates) + 1))
     date_list = list(dates)
@@ -77,6 +79,7 @@ def generate_dictionary(dataset):
 
     return dic_teams, dic_opponents, dic_venues, dic_results, dic_dates, dic_lastfive
 
+# Restituisce il dataset mappato grazie ai dizionari ottenuti dalla funzione generate_dictionary -> dataset pronto per l'addestramento
 def create_data_frame(dataset, dizionari):
     
     # qui andiamo a sostituire gli elementi che sono rappresentati come stringhe dentro il dataset con i valori dei rispettivi dizionari tramite la funzione di libreria "map"

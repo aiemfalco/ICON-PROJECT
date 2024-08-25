@@ -4,6 +4,7 @@ import ontology as ot
 import learning as lg
 import csp as csp
 
+# Restituisce la scelta fatta dal utente
 def chiedi_scelta():
     scelta = None
     while scelta not in ['1', '2', '3']:

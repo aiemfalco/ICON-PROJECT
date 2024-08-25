@@ -4,7 +4,7 @@ from owlready2 import *
 '''
     Modulo riguardo l'ontologia
 '''
-
+# Restituisce una lista degli ultimi 5 esiti di una squadra
 def get_last_5_matches_results(squadra, date_partita, dizionario_partite_casa, ontology):
 
     # Inizializza una lista vuota per i risultati
@@ -23,9 +23,9 @@ def get_last_5_matches_results(squadra, date_partita, dizionario_partite_casa, o
         for i in range(current_match_index - 1, current_match_index - 6, -1):
             # Ottieni il risultato della partita
             date = dizionario_partite_casa[s][i]
-            #scorriamo le partite in Partita
+            # scorriamo le partite tra le istanze di Partita
             for partita in ontology.Partita.instances():
-                # Controllo che la data sia giusta e che la squadra sia giusta per ogni iterata, in caso positivo appendo il risultato alla lista.
+                # Controllo che la data sia giusta e che la squadra sia giusta per ogni iterata, in caso positivo aggiungo il risultato alla lista.
                 if date == partita.data_partita.first() and (str(partita.squadra_di_casa.first()) == s or str(partita.squadra_in_trasferta.first()) == s):
                     result = partita.risultato.first()
                     if str(partita.squadra_in_trasferta.first()) == s and partita.risultato.first() != "D":       
@@ -33,15 +33,14 @@ def get_last_5_matches_results(squadra, date_partita, dizionario_partite_casa, o
                             result = "L"
                         else:
                             result = "W"
-                    # Aggiungi il risultato alla lista
+                    # Aggiungo il risultato alla lista
                     last_5_matches_results.append(result)
 
-
-    # Restituisci la lista dei risultati
+    # Restituisco la lista dei risultati
     last_5_matches_results = ''.join(last_5_matches_results)
     return last_5_matches_results
 
-
+# Creo l'ontologia
 def create_ontology():
 
     onto = get_ontology("")
@@ -86,9 +85,8 @@ def create_ontology():
             domain = [Partita]
             range = [str]
 
-    # creo il dizionario squadra-capitano
     dataset = ds.get_dataset()
-
+    # creo il dizionario squadra-capitano
     teams = set(dataset['team'])
     list_teams = list(teams)
     ordered_teams = sorted(list_teams)
@@ -141,6 +139,7 @@ def create_ontology():
 
     return onto
 
+# Restiuisce il dataset con la nuova colonna 'last_five'
 def getNewColumn(onto, dataset):
     # creo una nuova colonna "last_five" grazie alla conoscenza derivata
     dataset['last_five'] = None
@@ -172,24 +171,25 @@ def getNewColumn(onto, dataset):
             dic_teamhome_dates[str(hometeam)] = sorted(dic_teamhome_dates[str(hometeam)])
             dic_teamhome_dates[str(awayteam)] = sorted(dic_teamhome_dates[str(awayteam)])
 
-        # Andiamo a scorrere il dataset in ordine, le squadre nelle prime 5 righe, essendo il dataset ordinato, non possono avere più più di 4 partite pregresse quindi impostiamo il valore della colonna "last_five" a 0
+        # Scorriamo il dataset in ordine, le squadre nelle prime 5 righe, essendo il dataset ordinato, non possono avere più più di 4 partite pregresse quindi impostiamo il valore della colonna "last_five" a 0
         for index, row in dataset.iterrows():
-            # Ottieni le informazioni dalla riga corrente
+            # Ottengo le informazioni dalla riga corrente
             squadra = row["team"]
             date_partita = row["date"]
             matchn = index + 1
             if (matchn) % 38 == 1 or (matchn) % 38 == 2 or (matchn) % 38 == 3 or (matchn) % 38 == 4 or (matchn) % 38 == 5:
                 dataset.loc[index, "last_five"] = "0"
             else: # mentre dalla sesta riga in poi andiamo a prendere i risultati precedenti, chiamando get_last_5_matches_results
-                # Ottieni i risultati delle ultime 5 partite
+                # Ottengo i risultati delle ultime 5 partite
                 last_5_matches_results = get_last_5_matches_results(squadra, date_partita, dic_teamhome_dates, onto)
-                # Aggiorna il DataFrame con i risultati 
+                # Aggiorno il DataFrame con i risultati 
                 dataset.loc[index, "last_five"] = last_5_matches_results
     return dataset
 
 '''
     Query SPARQL
 '''
+# Stampa le partita di una squadra
 def games_of_a_team(squadra1):
     query = f"""
         SELECT ?partita ?risultato
@@ -205,8 +205,8 @@ def games_of_a_team(squadra1):
     for r in result:
         print("Match:", str(r[0])[1:], " result:", r[1])
 
+ # Stampa le partite di un determinato giorno 
 def matches_this_day(data):
-    # risolvere problema che non carica l'ontologia con load_onto e quindi la query non va
     query = f"""
         SELECT ?partita ?data
         WHERE {{
@@ -215,7 +215,6 @@ def matches_this_day(data):
             ?partita :data_partita "{data}" .
             }}
     """
-    # Esegui la query
     results = list(default_world.sparql(query))
     if results:
         print(f"Partite giocate il {data}:")
@@ -224,6 +223,7 @@ def matches_this_day(data):
     else:
         print(f"Nessuna partita trovata per la data {data}.")
 
+# Stampa le partite di squadra1 vs squadra 2 e squadra2 vs squadra1
 def history_vs(squadra1, squadra2):
     vs1 = 0
     vs2 = 0
