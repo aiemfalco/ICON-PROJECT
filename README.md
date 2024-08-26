@@ -10,8 +10,10 @@ Nel nostro problema, le variabili sono:
 - i nomi delle squadre di calcio: 20 squadre selezionate in maniera casuale tra le 26 a disposizione. 
 - i nomi degli arbitri: vengono selezionati 10 arbitri a giornata tra i 61 disponibili nel intero dataset.
 - le giornate del campionato: una lista di interi da 1 a 38 (19 giornate di andata e 19 giornate di ritorno).
+
 I dati che popolano queste liste vengono prese direttamente dal dataset.
-I vincoli che abbiamo imposto sono 4: 
+I vincoli che abbiamo imposto sono 4:
+ 
 - tutte le squadre e gli arbitri devono essere diversi in ogni giornata.
 - una squadra non può affrontare sé stessa.
 - in ogni giornata non devono esserci ripetizioni di squadre, una squadra gioca una volta per giornata.
