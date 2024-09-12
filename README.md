@@ -1,4 +1,4 @@
-# SISTEMA PER LA PREVISIONE DI RISULATATI CALCISTICI (Progetto di Ingegneria della Conoscenza a.a 2023/2024)
+# SISTEMA PER LA PREVISIONE DI RISULTATI CALCISTICI (Progetto di Ingegneria della Conoscenza a.a 2023/2024)
 
 L'obiettivo dell'applicativo è quello di prevedere il risultato di un match tra due squadre inserite dall'utente, considerando i dati a disposizione e le caratteristiche del match (quale squadra gioca in casa e quale in trasferta, quante partite ha vinto negli anni, le sue prestazioni recenti e altre informazioni).
 Il nostro è un problema di classificazione quindi utilizziamo modelli per la classificazione. Difatti l'obiettivo è prevedere l'esito del match tra tre possibili classi (W-D-L, ossia Win, Draw, Lose).
